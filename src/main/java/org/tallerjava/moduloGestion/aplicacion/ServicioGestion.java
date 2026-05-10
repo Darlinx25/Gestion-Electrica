@@ -2,7 +2,7 @@ package org.tallerjava.moduloGestion.aplicacion;
 
 import org.tallerjava.moduloGestion.dominio.Vehiculo;
 import org.tallerjava.moduloGestion.dominio.usuario.Usuario;
-
+///
 public interface ServicioGestion {
     public boolean realizarPrePago(int tag, double importe);
     public boolean realizarPostPago(int tag, double importe);

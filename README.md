@@ -30,8 +30,9 @@ Nota: posible idea para documentar las dependencias entre módulos. Los diagrama
 ---
 
 **Módulo Gestión**
+
 ![image](https://github.com/gabrielaramburu/TallerJakartaEE/assets/63823685/63854c26-dd06-4e4e-bcf0-7544fe041fb6)
 
 
 ---
-Otra idea interesante es documentar los eventos que dispara cada módulo y quien los escucha
+

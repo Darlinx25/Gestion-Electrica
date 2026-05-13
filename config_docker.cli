@@ -9,3 +9,9 @@ try
 catch
     echo "Datasource already exists"
 end-try
+
+try
+    deploy /opt/jboss/wildfly/standalone/Gestion-Electrica.war
+catch
+    echo "Deployment failed"
+end-try

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ClienteRepo {
     public void registarCliente(Cliente cliente);
-    public Cliente buscaClientePorId(int id);
+    public Cliente buscaClientePorId(long id);
     public Cliente actualizarCliente(Cliente cliente);
     public List<Cliente> listarClientes();
 }

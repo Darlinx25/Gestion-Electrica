@@ -7,6 +7,7 @@ import jakarta.persistence.PersistenceContext;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -20,7 +21,7 @@ public class ClienteRepositorioImpl implements ClienteRepo {
     }
 
     @Override
-    public Cliente buscaClientePorId(int id) {
+    public Cliente buscaClientePorId(long id) {
         return em.find(Cliente.class,id);
     }
 
@@ -31,6 +32,6 @@ public class ClienteRepositorioImpl implements ClienteRepo {
     }
 
     public List<Cliente> listarClientes(){
-        return em.createQuery("SELECT '*' FROM Cliente",Cliente.class).getResultList();
+        return em.createQuery("SELECT '*' FROM clientes_cliente",Cliente.class).getResultList();
     }
 }

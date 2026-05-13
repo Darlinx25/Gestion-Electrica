@@ -16,7 +16,7 @@ import java.awt.*;
 public class ClienteResourse {
 
 
-    // http://localhost:8080/Gestion-Electrica/trafico/clientes Luego vemos de mejorar la URL
+    // http://localhost:8080/Gestion-Electrica/carga/clientes Luego vemos de mejorar la URL, por ahora con "carga"
     @GET
     public String clinestes(){
         return "anduvo";

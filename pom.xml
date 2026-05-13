@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.tallerjava</groupId>
-	<artifactId>06-JakartaProyectoReferencia</artifactId>
+	<artifactId>Gestion-Electrica</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>06-JakartaProyectoReferencia</name>
+	<name>Gestion-Electrica</name>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -105,7 +105,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>06-JakartaProyectoReferencia</finalName>
+		<finalName>Gestion-Electrica</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

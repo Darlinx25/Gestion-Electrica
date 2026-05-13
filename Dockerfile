@@ -1,9 +1,13 @@
-#se agrega imagen base
 FROM quay.io/wildfly/wildfly:27.0.0.Final-jdk17
-#copio configuracion 
-ADD config_docker.cli /opt/jboss/wildfly/bin/config.cli
-#copio driver
-ADD mariadb-java-client-3.3.3.jar /opt/jboss/wildfly/bin/
-#se copia el war de la aplicacion
-ADD target/06-JakartaProyectoReferencia.war /opt/jboss/wildfly/standalone/deployments/
-CMD ["/opt/jboss/wildfly/bin/jboss-cli.sh --file=/opt/jboss/wildfly/bin/config.cli"]
+
+RUN mkdir -p /opt/jboss/wildfly/modules/system/layers/base/org/mariadb/main
+COPY mariadb-java-client-3.3.3.jar /opt/jboss/wildfly/modules/system/layers/base/org/mariadb/main/
+COPY module.xml /opt/jboss/wildfly/modules/system/layers/base/org/mariadb/main/
+
+COPY config_docker.cli /opt/jboss/wildfly/bin/
+COPY target/Gestion-Electrica.war /opt/jboss/wildfly/standalone/deployments/
+COPY docker-entrypoint.sh /opt/jboss/wildfly/bin/
+
+USER jboss
+ENTRYPOINT ["/opt/jboss/wildfly/bin/docker-entrypoint.sh"]
+CMD ["-c", "standalone-full.xml", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

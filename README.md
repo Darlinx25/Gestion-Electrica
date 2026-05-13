@@ -20,7 +20,7 @@ Además cada módulo cuenta con sus propias clases de Dominio y sus repositorio 
 
 ### Dependencias entre módulos
 
-Nota: posible idea para documentar las dependencias entre módulos. Los diagramas, son representativos, no están completos
+Nota: posible idea para documentar las dependencias entre módulos. Los diagramas, son representativos, no están completos.
 
 --- 
 **Módulo Peaje**

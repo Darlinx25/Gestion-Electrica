@@ -1,12 +1,6 @@
 package org.tallerjava.moduloClientes.dominio;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Inheritance (strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipo_cliente", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "clientes_cliente")
 public abstract class Cliente {
     @Id

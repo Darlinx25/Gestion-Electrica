@@ -1,5 +1,6 @@
 package org.tallerjava.moduloClientes.dominio;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Entity
+@DiscriminatorValue("PROFESIONAL")
 @Table (name = "clientes_clienteProfesional")
 public class ClienteProfesional extends Cliente {
     private TipoProfesional tipo;

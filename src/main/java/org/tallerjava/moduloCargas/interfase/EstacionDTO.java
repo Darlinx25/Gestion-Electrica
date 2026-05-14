@@ -1,11 +1,14 @@
 package org.tallerjava.moduloCargas.interfase;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.tallerjava.moduloCargas.dominio.EstacionCarga;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class EstacionDTO {
     private String descripcion;
     private String calle;

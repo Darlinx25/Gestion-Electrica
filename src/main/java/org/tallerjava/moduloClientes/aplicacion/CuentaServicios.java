@@ -6,7 +6,7 @@ import org.tallerjava.moduloPagos.dominio.MedioPago;
 import java.util.List;
 
 public interface CuentaServicios {
-    public void registarCliente(Cliente cliente);
+    public long registarCliente(Cliente cliente);
     public List<Cliente> obtenerClientes();
     public void altaMedioPago(Cliente cliente, MedioPago medioPago) ; //Ver si lleva alguna exp como "throws SaldoInsuficienteException"
     public void realizarReclamo();

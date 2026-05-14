@@ -16,8 +16,9 @@ public class ClienteRepositorioImpl implements ClienteRepo {
     private EntityManager em;
 
     @Override
-    public void registarCliente(Cliente cliente) {
+    public long registarCliente(Cliente cliente) {
         em.persist(cliente);
+        return cliente.getId();
     }
 
     @Override

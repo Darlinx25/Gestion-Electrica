@@ -19,8 +19,9 @@ public class CuentaServiciosImpl implements CuentaServicios{
     }
 
     @Override
-    public void registarCliente(Cliente cliente) {
-        clienteRepo.registarCliente(cliente);
+    @Transactional
+    public long registarCliente(Cliente cliente) {
+        return clienteRepo.registarCliente(cliente);
     }
 
     @Override

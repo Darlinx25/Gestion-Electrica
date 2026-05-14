@@ -1,5 +1,6 @@
 package org.tallerjava.moduloPagos.dominio;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,7 @@ public abstract class MedioPago {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
     
+    @JsonbTransient
     @ManyToOne
     private Cliente cliente;
 }

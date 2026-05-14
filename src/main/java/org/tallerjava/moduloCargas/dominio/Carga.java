@@ -1,5 +1,6 @@
 package org.tallerjava.moduloCargas.dominio;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,10 +33,12 @@ public class Carga {
     private LocalDateTime horaEstimadaFin;
     private EstadoCarga estado;
     
+    @JsonbTransient
     @ManyToOne
     @JoinColumn (name = "cliente_id")
     private Cliente cliente;
     
+    @JsonbTransient
     @ManyToOne
     @JoinColumn (name = "cargador_id")
     private Cargador cargador;

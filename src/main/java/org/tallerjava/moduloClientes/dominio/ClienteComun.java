@@ -1,5 +1,6 @@
 package org.tallerjava.moduloClientes.dominio;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
@@ -16,6 +17,8 @@ import org.tallerjava.moduloPagos.dominio.CuentaUTE;
 @DiscriminatorValue("COMUN")
 @Table (name = "clientes_clienteComun")
 public class ClienteComun extends Cliente {
+    
+    @JsonbTransient
     @OneToOne
     private CuentaUTE cuentaUte;
 }

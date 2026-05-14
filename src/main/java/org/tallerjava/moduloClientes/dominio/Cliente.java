@@ -1,5 +1,6 @@
 package org.tallerjava.moduloClientes.dominio;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -24,10 +25,12 @@ public abstract class Cliente {
     private String telefono;
     private String password;
     
+    @JsonbTransient
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     @OrderBy ("id ASC")
     private List<MedioPago> mediosPago;
     
+    @JsonbTransient
     @OneToMany(mappedBy = "cliente")
     private List<Carga> cargas;
 }

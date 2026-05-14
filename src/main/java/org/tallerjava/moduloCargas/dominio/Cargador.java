@@ -1,5 +1,6 @@
 package org.tallerjava.moduloCargas.dominio;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,10 +33,12 @@ public class Cargador {
     private LocalDate fechaEstimadaReparacion;
     private int potenciaMinima;
     
+    @JsonbTransient
     @ManyToOne
     @JoinColumn (name = "estacion_id")
     private EstacionCarga estacionCarga;
     
+    @JsonbTransient
     @OneToMany (mappedBy = "cargador")
     private List<Carga> cargas;
 }

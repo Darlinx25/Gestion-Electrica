@@ -1,5 +1,6 @@
 package org.tallerjava.moduloCargas.dominio;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ public class EstacionCarga {
     private int longitud;
     private int latitud;
     
+    @JsonbTransient
     @OneToMany(mappedBy = "estacionCarga", cascade = CascadeType.ALL)
     private List<Cargador> cargadores;
 }

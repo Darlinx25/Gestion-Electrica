@@ -4,12 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.tallerjava.moduloClientes.dominio.Cliente;
 
 @Data
 @AllArgsConstructor
@@ -28,4 +31,15 @@ public class Carga {
     private int porcentajeAvance;
     private LocalDateTime horaEstimadaFin;
     private EstadoCarga estado;
+    
+    @ManyToOne
+    @JoinColumn (name = "cliente_id")
+    private Cliente cliente;
+    
+    @ManyToOne
+    @JoinColumn (name = "cargador_id")
+    private Cargador cargador;
+    
+    
+   
 }

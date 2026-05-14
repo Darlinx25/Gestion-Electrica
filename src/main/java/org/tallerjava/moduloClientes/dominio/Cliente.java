@@ -1,9 +1,12 @@
 package org.tallerjava.moduloClientes.dominio;
 
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.tallerjava.moduloCargas.dominio.Carga;
+import org.tallerjava.moduloPagos.dominio.MedioPago;
 
 @Data
 @AllArgsConstructor
@@ -20,4 +23,11 @@ public abstract class Cliente {
     private String nombreCompleto;
     private String telefono;
     private String password;
+    
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OrderBy ("id ASC")
+    private List<MedioPago> mediosPago;
+    
+    @OneToMany(mappedBy = "cliente")
+    private List<Carga> cargas;
 }

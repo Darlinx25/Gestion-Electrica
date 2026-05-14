@@ -6,10 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.tallerjava.moduloClientes.dominio.Cliente;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +23,7 @@ public abstract class MedioPago {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
+    
+    @ManyToOne
+    private Cliente cliente;
 }

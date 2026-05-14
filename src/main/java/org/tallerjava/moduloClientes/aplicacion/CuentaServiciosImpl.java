@@ -1,5 +1,6 @@
 package org.tallerjava.moduloClientes.aplicacion;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloClientes.dominio.Cliente;
@@ -8,6 +9,7 @@ import org.tallerjava.moduloPagos.dominio.MedioPago;
 
 import java.util.List;
 
+@ApplicationScoped
 public class CuentaServiciosImpl implements CuentaServicios{
 
     @Inject

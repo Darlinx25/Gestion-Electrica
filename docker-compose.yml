@@ -5,6 +5,8 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: mariapass
       MARIADB_DATABASE: tallerJava
+      MARIADB_USER: taller
+      MARIADB_PASSWORD: taller123
     ports:
       - "3306:3306"
     volumes:

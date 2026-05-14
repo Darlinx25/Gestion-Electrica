@@ -5,7 +5,7 @@ catch
 end-try
 
 try
-    data-source add --name=tallerjavadb --jndi-name=java:jboss/MariaDB --driver-name=mariadb --connection-url=jdbc:mariadb://mariadb:3306/tallerJava --user-name=root --password=mariapass
+    data-source add --name=tallerjavadb --jndi-name=java:jboss/MariaDB --driver-name=mariadb --connection-url=jdbc:mariadb://mariadb:3306/tallerJava --user-name=taller --password=taller123
 catch
     echo "Datasource already exists"
 end-try

@@ -1,6 +1,7 @@
 package org.tallerjava.moduloClientes.interfase;
 
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.PushBuilder;
 import jakarta.ws.rs.Consumes;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.awt.*;
 import org.tallerjava.moduloClientes.aplicacion.CuentaServicios;
 
+@ApplicationScoped
 @Path("/clientes")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)

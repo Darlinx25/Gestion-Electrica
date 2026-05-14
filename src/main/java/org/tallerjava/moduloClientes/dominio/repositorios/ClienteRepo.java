@@ -8,6 +8,5 @@ import java.util.List;
 public interface ClienteRepo {
     public long registarCliente(Cliente cliente);
     public Cliente buscaClientePorId(long id);
-    public Cliente actualizarCliente(Cliente cliente);
     public List<Cliente> listarClientes();
 }

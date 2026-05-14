@@ -26,12 +26,6 @@ public class ClienteRepositorioImpl implements ClienteRepo {
         return em.find(Cliente.class,id);
     }
 
-    @Override
-    public Cliente actualizarCliente(Cliente cliente) {
-        em.persist(cliente);
-        return cliente;
-    }
-
     public List<Cliente> listarClientes(){
         return em.createQuery("SELECT c FROM Cliente c",Cliente.class).getResultList();
     }

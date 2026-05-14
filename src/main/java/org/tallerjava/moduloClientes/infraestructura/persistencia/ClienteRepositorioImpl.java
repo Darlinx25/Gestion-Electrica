@@ -33,6 +33,6 @@ public class ClienteRepositorioImpl implements ClienteRepo {
     }
 
     public List<Cliente> listarClientes(){
-        return em.createQuery("SELECT '*' FROM clientes_cliente",Cliente.class).getResultList();
+        return em.createQuery("SELECT c FROM Cliente c",Cliente.class).getResultList();
     }
 }

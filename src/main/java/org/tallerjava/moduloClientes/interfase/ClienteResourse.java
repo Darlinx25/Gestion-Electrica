@@ -27,14 +27,18 @@ public class ClienteResourse {
     private CuentaServicios clienteService;
 
     //http://localhost:8080/Gestion-Electrica/carga/clientes Luego vemos de mejorar la URL, por ahora con "carga"
+    //curl -v http://localhost:8080/Gestion-Electrica/carga/clientes
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Cliente> clinestes(){
         return clienteService.obtenerClientes();
     }
-
+    
+    //registrar ClienteComun
     //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/clientes -H "Content-Type: application/json" -d '{"cedula":"1234567890","nombreCompleto":"pablito guitiérrez","telefono":"091234567","password":"123","esProfesional":false}'
+    //registrar ClienteProfesional UBER
+    //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/clientes -H "Content-Type: application/json" -d '{"cedula":"2234567890","nombreCompleto":"josefina rodríguez","telefono":"091234567","password":"123","esProfesional":true,"tipoProfesional":"UBER","porcentajeDescuento":20.5}'
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public long registrarCliente(ClienteDTO clienteDTO) {

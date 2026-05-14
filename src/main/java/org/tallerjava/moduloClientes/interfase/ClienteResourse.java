@@ -9,10 +9,10 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.tallerjava.moduloClientes.dominio.Cliente;
-import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
 import java.util.List;
 
 import java.awt.*;
+import org.tallerjava.moduloClientes.aplicacion.CuentaServicios;
 
 @Path("/clientes")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,14 +21,14 @@ public class ClienteResourse {
 
 
     @Inject
-    private ClienteRepo clienteRepo;
+    private CuentaServicios clienteService;
 
     //http://localhost:8080/Gestion-Electrica/carga/clientes Luego vemos de mejorar la URL, por ahora con "carga"
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Cliente> clinestes(){
-        return clienteRepo.listarClientes();
+        return clienteService.obtenerClientes();
     }
 
 

@@ -7,7 +7,7 @@ package org.tallerjava.moduloPagos.aplicacion;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.tallerjava.moduloCargas.dominio.Carga;
-import org.tallerjava.moduloClientes.dominio.Cliente;
+import org.tallerjava.moduloPagos.dominio.Cliente;
 import org.tallerjava.moduloPagos.dominio.MedioPago;
 
 

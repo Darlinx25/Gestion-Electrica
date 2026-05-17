@@ -5,11 +5,7 @@
 package org.tallerjava.moduloPagos.aplicacion;
 
 import jakarta.inject.Inject;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import org.tallerjava.moduloCargas.dominio.Carga;
-import org.tallerjava.moduloClientes.dominio.Cliente;
+import org.tallerjava.moduloPagos.dominio.Cliente;
 import org.tallerjava.moduloPagos.dominio.MedioPago;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 

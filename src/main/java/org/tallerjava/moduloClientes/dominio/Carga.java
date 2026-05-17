@@ -1,19 +1,20 @@
 package org.tallerjava.moduloClientes.dominio;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "MedioPago_Clientes") //no puedo tener dos entidades que se llamen igual
-@Inheritance (strategy = InheritanceType.JOINED)
-@Table(name = "clientes_medioPago")
-public abstract class MedioPago {
+@Entity(name = "Carga_Clientes")
+@Table(name = "clientes_carga")
+public class Carga {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne

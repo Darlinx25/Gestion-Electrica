@@ -9,6 +9,7 @@ import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.tallerjava.moduloClientes.dominio.MedioPago;
 
 @ApplicationScoped
 public class ClienteRepositorioImpl implements ClienteRepo {
@@ -21,6 +22,11 @@ public class ClienteRepositorioImpl implements ClienteRepo {
         return cliente.getId();
     }
 
+    @Override
+    public void altaMedioPago(MedioPago medioPago) {
+        em.persist(medioPago);
+    }
+    
     @Override
     public Cliente buscaClientePorId(long id) {
         return em.find(Cliente.class,id);

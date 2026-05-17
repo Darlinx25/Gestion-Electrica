@@ -13,6 +13,7 @@ import org.tallerjava.moduloClientes.dominio.Cliente;
 import java.util.List;
 
 import org.tallerjava.moduloClientes.aplicacion.CuentaServicios;
+import org.tallerjava.moduloClientes.dominio.MedioPago;
 
 @ApplicationScoped
 @Path("/clientes")
@@ -42,5 +43,19 @@ public class ClienteResourseAPI {
     public long registrarCliente(ClienteDTO clienteDTO) {
         Cliente cliente = clienteDTO.buildCliente();
         return clienteService.registarCliente(cliente);
+    }
+    
+    //alta cuentaUTE
+    //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/clientes/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"CUENTA_UTE","numeroCuenta":"1234"}'
+    //alta tarjeta débito
+    //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/clientes/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"TARJETA_DEBITO","numero":"1234","fechaVencimiento":"2028-10-23","digitoVerificacion":"123"}'
+    //alta tarjeta crédito (no se debe persistir, devuelve 500 internal server error, ver si se guarda en memoria de todas formas o hacer clase aparte sin @Entity)
+    //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/clientes/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"TARJETA_CREDITO","numero":"2234","fechaVencimiento":"2028-10-23","digitoVerificacion":"223"}'
+    @POST
+    @Path("/medios-pago")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public boolean altaMedioPago(MedioPagoDTO medioPagoDTO) {
+        MedioPago medioPago = medioPagoDTO.buildMedioPago();
+        return clienteService.altaMedioPago(medioPagoDTO.getClienteId(), medioPago);
     }
 }

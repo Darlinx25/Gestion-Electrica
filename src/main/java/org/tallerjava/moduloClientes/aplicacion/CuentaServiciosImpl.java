@@ -28,8 +28,14 @@ public class CuentaServiciosImpl implements CuentaServicios{
 
     @Override
     @Transactional
-    public void altaMedioPago(long clienteId, MedioPago medioPago){
-        
+    public boolean altaMedioPago(long clienteId, MedioPago medioPago){
+        Cliente cliente = clienteRepo.buscaClientePorId(clienteId);
+        if (cliente == null) {
+            return false;
+        }
+        cliente.addMedioPago(medioPago);
+        clienteRepo.altaMedioPago(medioPago);
+        return true;
     }
 
     @Override

@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="06-JakartaProyectoReferencia" />
+        <module name="Gestion-Electrica" />
       </profile>
     </annotationProcessing>
   </component>

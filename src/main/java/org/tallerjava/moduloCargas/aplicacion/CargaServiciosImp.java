@@ -3,21 +3,26 @@ package org.tallerjava.moduloCargas.aplicacion;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.tallerjava.moduloCargas.dominio.Cargador;
-import org.tallerjava.moduloCargas.dominio.EstacionCarga;
+import org.tallerjava.moduloCargas.dominio.*;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
 import org.tallerjava.moduloCargas.interfase.CargadorDTO;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @ApplicationScoped
 
 public class CargaServiciosImp implements CargaServicios {
+
     @Inject
     private CargaRepo cargaRepo;
+
     @Override
     @Transactional
     public long altaEstacion(EstacionCarga estacion) {
         return cargaRepo.altaEstacion(estacion);
     }
+
     @Override
     @Transactional
     public long altaCargador(CargadorDTO cargadorDTO) {
@@ -29,5 +34,34 @@ public class CargaServiciosImp implements CargaServicios {
         }
         cargador.setEstacionCarga(estacion);
         return cargaRepo.altaCargador(cargador);
+    }
+
+    @Override
+    public void iniciarCarga(Cliente cliente, MedioPago medioPago){
+
+    }
+    @Override
+    public void verCargaActual(Cliente cliente){
+
+    }
+    @Override
+    public void verHistorico(Cliente cliente, LocalDateTime ini, LocalDateTime fin){
+
+    }
+    @Override
+    public void finalizarCarga(Cargador cargador, Carga carga, float recargo){
+
+    }
+    @Override
+    public void altaEstacion(String descripcion, String calle, String Departamento, int longitud, int latitud){
+
+    }
+    @Override
+    public void altaCargador(TipoCargador tipoCarg, boolean cable, TipoConector tipoConec, EstadoCargador estadoCarg, LocalDateTime tiempoEstimadoFinalizacion, LocalDate fechaEstimadaReparacion, int potenciaMinima ){
+
+    }
+    @Override
+    public void obtenerEstaciones(){
+
     }
 }

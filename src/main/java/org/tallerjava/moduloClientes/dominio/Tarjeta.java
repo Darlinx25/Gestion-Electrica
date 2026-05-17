@@ -1,4 +1,4 @@
-package org.tallerjava.moduloPagos.dominio;
+package org.tallerjava.moduloClientes.dominio;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrePersist;
@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table (name = "pagos_pagoTarjeta")
+@Entity(name = "Tarjeta_Clientes") //no puedo tener dos entidades que se llamen igual
+@Table(name = "clientes_pagoTarjeta")
 public class Tarjeta extends MedioPago {
     private String numero;
     private LocalDate fechaVencimiento;
     private String digitoVerificacion;
     private TipoTarjeta tipo;
-    
+
     @PrePersist
     private void validarPersistencia() {
         if (this.tipo == TipoTarjeta.CREDITO) {

@@ -1,4 +1,4 @@
-package org.tallerjava.moduloPagos.dominio;
+package org.tallerjava.moduloClientes.dominio;
 
 public enum TipoTarjeta {
     DEBITO,

@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
-import org.tallerjava.moduloPagos.dominio.MedioPago;
+import org.tallerjava.moduloClientes.dominio.MedioPago;
 
 import java.util.List;
 
@@ -27,8 +27,9 @@ public class CuentaServiciosImpl implements CuentaServicios{
     }
 
     @Override
-    public void altaMedioPago(Cliente cliente, MedioPago medioPago){
-
+    @Transactional
+    public void altaMedioPago(long clienteId, MedioPago medioPago){
+        
     }
 
     @Override

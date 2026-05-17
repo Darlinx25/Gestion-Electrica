@@ -13,7 +13,5 @@ public interface CargaServicios {
     public void verCargaActual(Cliente cliente);
     public void verHistorico(Cliente cliente, LocalDateTime ini, LocalDateTime fin);
     public void finalizarCarga(Cargador cargador, Carga carga,float recargo);
-    public void altaEstacion(String descripcion, String calle, String Departamento, int longitud, int latitud);
-    public void altaCargador(TipoCargador tipoCarg, boolean cable, TipoConector tipoConec, EstadoCargador estadoCarg,LocalDateTime tiempoEstimadoFinalizacion, LocalDate fechaEstimadaReparacion, int potenciaMinima );
     public void obtenerEstaciones();
 }

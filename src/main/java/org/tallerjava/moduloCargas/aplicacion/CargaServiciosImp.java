@@ -53,14 +53,6 @@ public class CargaServiciosImp implements CargaServicios {
 
     }
     @Override
-    public void altaEstacion(String descripcion, String calle, String Departamento, int longitud, int latitud){
-
-    }
-    @Override
-    public void altaCargador(TipoCargador tipoCarg, boolean cable, TipoConector tipoConec, EstadoCargador estadoCarg, LocalDateTime tiempoEstimadoFinalizacion, LocalDate fechaEstimadaReparacion, int potenciaMinima ){
-
-    }
-    @Override
     public void obtenerEstaciones(){
 
     }

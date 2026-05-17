@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.tallerjava.moduloClientes.dominio.Cliente;
 
 @Data
 @AllArgsConstructor
@@ -32,7 +31,8 @@ public class Carga {
     private int porcentajeAvance;
     private LocalDateTime horaEstimadaFin;
     private EstadoCarga estado;
-    
+    private long medioPagoId;
+
     @JsonbTransient
     @ManyToOne
     @JoinColumn (name = "cliente_id")

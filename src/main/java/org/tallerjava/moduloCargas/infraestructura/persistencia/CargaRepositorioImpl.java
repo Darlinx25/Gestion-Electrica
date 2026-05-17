@@ -4,6 +4,7 @@ package org.tallerjava.moduloCargas.infraestructura.persistencia;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.tallerjava.moduloCargas.dominio.Carga;
 import org.tallerjava.moduloCargas.dominio.Cargador;
 import org.tallerjava.moduloCargas.dominio.EstacionCarga;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
@@ -23,8 +24,15 @@ public class CargaRepositorioImpl implements CargaRepo {
         em.persist(cargador);
         return cargador.getId();
     }
-    @Override
-    public EstacionCarga buscaEstacionPorId(long id) {
+
+    public EstacionCarga buscaEstacionPorId(long id){
         return em.find(EstacionCarga.class, id);
     }
+
+    @Override
+    public long guardarCarga(Carga carga){
+        em.persist(carga);
+        return carga.getId();
+    }
+
 }

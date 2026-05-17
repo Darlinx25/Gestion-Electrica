@@ -1,8 +1,9 @@
 package org.tallerjava.moduloClientes.interfase.local;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import org.tallerjava.moduloComun.eventos.CargaIniciadaEvent;
 import org.tallerjava.moduloClientes.aplicacion.CuentaServicios;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.dominio.MedioPago;
@@ -29,6 +30,12 @@ public class ClienteResourse {
 
     public void realizarReclamo(){
         clienteService.realizarReclamo();
+    }
+
+    public class ClienteCargaObserver {
+        public void onCargaIniciada(@Observes CargaIniciadaEvent event) {
+            //aca la logica, hay que hacerlo, esta funcion por ejemplo escucha cuando disparo al iniciar una carga
+        }
     }
 
 }

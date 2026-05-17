@@ -1,9 +1,8 @@
-package org.tallerjava.moduloClientes.interfase;
+package org.tallerjava.moduloClientes.interfase.remota;
 
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.http.PushBuilder;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -13,14 +12,13 @@ import jakarta.ws.rs.core.MediaType;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import java.util.List;
 
-import java.awt.*;
 import org.tallerjava.moduloClientes.aplicacion.CuentaServicios;
 
 @ApplicationScoped
 @Path("/clientes")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ClienteResourse {
+public class ClienteResourseAPI {
 
 
     @Inject
@@ -31,7 +29,7 @@ public class ClienteResourse {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Cliente> clinestes(){
+    public List<Cliente> obtenerClientes(){
         return clienteService.obtenerClientes();
     }
     

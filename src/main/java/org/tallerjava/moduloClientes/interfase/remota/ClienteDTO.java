@@ -1,4 +1,4 @@
-package org.tallerjava.moduloClientes.interfase;
+package org.tallerjava.moduloClientes.interfase.remota;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

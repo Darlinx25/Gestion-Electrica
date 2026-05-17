@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.tallerjava.moduloClientes.aplicacion.CuentaServicios;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.interfase.remota.ClienteDTO;
-import org.tallerjava.moduloPagos.dominio.MedioPago;
+import org.tallerjava.moduloClientes.dominio.MedioPago;
 
 import java.util.List;
 
@@ -22,9 +22,8 @@ public class ClienteResourse {
         return clienteService.registarCliente(cliente);
     }
 
-    public void altaMedioPago(ClienteDTO clienteDTO, MedioPago medioPago){
-        Cliente cliente = clienteDTO.buildCliente(); //Ver si esta implementacion es correcta para esta funcion
-        clienteService.altaMedioPago(cliente,medioPago);
+    public void altaMedioPago(Long clienteID, MedioPago medioPago){
+        clienteService.altaMedioPago(clienteID,medioPago);
     }
 
     public List<Cliente> obtenerClientes(){

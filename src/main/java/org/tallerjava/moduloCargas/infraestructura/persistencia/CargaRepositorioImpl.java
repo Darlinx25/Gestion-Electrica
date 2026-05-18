@@ -8,6 +8,9 @@ import org.tallerjava.moduloCargas.dominio.Carga;
 import org.tallerjava.moduloCargas.dominio.Cargador;
 import org.tallerjava.moduloCargas.dominio.EstacionCarga;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
+import org.tallerjava.moduloClientes.dominio.Cliente;
+
+import java.util.List;
 
 @ApplicationScoped
 
@@ -35,4 +38,8 @@ public class CargaRepositorioImpl implements CargaRepo {
         return carga.getId();
     }
 
+    @Override
+    public List<EstacionCarga> obtenerEstaciones(){
+        return em.createQuery("SELECT DISTINCT e FROM EstacionCarga e LEFT JOIN FETCH e.cargadores", EstacionCarga.class).getResultList();
+    }
 }

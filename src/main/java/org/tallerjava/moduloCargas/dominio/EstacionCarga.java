@@ -29,7 +29,7 @@ public class EstacionCarga {
     private int longitud;
     private int latitud;
     
-    @JsonbTransient
+
     @OneToMany(mappedBy = "estacionCarga", cascade = CascadeType.ALL)
     private List<Cargador> cargadores;
 }

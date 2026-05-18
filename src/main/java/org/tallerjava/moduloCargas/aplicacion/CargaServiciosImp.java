@@ -13,6 +13,7 @@ import org.tallerjava.moduloCargas.interfase.EstacionDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ApplicationScoped
 
@@ -76,7 +77,7 @@ public class CargaServiciosImp implements CargaServicios {
 
     }
     @Override
-    public void obtenerEstaciones(){
-
+    public List<EstacionCarga> obtenerEstaciones(){
+        return cargaRepo.obtenerEstaciones();
     }
 }

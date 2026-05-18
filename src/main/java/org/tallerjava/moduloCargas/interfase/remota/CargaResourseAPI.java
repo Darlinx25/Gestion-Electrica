@@ -45,7 +45,7 @@ public class CargaResourseAPI {
     }
 
     //registrar cargador
-    //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargador -H "Content-Type: application/json" -d '{"tipo": "RAPIDO", "tieneCable": true, "tipoConector": "CCS", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'
+    //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargas/cargador -H "Content-Type: application/json" -d '{"tipo": "RAPIDA", "tieneCable": true, "tipoConector": "TIPO2", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'
     @POST
     @Path("/cargador")
     @Consumes(MediaType.APPLICATION_JSON)

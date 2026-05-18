@@ -7,6 +7,7 @@ import org.tallerjava.moduloCargas.dominio.Cargador;
 import org.tallerjava.moduloCargas.dominio.EstadoCargador;
 import org.tallerjava.moduloCargas.dominio.TipoCargador;
 import org.tallerjava.moduloCargas.dominio.TipoConector;
+import org.tallerjava.moduloCargas.dominio.EstacionCarga;
 
 @Data
 @AllArgsConstructor
@@ -18,14 +19,15 @@ public class CargadorDTO {
     private TipoConector tipoConector;
     private EstadoCargador estado;
     private int potenciaMinima;
-    private long estacionId;
-    public Cargador buildCargador() {
+    private Long estacionId;
+    public Cargador buildCargador(EstacionCarga estacion) {
         Cargador cargador = new Cargador();
         cargador.setTipo(this.tipo);
         cargador.setTieneCable(this.tieneCable);
         cargador.setTipoConector(this.tipoConector);
         cargador.setEstado(this.estado);
         cargador.setPotenciaMinima(this.potenciaMinima);
+        cargador.setEstacionCarga(estacion);
         return cargador;
     }
 }

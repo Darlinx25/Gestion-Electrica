@@ -33,13 +33,16 @@ public class CargaServiciosImp implements CargaServicios {
     @Override
     @Transactional
     public long altaCargador(CargadorDTO cargadorDTO) {
-        Cargador cargador = cargadorDTO.buildCargador();
-        EstacionCarga estacion = cargaRepo.buscaEstacionPorId(cargadorDTO.getEstacionId());
+        Long estacionId = cargadorDTO.getEstacionId();
+        if (estacionId == null) {
+            throw new IllegalArgumentException("Debe especificar una estación para el cargador");
+        }
+        EstacionCarga estacion = cargaRepo.buscaEstacionPorId(estacionId);
         if (estacion == null) {
             throw new IllegalArgumentException(
-                    "No existe estación con id: " + cargadorDTO.getEstacionId());
+                    "No existe estación con id: " + estacionId);
         }
-        cargador.setEstacionCarga(estacion);
+        Cargador cargador = cargadorDTO.buildCargador(estacion);
         return cargaRepo.altaCargador(cargador);
     }
 

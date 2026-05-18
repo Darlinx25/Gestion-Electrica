@@ -5,7 +5,8 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloCargas.dominio.*;
-import org.tallerjava.moduloComun.eventos.CargaIniciadaEvent;
+import org.tallerjava.moduloCargas.interfase.evento.out.PublicadorCarga;
+import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
 import org.tallerjava.moduloCargas.interfase.CargadorDTO;
 import org.tallerjava.moduloCargas.interfase.EstacionDTO;
@@ -20,8 +21,10 @@ public class CargaServiciosImp implements CargaServicios {
     @Inject
     private CargaRepo cargaRepo;
 
+
+
     @Inject
-    private Event<CargaIniciadaEvent> cargaIniciadaEvent;
+    private PublicadorCarga publicadorCarga;
 
     @Override
     @Transactional
@@ -58,7 +61,7 @@ public class CargaServiciosImp implements CargaServicios {
 
         long cargaId = cargaRepo.guardarCarga(carga);
 
-        cargaIniciadaEvent.fire(new CargaIniciadaEvent(cargaId, cliente.getId(),LocalDateTime.now()));
+        publicadorCarga.iniciarCarga(cargaId, cliente.getId());
     }
     @Override
     public void verCargaActual(Cliente cliente){

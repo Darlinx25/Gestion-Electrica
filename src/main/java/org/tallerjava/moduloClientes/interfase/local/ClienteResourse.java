@@ -3,7 +3,7 @@ package org.tallerjava.moduloClientes.interfase.local;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import org.tallerjava.moduloComun.eventos.CargaIniciadaEvent;
+import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloClientes.aplicacion.CuentaServicios;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.dominio.MedioPago;

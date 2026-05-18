@@ -1,4 +1,4 @@
-package org.tallerjava.moduloComun.eventos;
+package org.tallerjava.moduloComun.eventosCarga;
 
 import lombok.Data;
 

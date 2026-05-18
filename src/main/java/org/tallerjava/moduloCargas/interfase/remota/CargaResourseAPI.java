@@ -10,6 +10,7 @@ import org.tallerjava.moduloCargas.dominio.EstacionCarga;
 import org.tallerjava.moduloCargas.dominio.EstadoCargador;
 import org.tallerjava.moduloCargas.dominio.TipoCargador;
 import org.tallerjava.moduloCargas.dominio.TipoConector;
+import org.tallerjava.moduloCargas.interfase.CargaDTO;
 import org.tallerjava.moduloCargas.interfase.CargadorDTO;
 import org.tallerjava.moduloCargas.interfase.EstacionDTO;
 
@@ -30,7 +31,7 @@ public class CargaResourseAPI {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<EstacionCarga> obtenerEstaciones(){
+    public List<EstacionCarga> obtenerEstaciones() {
         return cargaService.obtenerEstaciones();
     }
 
@@ -52,7 +53,14 @@ public class CargaResourseAPI {
     public long altaCargador(CargadorDTO cargadorDTO) {
         return cargaService.altaCargador(cargadorDTO);
     }
+
+
+    @GET
+    @Path("/carga-actual/{clienteId}")
+    public CargaDTO verCargaActual(@PathParam("clienteId") long clienteId) {
+        return cargaService.verCargaActual(clienteId);
     }
+}
 
 
 

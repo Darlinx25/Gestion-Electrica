@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo_cliente", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "cargas_cliente")
-public abstract class Cliente {
+public class Cliente {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;

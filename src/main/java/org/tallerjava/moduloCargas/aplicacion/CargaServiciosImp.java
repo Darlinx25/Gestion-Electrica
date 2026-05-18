@@ -5,6 +5,7 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloCargas.dominio.*;
+import org.tallerjava.moduloCargas.interfase.CargaDTO;
 import org.tallerjava.moduloCargas.interfase.evento.out.PublicadorCarga;
 import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
@@ -65,8 +66,21 @@ public class CargaServiciosImp implements CargaServicios {
         publicadorCarga.iniciarCarga(cargaId, cliente.getId());
     }
     @Override
-    public void verCargaActual(Cliente cliente){
-
+    public CargaDTO verCargaActual(long clienteId) {
+        Carga carga = cargaRepo.buscarCargaActivaPorCliente(clienteId);
+        if (carga == null) {
+            throw new IllegalArgumentException("No hay una carga activa para el cliente con id: " + clienteId);
+        }
+        CargaDTO dto = new CargaDTO();
+        dto.setId(carga.getId());
+        dto.setFecha(carga.getFecha());
+        dto.setHoraInicio(carga.getHoraInicio());
+        dto.setPorcentajeAvance(carga.getPorcentajeAvance());
+        dto.setHoraEstimadaFin(carga.getHoraEstimadaFin());
+        dto.setEstado(carga.getEstado().name());
+        dto.setClienteId(clienteId);
+        dto.setCargadorId(carga.getCargador() != null ? carga.getCargador().getId() : null);
+        return dto;
     }
     @Override
     public void verHistorico(Cliente cliente, LocalDateTime ini, LocalDateTime fin){

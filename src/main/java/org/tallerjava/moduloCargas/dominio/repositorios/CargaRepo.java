@@ -12,4 +12,5 @@ public interface CargaRepo {
     public long guardarCarga(Carga carga);
     public EstacionCarga buscaEstacionPorId(long id);
     public List<EstacionCarga> obtenerEstaciones();
+    public Carga buscarCargaActivaPorCliente(long clienteId);
 }

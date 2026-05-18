@@ -8,12 +8,16 @@ import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
 import org.tallerjava.moduloClientes.dominio.MedioPago;
 
 import java.util.List;
+import org.tallerjava.moduloClientes.interfase.evento.out.PublicadorEventoCliente;
 
 @ApplicationScoped
 public class CuentaServiciosImpl implements CuentaServicios{
 
     @Inject
     private ClienteRepo clienteRepo;
+    
+    @Inject
+    private PublicadorEventoCliente evento;
 
     @Override
     public List<Cliente> obtenerClientes() {
@@ -35,6 +39,7 @@ public class CuentaServiciosImpl implements CuentaServicios{
         }
         cliente.addMedioPago(medioPago);
         clienteRepo.altaMedioPago(medioPago);
+        evento.publicarNuevoMedioPago(medioPago);
         return true;
     }
 

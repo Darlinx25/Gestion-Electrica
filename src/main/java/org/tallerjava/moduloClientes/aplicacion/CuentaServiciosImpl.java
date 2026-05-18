@@ -4,9 +4,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloClientes.dominio.Cliente;
+import org.tallerjava.moduloClientes.dominio.Reclamo;
 import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
 import org.tallerjava.moduloClientes.dominio.MedioPago;
-
 import java.util.List;
 import org.tallerjava.moduloClientes.interfase.evento.out.PublicadorEventoCliente;
 
@@ -44,7 +44,15 @@ public class CuentaServiciosImpl implements CuentaServicios{
     }
 
     @Override
-    public void realizarReclamo(){
-
+    @Transactional
+    public long realizarReclamo(long clienteId, String informacion) {
+        Cliente cliente = clienteRepo.buscaClientePorId(clienteId);
+        if (cliente == null) {
+            throw new IllegalArgumentException("No existe cliente con id: " + clienteId);
+        }
+        Reclamo reclamo = cliente.realizarReclamo(informacion);
+        clienteRepo.guardarReclamo(reclamo);
+        return reclamo.getId();
     }
+    
 }

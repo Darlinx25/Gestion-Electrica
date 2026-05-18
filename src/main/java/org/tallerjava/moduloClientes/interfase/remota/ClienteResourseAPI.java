@@ -58,4 +58,11 @@ public class ClienteResourseAPI {
         MedioPago medioPago = medioPagoDTO.buildMedioPago();
         return clienteService.altaMedioPago(medioPagoDTO.getClienteId(), medioPago);
     }
+    //curl -X POST http://localhost:8080/Gestion-Electrica/carga/clientes/reclamo -H "Content-Type: application/json" -d '{"clienteId":1,"informacion":"El cargador no funciona correctamente"}'
+    
+    @POST
+    @Path("/reclamo")
+    public long realizarReclamo(ReclamoDTO reclamoDTO) {
+        return clienteService.realizarReclamo(reclamoDTO.getClienteId(), reclamoDTO.getInformacion());
+    }
 }

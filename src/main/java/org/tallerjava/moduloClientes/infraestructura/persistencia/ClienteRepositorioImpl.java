@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.tallerjava.moduloClientes.dominio.Cliente;
+import org.tallerjava.moduloClientes.dominio.Reclamo;
 import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
 
 import java.util.ArrayList;
@@ -35,5 +36,11 @@ public class ClienteRepositorioImpl implements ClienteRepo {
     @Override
     public List<Cliente> listarClientes(){
         return em.createQuery("SELECT c FROM Cliente_Clientes c",Cliente.class).getResultList();
+    }
+
+    @Override
+    public long guardarReclamo(Reclamo reclamo) {
+        em.persist(reclamo);
+        return reclamo.getId();
     }
 }

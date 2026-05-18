@@ -28,8 +28,8 @@ public class ClienteResourse {
         return clienteService.obtenerClientes();
     }
 
-    public void realizarReclamo(){
-        clienteService.realizarReclamo();
+    public long realizarReclamo(long clienteId, String informacion){
+        return clienteService.realizarReclamo(clienteId, informacion);
     }
 
 

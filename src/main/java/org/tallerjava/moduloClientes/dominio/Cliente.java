@@ -2,6 +2,8 @@ package org.tallerjava.moduloClientes.dominio;
 
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -32,9 +34,21 @@ public abstract class Cliente {
     @JsonbTransient
     @OneToMany(mappedBy = "cliente")
     private List<Carga> cargas = new ArrayList<>();
+
+    @JsonbTransient
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Reclamo> reclamos = new ArrayList<>();
     
     public void addMedioPago(MedioPago medioPago) {
         mediosPago.add(medioPago);
         medioPago.setCliente(this);
+    }
+    public Reclamo realizarReclamo(String informacion) {
+        Reclamo reclamo = new Reclamo();
+        reclamo.setFechaHora(LocalDateTime.now());
+        reclamo.setInformacion(informacion);
+        reclamo.setCliente(this);
+        reclamos.add(reclamo);
+        return reclamo;
     }
 }

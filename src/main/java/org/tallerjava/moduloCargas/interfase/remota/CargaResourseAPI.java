@@ -36,15 +36,13 @@ public class CargaResourseAPI {
 
 
     //registrar estacion
-    //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargas -H "Content-Type: application/json" -d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
-
+    //curl -X POST http://localhost:8080/Gestion-Electrica/carga/cargas/estacion \-H "Content-Type: application/json" \-d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
     @POST
     @Path("/estacion")
     @Consumes(MediaType.APPLICATION_JSON)
     public long altaEstacion(EstacionDTO estacionDTO) {
         return cargaService.altaEstacion(estacionDTO);
     }
-
 
     //registrar cargador
     //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargador -H "Content-Type: application/json" -d '{"tipo": "RAPIDO", "tieneCable": true, "tipoConector": "CCS", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'

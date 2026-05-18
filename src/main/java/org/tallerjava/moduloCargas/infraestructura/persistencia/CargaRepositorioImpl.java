@@ -17,6 +17,8 @@ import java.util.List;
 public class CargaRepositorioImpl implements CargaRepo {
     @PersistenceContext
     private EntityManager em;
+
+
     @Override
     public long altaEstacion(EstacionCarga estacion) {
         em.persist(estacion);

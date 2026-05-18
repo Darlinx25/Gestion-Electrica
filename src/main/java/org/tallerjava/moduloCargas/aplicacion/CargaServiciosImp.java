@@ -53,7 +53,18 @@ public class CargaServiciosImp implements CargaServicios {
 
     @Override
     @Transactional
-    public void iniciarCarga(Cliente cliente, MedioPago medioPago){
+    public void iniciarCarga(long clienteId, long medioPagoId){
+        Cliente cliente = cargaRepo.buscarClientePorId(clienteId);
+        if (cliente == null){
+
+            throw new IllegalArgumentException("Cliente no encontrado: " + clienteId);
+        }
+        MedioPago medioPago = cargaRepo.buscarMedioPagoPorId(medioPagoId);
+        if (medioPago == null){
+
+            throw new IllegalArgumentException("Medio de pago no encontrado: " + medioPagoId);
+        }
+
         Carga carga = new Carga();
         carga.setCliente(cliente);
         carga.setMedioPagoId(medioPago.getId());
@@ -62,9 +73,9 @@ public class CargaServiciosImp implements CargaServicios {
         carga.setEstado(EstadoCarga.ACTIVA);
 
         long cargaId = cargaRepo.guardarCarga(carga);
-
         publicadorCarga.iniciarCarga(cargaId, cliente.getId());
     }
+
     @Override
     public CargaDTO verCargaActual(long clienteId) {
         Carga carga = cargaRepo.buscarCargaActivaPorCliente(clienteId);

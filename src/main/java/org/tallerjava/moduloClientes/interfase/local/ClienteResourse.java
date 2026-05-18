@@ -32,10 +32,12 @@ public class ClienteResourse {
         clienteService.realizarReclamo();
     }
 
-    public class ClienteCargaObserver {
-        public void onCargaIniciada(@Observes CargaIniciadaEvent event) {
+
+    public void onCargaIniciada(@Observes CargaIniciadaEvent event) {
             //aca la logica, hay que hacerlo, esta funcion por ejemplo escucha cuando disparo al iniciar una carga
-        }
+            System.out.println("entro la publicacion");
+
     }
+
 
 }

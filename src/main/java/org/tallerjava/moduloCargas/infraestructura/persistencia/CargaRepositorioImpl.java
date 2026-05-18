@@ -5,11 +5,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
-import org.tallerjava.moduloCargas.dominio.Carga;
-import org.tallerjava.moduloCargas.dominio.Cargador;
-import org.tallerjava.moduloCargas.dominio.EstacionCarga;
+import org.tallerjava.moduloCargas.dominio.*;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
-import org.tallerjava.moduloClientes.dominio.Cliente;
+
 
 import java.util.List;
 
@@ -57,5 +55,14 @@ public class CargaRepositorioImpl implements CargaRepo {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public Cliente buscarClientePorId(long id) {
+        return em.find(Cliente.class, id);
+    }
+    @Override
+    public MedioPago buscarMedioPagoPorId(long id) {
+        return em.find(MedioPago.class, id);
     }
 }

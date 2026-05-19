@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.tallerjava.moduloPagos.aplicacion;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.tallerjava.moduloPagos.dominio.Cliente;
 import org.tallerjava.moduloPagos.dominio.MedioPago;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 
+@ApplicationScoped
 public class PagoServiciosImpl implements PagoServicios {
     @Inject
     private PagoRepo pagoRepo;
@@ -19,7 +17,10 @@ public class PagoServiciosImpl implements PagoServicios {
         
     }
     
-
+    @Override
+    public void vincularMedioPago(long clienteId, MedioPago medioPago) {
+        
+    }
     
     
 }

@@ -36,11 +36,12 @@ public class CargaResourseAPI {
         return cargaService.obtenerEstaciones();
     }
 
-    //curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar -H "Content-Type: application/json" -d' {"clienteId":1,"medioPagoId":1}'
+    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"tipoMedioDTO": "TARJETA"}'
     @POST
     @Path("/iniciar")
     public void iniciarCarga(IniciarCargaRequestDTO cargaDTO) {
-        cargaService.iniciarCarga(cargaDTO.getClienteId(), cargaDTO.getMedioPagoId());
+
+        cargaService.iniciarCarga(cargaDTO);
     }
 
     //registrar estacion

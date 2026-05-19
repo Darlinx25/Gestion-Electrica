@@ -6,7 +6,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloCargas.dominio.*;
 import org.tallerjava.moduloCargas.interfase.CargaDTO;
+import org.tallerjava.moduloCargas.interfase.IniciarCargaRequestDTO;
 import org.tallerjava.moduloCargas.interfase.evento.out.PublicadorCarga;
+import org.tallerjava.moduloClientes.interfase.remota.MedioPagoDTO;
 import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
 import org.tallerjava.moduloCargas.interfase.CargadorDTO;
@@ -53,16 +55,20 @@ public class CargaServiciosImp implements CargaServicios {
 
     @Override
     @Transactional
-    public void iniciarCarga(long clienteId, long medioPagoId){
-        Cliente cliente = cargaRepo.buscarClientePorId(clienteId);
+    public void iniciarCarga(IniciarCargaRequestDTO cargaDTO){
+
+        Cliente cliente = cargaRepo.buscarClientePorId(cargaDTO.getClienteId());
         if (cliente == null){
 
-            throw new IllegalArgumentException("Cliente no encontrado: " + clienteId);
+            throw new IllegalArgumentException("Cliente no encontrado: " + cargaDTO.getClienteId());
         }
-        MedioPago medioPago = cargaRepo.buscarMedioPagoPorId(medioPagoId);
-        if (medioPago == null){
-
-            throw new IllegalArgumentException("Medio de pago no encontrado: " + medioPagoId);
+        MedioPago medioPago;
+        if(cargaDTO.getTipoMedioDTO()  == IniciarCargaRequestDTO.TipoMedioDTO.CUENTA_UTE){
+            medioPago = new CuentaUTE();
+        } else if (cargaDTO.getTipoMedioDTO()  == IniciarCargaRequestDTO.TipoMedioDTO.TARJETA) {
+            medioPago = new Tarjeta();
+        }else{
+            throw new IllegalArgumentException("No se pudo validar el medio de pago");
         }
 
         Carga carga = new Carga();

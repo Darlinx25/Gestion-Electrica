@@ -47,6 +47,10 @@ Inicio Carga:
 ```
 curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"medioPagoId":1,"cargadorId":1}'
 ```
+Actualizar Porcentaje Avance de Carga:
+```
+curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/actualizar" -H "Content-Type: application/json" -d '{"cargaId": 1,"porcentajeAvance":25}'
+```
 
 Fin Carga:
 ```

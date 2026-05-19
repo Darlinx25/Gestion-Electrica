@@ -42,6 +42,13 @@ public class CargaResourseAPI {
         cargaService.iniciarCarga(cargaDTO);
     }
 
+    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/actualizar" -H "Content-Type: application/json" -d '{"cargaId": 1,"porcentajeAvance":25}'
+    @POST
+    @Path("/actualizar")
+    public void actualizarCarga(EstadoCargaDTO estadoCargaDTO){
+        cargaService.actualizarEstadoCarga(estadoCargaDTO);
+    }
+
     //curl -X POST http://localhost:8080/Gestion-Electrica/carga/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
     @POST
     @Path("/finalizar")

@@ -10,4 +10,5 @@ public class FinalizarCargaRequestDTO {
     private float carga;
 
 
+
 }

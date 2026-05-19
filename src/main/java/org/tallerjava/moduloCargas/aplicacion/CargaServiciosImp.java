@@ -11,6 +11,8 @@ import org.tallerjava.moduloClientes.interfase.remota.MedioPagoDTO;
 import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
 
+import java.sql.SQLOutput;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -81,14 +83,49 @@ public class CargaServiciosImp implements CargaServicios {
 
     @Override
     @Transactional
+    public void actualizarEstadoCarga(EstadoCargaDTO estadoCargaDTO){
+        Carga carga = cargaRepo.buscarCargaActivaPorCliente(estadoCargaDTO.getCargaId());
+        carga.setPorcentajeAvance(estadoCargaDTO.getPorcentajeAvance());
+        if(estadoCargaDTO.getPorcentajeAvance() == 100){
+            carga.setHoraFin(LocalDateTime.now());
+        }
+        System.out.println("Porcentaje de avance: ");
+        System.out.println(estadoCargaDTO.getPorcentajeAvance());
+        cargaRepo.guardarCarga(carga);
+    }
+
+
+    @Override
+    @Transactional
     public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO){
 
         Carga carga = cargaRepo.buscarCargaActivaPorCliente(cargaDTO.getClienteId());
-        float recargo = 10; //Calcular con la fecha inicio y la fecha fin y % de la carga PENDIENTE DE HACER
-        float importe = 0;
+        LocalDateTime horaDesconexion;
+
+        if(carga.getPorcentajeAvance() < 100){
+            carga.setHoraFin(LocalDateTime.now());
+            horaDesconexion = carga.getHoraFin();
+        }else{
+            horaDesconexion = LocalDateTime.now();
+        }
+
+        Duration tiempoExtra = Duration.between(carga.getHoraFin(),horaDesconexion);
+        System.out.println("TIEMPO EXTRA");
+        System.out.println(tiempoExtra);
+
+        float recargo = 0;
+        float importe = 10 * cargaDTO.getCarga();
+        float segundos = tiempoExtra.toMillis() / 1000.0f;
+        recargo = 3 * segundos;
         float importeTotal = recargo + importe;
-        carga.setHoraFin(LocalDateTime.now());
+        System.out.println("Importe");
+        System.out.println(importe);
+        System.out.println("Recargo");
+        System.out.println(recargo);
+
         carga.setEstado(EstadoCarga.FINALIZADA);
+        System.out.println("Porcentaje de avance: ");
+        System.out.println(carga.getPorcentajeAvance());
         cargaRepo.guardarCarga(carga);
         publicadorCarga.finalizarCarga(carga.getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo);
 

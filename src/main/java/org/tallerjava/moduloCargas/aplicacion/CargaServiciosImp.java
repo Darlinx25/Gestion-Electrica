@@ -59,13 +59,9 @@ public class CargaServiciosImp implements CargaServicios {
             throw new IllegalArgumentException("Cliente no encontrado: " + cargaDTO.getClienteId());
         }
 
-        MedioPago medioPago;
-        if(cargaDTO.getTipoMedioDTO()  == IniciarCargaRequestDTO.TipoMedioDTO.CUENTA_UTE){
-            medioPago = new CuentaUTE();
-        } else if (cargaDTO.getTipoMedioDTO()  == IniciarCargaRequestDTO.TipoMedioDTO.TARJETA) {
-            medioPago = new Tarjeta();
-        }else{
-            throw new IllegalArgumentException("No se pudo validar el medio de pago");
+        MedioPago medioPago = cargaRepo.buscarMedioPagoPorId(cargaDTO.getMedioPagoId());
+        if (medioPago == null) {
+            throw new IllegalArgumentException("Medio de pago no encontrado: " + cargaDTO.getMedioPagoId());
         }
 
         Carga carga = new Carga();
@@ -93,7 +89,8 @@ public class CargaServiciosImp implements CargaServicios {
         float importeTotal = recargo + importe;
         carga.setHoraFin(LocalDateTime.now());
         carga.setEstado(EstadoCarga.FINALIZADA);
-        publicadorCarga.finalizarCarga(carga.getCargador().getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo);
+        cargaRepo.guardarCarga(carga);
+        publicadorCarga.finalizarCarga(carga.getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo);
 
 
     }

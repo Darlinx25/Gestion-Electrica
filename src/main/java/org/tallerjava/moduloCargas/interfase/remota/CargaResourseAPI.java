@@ -34,7 +34,7 @@ public class CargaResourseAPI {
         return cargaService.obtenerEstaciones();
     }
 
-    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"tipoMedioDTO": "TARJETA","cargadorId":1}'
+    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"medioPagoId":1,"cargadorId":1}'
     @POST
     @Path("/iniciar")
     public void iniciarCarga(IniciarCargaRequestDTO cargaDTO) {
@@ -42,7 +42,7 @@ public class CargaResourseAPI {
         cargaService.iniciarCarga(cargaDTO);
     }
 
-    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/finalizar" -H "Content-Type: application/json" -d '{"clienteId": 1}'
+    //curl -X POST http://localhost:8080/Gestion-Electrica/carga/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
     @POST
     @Path("/finalizar")
     public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO) {
@@ -54,7 +54,7 @@ public class CargaResourseAPI {
 
 
     //registrar estacion
-    //curl -X POST http://localhost:8080/Gestion-Electrica/carga/cargas/estacion \-H "Content-Type: application/json" \-d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
+    //curl -X POST http://localhost:8080/Gestion-Electrica/carga/cargas/estacion -H "Content-Type: application/json" -d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
     @POST
     @Path("/estacion")
     @Consumes(MediaType.APPLICATION_JSON)

@@ -26,4 +26,9 @@ public class PagoRepositorioImpl implements PagoRepo {
     public void altaMedioPago(MedioPago medioPago) {
         em.persist(medioPago);
     }
+
+    @Override
+    public MedioPago buscarMedioPagoPorId(long id) {
+        return em.find(MedioPago.class, id);
+    }
 }

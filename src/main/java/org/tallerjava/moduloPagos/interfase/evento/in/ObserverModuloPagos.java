@@ -68,6 +68,12 @@ public class ObserverModuloPagos {
 
     public void accept(@Observes CargaFinalizadaEvent event) {
         System.out.println("Procesando pago");
+        System.out.println("Cliente");
+        System.out.println(event.getClienteId());
+        System.out.println("Monto total");
+        System.out.println(event.getImporteTotal());
+        System.out.println("Medio de pago");
+        System.out.println(event.getMedioPagoId());
         servicioPagos.pagarCarga(event.getClienteId(),event.getImporteTotal(), event.getMedioPagoId());
     }
 }

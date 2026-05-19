@@ -1,5 +1,6 @@
 package org.tallerjava.moduloClientes.interfase.evento.out;
 
+import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
@@ -7,7 +8,7 @@ import org.tallerjava.moduloClientes.dominio.CuentaUTE;
 import org.tallerjava.moduloClientes.dominio.MedioPago;
 import org.tallerjava.moduloClientes.dominio.Tarjeta;
 import org.tallerjava.moduloClientes.dominio.TipoTarjeta;
-import org.tallerjava.moduloClientes.interfase.evento.out.ClientesAltaMedioPago.TipoMedio;
+import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago.TipoMedio;
 
 @ApplicationScoped
 public class PublicadorEventoCliente {
@@ -18,9 +19,7 @@ public class PublicadorEventoCliente {
     //capaz mejor sincronizar con ids los pagos y clientes del módulo clientes
     public void publicarNuevoMedioPago(MedioPago medioPago) {
         ClientesAltaMedioPago evento = new ClientesAltaMedioPago();
-            evento.setClienteCedula(medioPago.getCliente().getCedula());
-            evento.setClienteNombreCompleto(medioPago.getCliente().getNombreCompleto());
-            evento.setClienteTelefono(medioPago.getCliente().getTelefono());
+        evento.setClienteId(medioPago.getCliente().getId());
         if (medioPago instanceof CuentaUTE mp) {
             evento.setMedio(TipoMedio.CUENTA_UTE);
             evento.setMedioId(mp.getId());

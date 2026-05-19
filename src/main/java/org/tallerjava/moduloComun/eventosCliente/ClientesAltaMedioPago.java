@@ -1,4 +1,4 @@
-package org.tallerjava.moduloClientes.interfase.evento.out;
+package org.tallerjava.moduloComun.eventosCliente;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -17,9 +17,7 @@ public class ClientesAltaMedioPago {
     private TipoMedio medio;
     private long medioId;
     
-    private String clienteCedula;
-    private String clienteNombreCompleto;
-    private String clienteTelefono;
+    private long clienteId;
     
     //tarjeta
     private String numero;

@@ -18,6 +18,11 @@ public class PagoServiciosImpl implements PagoServicios {
     }
     
     @Override
+    public void registrarCliente(Cliente cliente) {
+        pagoRepo.registrarCliente(cliente);
+    }
+    
+    @Override
     public void vincularMedioPago(long clienteId, MedioPago medioPago) {
         
     }

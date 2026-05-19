@@ -50,9 +50,6 @@ public class CargaResourseAPI {
     }
 
 
-
-
-
     //registrar estacion
     //curl -X POST http://localhost:8080/Gestion-Electrica/carga/cargas/estacion -H "Content-Type: application/json" -d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
     @POST

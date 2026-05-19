@@ -16,11 +16,15 @@ import org.tallerjava.moduloPagos.dominio.MedioPago;
 import org.tallerjava.moduloPagos.dominio.Tarjeta;
 import org.tallerjava.moduloPagos.dominio.TipoProfesional;
 import org.tallerjava.moduloPagos.dominio.TipoTarjeta;
+import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 
 @ApplicationScoped
 public class ObserverModuloPagos {
     @Inject
     private PagoServicios servicioPagos;
+
+    @Inject
+    private PagoRepo pagoRepo;
     
     public void accept(@Observes ClientesAltaClienteComun event) {
         ClienteComun cliente = new ClienteComun();
@@ -73,7 +77,7 @@ public class ObserverModuloPagos {
         System.out.println("Monto total");
         System.out.println(event.getImporteTotal());
         System.out.println("Medio de pago");
-        System.out.println(event.getMedioPagoId());
+        System.out.println(pagoRepo.buscarMedioPagoPorId(event.getMedioPagoId()));
         servicioPagos.pagarCarga(event.getClienteId(),event.getImporteTotal(), event.getMedioPagoId());
     }
 }

@@ -12,7 +12,7 @@ public interface CargaServicios {
     public long altaCargador(CargadorDTO cargadorDTO);
     public void iniciarCarga(IniciarCargaRequestDTO cargaDTO);
     public CargaDTO verCargaActual(long clienteId);
-    public void verHistorico(Cliente cliente, LocalDateTime ini, LocalDateTime fin);
+    public List<CargaDTO> verHistorico(Long clienteId, LocalDateTime ini, LocalDateTime fin);
     //public void finalizarCarga(Cargador cargador, float carga, float recargo);
     public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO);
     public List<EstacionCarga> obtenerEstaciones();

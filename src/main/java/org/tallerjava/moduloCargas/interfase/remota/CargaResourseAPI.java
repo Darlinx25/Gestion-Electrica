@@ -13,6 +13,7 @@ import org.tallerjava.moduloCargas.dominio.TipoConector;
 import org.tallerjava.moduloCargas.interfase.*;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -75,6 +76,17 @@ public class CargaResourseAPI {
     @Path("/carga-actual/{clienteId}")
     public CargaDTO verCargaActual(@PathParam("clienteId") long clienteId) {
         return cargaService.verCargaActual(clienteId);
+    }
+
+    //consultar las cargas de un cliente entre 2 fechas/horas
+    //cambiar horas del curl
+    //curl "http://localhost:8080/Gestion-Electrica/carga/cargas/historico/1?ini=2026-05-19T20:00:00&fin=2026-05-19T20:10:00"
+    @GET
+    @Path("/historico/{clienteId}")
+    public List<CargaDTO> verHistorico(@PathParam("clienteId") Long clienteId, @QueryParam("ini") String ini, @QueryParam("fin") String fin){
+        LocalDateTime fechaIni = LocalDateTime.parse(ini);
+        LocalDateTime fechaFin = LocalDateTime.parse(fin);
+        return cargaService.verHistorico(clienteId, fechaIni, fechaFin);
     }
 }
 

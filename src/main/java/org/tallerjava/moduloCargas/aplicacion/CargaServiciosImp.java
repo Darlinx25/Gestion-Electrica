@@ -13,6 +13,7 @@ import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -115,8 +116,26 @@ public class CargaServiciosImp implements CargaServicios {
         return dto;
     }
     @Override
-    public void verHistorico(Cliente cliente, LocalDateTime ini, LocalDateTime fin){
+    public List<CargaDTO> verHistorico(Long clienteId, LocalDateTime ini, LocalDateTime fin){
+        List<Carga> cargas = cargaRepo.verHistorico(clienteId, ini, fin);
+        if(cargas == null || cargas.isEmpty()){
+            throw new IllegalArgumentException("No hay una cargas para el cliente con id: " + clienteId + ", entre esas fechas.");
+        }
+        List<CargaDTO> cargasDTO = new ArrayList<>();
+        for (Carga carga : cargas){
+            CargaDTO dto = new CargaDTO();
+            dto.setId(carga.getId());
+            dto.setFecha(carga.getFecha());
+            dto.setHoraInicio(carga.getHoraInicio());
+            dto.setPorcentajeAvance(carga.getPorcentajeAvance());
+            dto.setHoraEstimadaFin(carga.getHoraEstimadaFin());
+            dto.setEstado(carga.getEstado().name());
+            dto.setClienteId(clienteId);
+            dto.setCargadorId(carga.getCargador() != null ? carga.getCargador().getId() : null);
 
+            cargasDTO.add(dto);
+        }
+        return cargasDTO;
     }
 
     @Override
@@ -137,4 +156,6 @@ public class CargaServiciosImp implements CargaServicios {
         cliente.addMedioPago(medioPago);
         cargaRepo.altaMedioPago(medioPago);
     }
+
+
 }

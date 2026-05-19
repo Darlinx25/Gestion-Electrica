@@ -2,6 +2,7 @@ package org.tallerjava.moduloCargas.dominio.repositorios;
 
 import org.tallerjava.moduloCargas.dominio.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CargaRepo {
@@ -17,4 +18,5 @@ public interface CargaRepo {
     public void registrarCliente(Cliente cliente);
     public void altaMedioPago(MedioPago medioPago);
     public Cargador buscaCargadorPorId(long id);
+    public List<Carga> verHistorico(Long clienteId, LocalDateTime ini, LocalDateTime fin);
 }

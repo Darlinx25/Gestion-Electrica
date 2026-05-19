@@ -8,6 +8,7 @@ import org.tallerjava.moduloCargas.dominio.*;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -84,5 +85,15 @@ public class CargaRepositorioImpl implements CargaRepo {
     @Override
     public void altaMedioPago(MedioPago medioPago) {
         em.persist(medioPago);
+    }
+
+    @Override
+    public List<Carga> verHistorico(Long clienteId, LocalDateTime ini, LocalDateTime fin){
+        try {
+            return em.createQuery("SELECT c FROM Carga c WHERE c.cliente.id = :clienteId AND c.horaInicio BETWEEN :ini AND :fin",
+                    Carga.class).setParameter("clienteId", clienteId).setParameter("ini", ini).setParameter("fin", fin).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

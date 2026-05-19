@@ -66,18 +66,24 @@ public class ObserverModuloCargas {
 
     public void inicioDeCarga(@Observes CargaIniciadaEvent event){
         Carga c = cargaRepo.buscarCargaActivaPorCliente(event.getClienteId());
+
         System.out.println("Id de la carga:");
         System.out.println(c.getId());
         System.out.println("Hora Inicio de la carga:");
         System.out.println(c.getHoraInicio());
+        System.out.println("Estado de la carga: ");
+        System.out.println(c.getEstado());
 
     }
     public void finDeCarga(@Observes CargaFinalizadaEvent event){
-        Carga c = cargaRepo.buscarCargaActivaPorCliente(event.getClienteId());
+        Carga c = cargaRepo.buscarCargaPorId(event.getCargaId());
         System.out.println("Id de la carga:");
         System.out.println(c.getId());
         System.out.println("Hora fin de la carga:");
         System.out.println(c.getHoraFin());
+        System.out.println("Estado de la carga: ");
+        System.out.println(c.getEstado());
+
 
     }
 }

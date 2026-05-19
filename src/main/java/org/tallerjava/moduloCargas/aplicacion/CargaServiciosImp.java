@@ -91,9 +91,10 @@ public class CargaServiciosImp implements CargaServicios {
         float importe = 0;
         float importeTotal = recargo + importe;
         carga.setHoraFin(LocalDateTime.now());
-        publicadorCarga.finalizarCarga(carga.getCargador().getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo);
         carga.setEstado(EstadoCarga.FINALIZADA);
-        
+        publicadorCarga.finalizarCarga(carga.getCargador().getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo);
+
+
     }
 
     @Override

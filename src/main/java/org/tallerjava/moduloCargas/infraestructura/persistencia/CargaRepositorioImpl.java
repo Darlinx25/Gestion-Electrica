@@ -50,6 +50,12 @@ public class CargaRepositorioImpl implements CargaRepo {
     }
 
     @Override
+    public Carga buscarCargaPorId(long cargaId){
+        return em.createQuery("SELECT c FROM Carga c WHERE c.id = :cargaId",Carga.class).setParameter("cargaId", cargaId)
+                .getSingleResult();
+    }
+
+    @Override
     public Carga buscarCargaActivaPorCliente(long clienteId) {
         try {
             return em.createQuery(

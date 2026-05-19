@@ -7,9 +7,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.tallerjava.moduloCargas.aplicacion.CargaServicios;
 import org.tallerjava.moduloCargas.dominio.EstacionCarga;
-import org.tallerjava.moduloCargas.dominio.EstadoCargador;
-import org.tallerjava.moduloCargas.dominio.TipoCargador;
-import org.tallerjava.moduloCargas.dominio.TipoConector;
 import org.tallerjava.moduloCargas.interfase.*;
 
 

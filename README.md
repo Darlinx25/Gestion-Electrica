@@ -64,7 +64,7 @@ curl -v http://localhost:8080/Gestion-Electrica/carga/cargas
 
 Consultar Historico:
 ```
-curl "http://localhost:8080/Gestion-Electrica/carga/cargas/historico/1?ini=2026-05-19T20:00:00&fin=2026-05-19T20:10:00"
+curl -v "http://localhost:8080/Gestion-Electrica/carga/cargas/historico/1?ini=2026-05-19T20:00:00&fin=2026-05-19T20:10:00"
 ```
 
 

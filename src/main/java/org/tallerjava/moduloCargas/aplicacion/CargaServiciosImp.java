@@ -1,17 +1,12 @@
 package org.tallerjava.moduloCargas.aplicacion;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloCargas.dominio.*;
 import org.tallerjava.moduloCargas.interfase.*;
 import org.tallerjava.moduloCargas.interfase.evento.out.PublicadorCarga;
-import org.tallerjava.moduloClientes.interfase.remota.MedioPagoDTO;
-import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
-
-import java.sql.SQLOutput;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

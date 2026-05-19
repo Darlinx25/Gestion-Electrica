@@ -10,6 +10,49 @@ mvn clean package && docker compose up --build
 ```
 docker exec -it tallerjava-mariadb mariadb -u root -pmariapass tallerJava
 ```
+---
+
+## Endpoints para pruebas
+
+**Clientes:**
+
+Consultar clientes:
+```
+curl -v http://localhost:8080/Gestion-Electrica/carga/clientes
+```
+Alta cliente comun
+```
+curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/clientes -H "Content-Type: application/json" -d '{"cedula":"1234567890","nombreCompleto":"pablito guitiérrez","telefono":"091234567","password":"123","esProfesional":false}'
+```
+
+
+**Cargador:**
+
+Alta Estacion:
+```
+curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargas/estacion \-H "Content-Type: application/json" \-d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
+```
+
+Alta Cargador:
+```
+curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargas/cargador -H "Content-Type: application/json" -d '{"tipo": "RAPIDA", "tieneCable": true, "tipoConector": "TIPO2", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'
+```
+Inicio Carga:
+```
+curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"tipoMedioDTO": "TARJETA","cargadorId":1}'
+```
+
+Fin Carga:
+```
+curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/finalizar" -H "Content-Type: application/json" -d '{"clienteId": 1}'
+```
+
+Consultar cargador:
+```
+curl -v http://localhost:8080/Gestion-Electrica/carga/cargas
+```
+
+
 
 **Consola administrador Wildfly**
 ```

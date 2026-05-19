@@ -2,12 +2,13 @@ package org.tallerjava.moduloClientes.aplicacion;
 
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.dominio.MedioPago;
+import org.tallerjava.moduloClientes.interfase.remota.ClienteDTO;
 
 import java.util.List;
 
 public interface CuentaServicios {
     public long registarCliente(Cliente cliente);
-    public List<Cliente> obtenerClientes();
+    public List<ClienteDTO> obtenerClientes();
     public boolean altaMedioPago(long clienteId, MedioPago medioPago); //Ver si lleva alguna exp como "throws SaldoInsuficienteException"
     public long realizarReclamo(long clienteId, String informacion);
 

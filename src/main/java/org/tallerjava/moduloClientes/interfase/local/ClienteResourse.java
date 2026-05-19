@@ -3,6 +3,7 @@ package org.tallerjava.moduloClientes.interfase.local;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import org.tallerjava.moduloClientes.interfase.remota.ClienteDTO;
 import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloClientes.aplicacion.CuentaServicios;
 import org.tallerjava.moduloClientes.dominio.Cliente;
@@ -24,7 +25,7 @@ public class ClienteResourse {
         clienteService.altaMedioPago(clienteID,medioPago);
     }
 
-    public List<Cliente> obtenerClientes(){
+    public List<ClienteDTO> obtenerClientes(){
         return clienteService.obtenerClientes();
     }
 

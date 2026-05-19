@@ -30,7 +30,7 @@ public class ClienteResourseAPI {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Cliente> obtenerClientes(){
+    public List<ClienteDTO> obtenerClientes(){
         return clienteService.obtenerClientes();
     }
     

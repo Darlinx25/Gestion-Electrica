@@ -4,11 +4,15 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloClientes.dominio.Cliente;
+import org.tallerjava.moduloClientes.dominio.ClienteProfesional;
 import org.tallerjava.moduloClientes.dominio.Reclamo;
 import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
 import org.tallerjava.moduloClientes.dominio.MedioPago;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.tallerjava.moduloClientes.interfase.evento.out.PublicadorEventoCliente;
+import org.tallerjava.moduloClientes.interfase.remota.ClienteDTO;
 
 @ApplicationScoped
 public class CuentaServiciosImpl implements CuentaServicios{
@@ -20,8 +24,29 @@ public class CuentaServiciosImpl implements CuentaServicios{
     private PublicadorEventoCliente evento;
 
     @Override
-    public List<Cliente> obtenerClientes() {
-        return clienteRepo.listarClientes();
+    public List<ClienteDTO> obtenerClientes() {
+        List<Cliente> clientes = clienteRepo.listarClientes();
+        List<ClienteDTO> clientesDTO = new ArrayList<>();
+
+        for(Cliente cliente : clientes){
+            ClienteDTO dto = new ClienteDTO();
+
+            dto.setCedula(cliente.getCedula());
+            dto.setNombreCompleto(cliente.getNombreCompleto());
+            dto.setTelefono(cliente.getTelefono());
+            dto.setPassword(cliente.getPassword());
+
+            if (cliente instanceof ClienteProfesional profesional) {
+                dto.setEsProfesional(true);
+                dto.setTipoProfesional(profesional.getTipo());
+                dto.setPorcentajeDescuento(profesional.getPorcentajeDescuento());
+            } else {
+                dto.setEsProfesional(false);
+            }
+            clientesDTO.add(dto);
+        }
+
+        return clientesDTO;
     }
 
     @Override

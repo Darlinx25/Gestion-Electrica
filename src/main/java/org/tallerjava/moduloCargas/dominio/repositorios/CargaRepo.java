@@ -13,4 +13,5 @@ public interface CargaRepo {
     public Carga buscarCargaActivaPorCliente(long clienteId);
     public Cliente buscarClientePorId(long id);
     public MedioPago buscarMedioPagoPorId(long id);
+    public void registrarCliente(Cliente cliente);
 }

@@ -5,7 +5,6 @@ import org.tallerjava.moduloCargas.interfase.CargaDTO;
 import org.tallerjava.moduloCargas.interfase.CargadorDTO;
 import org.tallerjava.moduloCargas.interfase.EstacionDTO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,4 +16,6 @@ public interface CargaServicios {
     public void verHistorico(Cliente cliente, LocalDateTime ini, LocalDateTime fin);
     public void finalizarCarga(Cargador cargador, float carga, float recargo);
     public List<EstacionCarga> obtenerEstaciones();
+    public void registrarCliente(Cliente cliente);
+    public void vincularMedioPago(long clienteId, MedioPago medioPago);
 }

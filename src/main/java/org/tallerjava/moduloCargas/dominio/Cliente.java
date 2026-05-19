@@ -14,12 +14,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "cargas_cliente")
 public class Cliente {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
     private String cedula;
     private String nombreCompleto;
     private String telefono;
-    private String password;
 
 
 }

@@ -105,4 +105,12 @@ public class CargaServiciosImp implements CargaServicios {
     public List<EstacionCarga> obtenerEstaciones(){
         return cargaRepo.obtenerEstaciones();
     }
+    @Override
+    public void registrarCliente(Cliente cliente) {
+        cargaRepo.registrarCliente(cliente);
+    }
+    @Override
+    public void vincularMedioPago(long clienteId, MedioPago medioPago) {
+        
+    }
 }

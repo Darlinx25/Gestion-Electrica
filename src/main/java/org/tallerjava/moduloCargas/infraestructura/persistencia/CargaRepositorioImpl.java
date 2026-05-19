@@ -1,4 +1,3 @@
-
 package org.tallerjava.moduloCargas.infraestructura.persistencia;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -64,5 +63,9 @@ public class CargaRepositorioImpl implements CargaRepo {
     @Override
     public MedioPago buscarMedioPagoPorId(long id) {
         return em.find(MedioPago.class, id);
+    }
+    @Override
+    public void registrarCliente(Cliente cliente) {
+        em.persist(cliente);
     }
 }

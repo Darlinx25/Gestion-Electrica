@@ -14,7 +14,7 @@ public class PagoServiciosImpl implements PagoServicios {
     
     
     @Override
-    public void pagarCarga(Cliente cliente, float importe, MedioPago medioPago){
+    public void pagarCarga(long clienteId, float importe, long medioPagoId){
         
     }
     

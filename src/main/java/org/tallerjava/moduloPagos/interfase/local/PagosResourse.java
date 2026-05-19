@@ -11,7 +11,7 @@ public class PagosResourse {
     @Inject
     private PagoServicios pagosServicios;
 
-    public void pagarCarga(Cliente cliente, float importe, MedioPago medioPago){
-        pagosServicios.pagarCarga(cliente,importe,medioPago);
+    public void pagarCarga(long clienteId, float importe, long medioPagoId){
+        pagosServicios.pagarCarga(clienteId,importe,medioPagoId);
     }
 }

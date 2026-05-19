@@ -3,6 +3,7 @@ package org.tallerjava.moduloPagos.interfase.evento.in;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import org.tallerjava.moduloComun.eventosCarga.CargaFinalizadaEvent;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaClienteComun;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaClienteProfesional;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago;
@@ -62,5 +63,11 @@ public class ObserverModuloPagos {
             medioPago = tarjeta;
         }
         servicioPagos.altaMedioPago(event.getClienteId(), medioPago);
+    }
+
+
+    public void accept(@Observes CargaFinalizadaEvent event) {
+        System.out.println("Procesando pago");
+        servicioPagos.pagarCarga(event.getClienteId(),event.getImporteTotal(), event.getMedioPagoId());
     }
 }

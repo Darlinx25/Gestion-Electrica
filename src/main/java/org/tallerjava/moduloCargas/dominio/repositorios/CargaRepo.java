@@ -15,4 +15,5 @@ public interface CargaRepo {
     public MedioPago buscarMedioPagoPorId(long id);
     public void registrarCliente(Cliente cliente);
     public void altaMedioPago(MedioPago medioPago);
+    public Cargador buscaCargadorPorId(long id);
 }

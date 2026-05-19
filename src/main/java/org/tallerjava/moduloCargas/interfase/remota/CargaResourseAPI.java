@@ -10,10 +10,7 @@ import org.tallerjava.moduloCargas.dominio.EstacionCarga;
 import org.tallerjava.moduloCargas.dominio.EstadoCargador;
 import org.tallerjava.moduloCargas.dominio.TipoCargador;
 import org.tallerjava.moduloCargas.dominio.TipoConector;
-import org.tallerjava.moduloCargas.interfase.CargaDTO;
-import org.tallerjava.moduloCargas.interfase.CargadorDTO;
-import org.tallerjava.moduloCargas.interfase.EstacionDTO;
-import org.tallerjava.moduloCargas.interfase.IniciarCargaRequestDTO;
+import org.tallerjava.moduloCargas.interfase.*;
 
 
 import java.util.List;
@@ -36,13 +33,24 @@ public class CargaResourseAPI {
         return cargaService.obtenerEstaciones();
     }
 
-    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"tipoMedioDTO": "TARJETA"}'
+    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"tipoMedioDTO": "TARJETA","cargadorId":1}'
     @POST
     @Path("/iniciar")
     public void iniciarCarga(IniciarCargaRequestDTO cargaDTO) {
 
         cargaService.iniciarCarga(cargaDTO);
     }
+
+    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/finalizar" -H "Content-Type: application/json" -d '{"clienteId": 1}'
+    @POST
+    @Path("/finalizar")
+    public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO) {
+        cargaService.finalizarCarga(cargaDTO);
+    }
+
+
+
+
 
     //registrar estacion
     //curl -X POST http://localhost:8080/Gestion-Electrica/carga/cargas/estacion \-H "Content-Type: application/json" \-d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'

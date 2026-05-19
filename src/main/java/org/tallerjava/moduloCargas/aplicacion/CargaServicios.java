@@ -1,10 +1,7 @@
 package org.tallerjava.moduloCargas.aplicacion;
 
 import org.tallerjava.moduloCargas.dominio.*;
-import org.tallerjava.moduloCargas.interfase.CargaDTO;
-import org.tallerjava.moduloCargas.interfase.CargadorDTO;
-import org.tallerjava.moduloCargas.interfase.EstacionDTO;
-import org.tallerjava.moduloCargas.interfase.IniciarCargaRequestDTO;
+import org.tallerjava.moduloCargas.interfase.*;
 
 
 import java.time.LocalDateTime;
@@ -16,7 +13,8 @@ public interface CargaServicios {
     public void iniciarCarga(IniciarCargaRequestDTO cargaDTO);
     public CargaDTO verCargaActual(long clienteId);
     public void verHistorico(Cliente cliente, LocalDateTime ini, LocalDateTime fin);
-    public void finalizarCarga(Cargador cargador, float carga, float recargo);
+    //public void finalizarCarga(Cargador cargador, float carga, float recargo);
+    public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO);
     public List<EstacionCarga> obtenerEstaciones();
     public void registrarCliente(Cliente cliente);
     public void altaMedioPago(long clienteId, MedioPago medioPago);

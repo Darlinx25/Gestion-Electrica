@@ -9,15 +9,15 @@ public class CargaFinalizadaEvent {
     private long cargaId;
     private long clienteId;
     private long medioPagoId;
-    private double importeTotal;
-    private double recargo;
-    private LocalDateTime fechaFin;
-    public CargaFinalizadaEvent(long cargaId, long clienteId, long medioPagoId,double importeTotal, double recargo, LocalDateTime fechaFin) {
+    private float importeTotal;
+    private float recargo;
+    private float carga;
+    public CargaFinalizadaEvent(long cargaId, long clienteId, float carga, long medioPagoId,float importeTotal, float recargo) {
         this.cargaId = cargaId;
         this.clienteId = clienteId;
+        this.carga = carga;
         this.medioPagoId = medioPagoId;
         this.importeTotal = importeTotal;
         this.recargo = recargo;
-        this.fechaFin = fechaFin;
     }
 }

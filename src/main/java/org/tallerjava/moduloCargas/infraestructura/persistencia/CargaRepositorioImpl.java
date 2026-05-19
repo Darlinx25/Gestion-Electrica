@@ -28,8 +28,14 @@ public class CargaRepositorioImpl implements CargaRepo {
         return cargador.getId();
     }
 
+    @Override
     public EstacionCarga buscaEstacionPorId(long id){
         return em.find(EstacionCarga.class, id);
+    }
+
+    @Override
+    public Cargador buscaCargadorPorId(long id){
+        return em.find(Cargador.class, id);
     }
 
     @Override

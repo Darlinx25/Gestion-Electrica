@@ -4,13 +4,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import org.tallerjava.moduloCargas.aplicacion.CargaServicios;
-import org.tallerjava.moduloCargas.dominio.ClienteComun;
-import org.tallerjava.moduloCargas.dominio.ClienteProfesional;
-import org.tallerjava.moduloCargas.dominio.CuentaUTE;
-import org.tallerjava.moduloCargas.dominio.MedioPago;
-import org.tallerjava.moduloCargas.dominio.Tarjeta;
-import org.tallerjava.moduloCargas.dominio.TipoProfesional;
-import org.tallerjava.moduloCargas.dominio.TipoTarjeta;
+import org.tallerjava.moduloCargas.dominio.*;
+import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
+import org.tallerjava.moduloComun.eventosCarga.CargaFinalizadaEvent;
+import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaClienteComun;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaClienteProfesional;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago;
@@ -20,7 +17,10 @@ import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago.TipoMedio
 public class ObserverModuloCargas {
     @Inject
     private CargaServicios servicioCargas;
-    
+
+    @Inject
+    CargaRepo cargaRepo;
+
     public void accept(@Observes ClientesAltaClienteComun event) {
         ClienteComun cliente = new ClienteComun();
         cliente.setId(event.getId());
@@ -62,5 +62,22 @@ public class ObserverModuloCargas {
             medioPago = tarjeta;
         }
         servicioCargas.altaMedioPago(event.getClienteId(), medioPago);
+    }
+
+    public void inicioDeCarga(@Observes CargaIniciadaEvent event){
+        Carga c = cargaRepo.buscarCargaActivaPorCliente(event.getClienteId());
+        System.out.println("Id de la carga:");
+        System.out.println(c.getId());
+        System.out.println("Hora Inicio de la carga:");
+        System.out.println(c.getHoraInicio());
+
+    }
+    public void finDeCarga(@Observes CargaFinalizadaEvent event){
+        Carga c = cargaRepo.buscarCargaActivaPorCliente(event.getClienteId());
+        System.out.println("Id de la carga:");
+        System.out.println(c.getId());
+        System.out.println("Hora fin de la carga:");
+        System.out.println(c.getHoraFin());
+
     }
 }

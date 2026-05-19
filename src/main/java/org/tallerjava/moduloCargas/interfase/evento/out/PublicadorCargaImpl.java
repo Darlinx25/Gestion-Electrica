@@ -22,4 +22,8 @@ public class PublicadorCargaImpl  implements PublicadorCarga {
         cargaIniciadaEvent.fire(new CargaIniciadaEvent(cargaId, clienteId, LocalDateTime.now()));
     }
 
+    public void finalizarCarga(long cargaId, long clienteId,float carga, long medioPagoId,float importeTotal, float recargo){
+        cargaFinalizadaEventEvent.fire(new CargaFinalizadaEvent( cargaId, clienteId, carga, medioPagoId, importeTotal, recargo));
+    }
+
 }

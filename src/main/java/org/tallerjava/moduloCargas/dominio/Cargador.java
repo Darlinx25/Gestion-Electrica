@@ -11,6 +11,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,5 +41,5 @@ public class Cargador {
     
     @JsonbTransient
     @OneToMany (mappedBy = "cargador")
-    private List<Carga> cargas;
+    private List<Carga> cargas = new ArrayList<>();
 }

@@ -5,14 +5,11 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloCargas.dominio.*;
-import org.tallerjava.moduloCargas.interfase.CargaDTO;
-import org.tallerjava.moduloCargas.interfase.IniciarCargaRequestDTO;
+import org.tallerjava.moduloCargas.interfase.*;
 import org.tallerjava.moduloCargas.interfase.evento.out.PublicadorCarga;
 import org.tallerjava.moduloClientes.interfase.remota.MedioPagoDTO;
 import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
-import org.tallerjava.moduloCargas.interfase.CargadorDTO;
-import org.tallerjava.moduloCargas.interfase.EstacionDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,8 +21,6 @@ public class CargaServiciosImp implements CargaServicios {
 
     @Inject
     private CargaRepo cargaRepo;
-
-
 
     @Inject
     private PublicadorCarga publicadorCarga;
@@ -62,6 +57,7 @@ public class CargaServiciosImp implements CargaServicios {
 
             throw new IllegalArgumentException("Cliente no encontrado: " + cargaDTO.getClienteId());
         }
+
         MedioPago medioPago;
         if(cargaDTO.getTipoMedioDTO()  == IniciarCargaRequestDTO.TipoMedioDTO.CUENTA_UTE){
             medioPago = new CuentaUTE();
@@ -78,8 +74,26 @@ public class CargaServiciosImp implements CargaServicios {
         carga.setHoraInicio(LocalDateTime.now());
         carga.setEstado(EstadoCarga.ACTIVA);
 
+        Cargador cargador = cargaRepo.buscaCargadorPorId(cargaDTO.getCargadorId());
+        carga.setCargador(cargador);
+        cargador.getCargas().add(carga);
+
         long cargaId = cargaRepo.guardarCarga(carga);
         publicadorCarga.iniciarCarga(cargaId, cliente.getId());
+    }
+
+    @Override
+    @Transactional
+    public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO){
+
+        Carga carga = cargaRepo.buscarCargaActivaPorCliente(cargaDTO.getClienteId());
+        float recargo = 10; //Calcular con la fecha inicio y la fecha fin y % de la carga PENDIENTE DE HACER
+        float importe = 0;
+        float importeTotal = recargo + importe;
+        carga.setHoraFin(LocalDateTime.now());
+        publicadorCarga.finalizarCarga(carga.getCargador().getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo);
+        carga.setEstado(EstadoCarga.FINALIZADA);
+        
     }
 
     @Override
@@ -103,10 +117,7 @@ public class CargaServiciosImp implements CargaServicios {
     public void verHistorico(Cliente cliente, LocalDateTime ini, LocalDateTime fin){
 
     }
-    @Override
-    public void finalizarCarga(Cargador cargador, float carga, float recargo){
 
-    }
     @Override
     public List<EstacionCarga> obtenerEstaciones(){
         return cargaRepo.obtenerEstaciones();

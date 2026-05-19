@@ -34,8 +34,11 @@ public class ClienteResourse {
 
 
     public void onCargaIniciada(@Observes CargaIniciadaEvent event) {
-            //aca la logica, hay que hacerlo, esta funcion por ejemplo escucha cuando disparo al iniciar una carga
-            System.out.println("entro la publicacion");
+        //aca la logica, hay que hacerlo, esta funcion por ejemplo escucha cuando disparo al iniciar una carga
+
+        System.out.println("entro la publicacion");
+        System.out.println(event.getClienteId());
+        System.out.println(event.getCargaId());
 
     }
 

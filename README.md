@@ -50,7 +50,7 @@ curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -
 
 Fin Carga:
 ```
-curl -X POST http://localhost:8080/Gestion-Electrica/carga/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
+curl -X -v POST http://localhost:8080/Gestion-Electrica/carga/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
 ```
 
 Consultar cargador:

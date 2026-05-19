@@ -17,5 +17,5 @@ public interface CargaServicios {
     public void finalizarCarga(Cargador cargador, float carga, float recargo);
     public List<EstacionCarga> obtenerEstaciones();
     public void registrarCliente(Cliente cliente);
-    public void vincularMedioPago(long clienteId, MedioPago medioPago);
+    public void altaMedioPago(long clienteId, MedioPago medioPago);
 }

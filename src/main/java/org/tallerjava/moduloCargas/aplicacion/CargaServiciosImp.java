@@ -110,7 +110,13 @@ public class CargaServiciosImp implements CargaServicios {
         cargaRepo.registrarCliente(cliente);
     }
     @Override
-    public void vincularMedioPago(long clienteId, MedioPago medioPago) {
-        
+    @Transactional
+    public void altaMedioPago(long clienteId, MedioPago medioPago) {
+        Cliente cliente = cargaRepo.buscarClientePorId(clienteId);
+        if (cliente == null) {
+            return;
+        }
+        cliente.addMedioPago(medioPago);
+        cargaRepo.altaMedioPago(medioPago);
     }
 }

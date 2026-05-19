@@ -2,6 +2,7 @@ package org.tallerjava.moduloPagos.aplicacion;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.tallerjava.moduloPagos.dominio.Cliente;
 import org.tallerjava.moduloPagos.dominio.MedioPago;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
@@ -23,9 +24,13 @@ public class PagoServiciosImpl implements PagoServicios {
     }
     
     @Override
-    public void vincularMedioPago(long clienteId, MedioPago medioPago) {
-        
+    @Transactional
+    public void altaMedioPago(long clienteId, MedioPago medioPago) {
+        Cliente cliente = pagoRepo.buscaClientePorId(clienteId);
+        if (cliente == null) {
+            return;
+        }
+        cliente.addMedioPago(medioPago);
+        pagoRepo.altaMedioPago(medioPago);
     }
-    
-    
 }

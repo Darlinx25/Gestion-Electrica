@@ -2,8 +2,6 @@ package org.tallerjava.moduloPagos.dominio;
 
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -22,7 +20,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "pagos_medioPago")
 public abstract class MedioPago {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
     
     @JsonbTransient

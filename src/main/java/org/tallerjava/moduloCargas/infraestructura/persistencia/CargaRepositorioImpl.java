@@ -68,4 +68,9 @@ public class CargaRepositorioImpl implements CargaRepo {
     public void registrarCliente(Cliente cliente) {
         em.persist(cliente);
     }
+    
+    @Override
+    public void altaMedioPago(MedioPago medioPago) {
+        em.persist(medioPago);
+    }
 }

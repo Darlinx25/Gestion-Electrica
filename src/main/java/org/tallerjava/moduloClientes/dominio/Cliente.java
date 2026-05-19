@@ -40,6 +40,9 @@ public abstract class Cliente {
     private List<Reclamo> reclamos = new ArrayList<>();
     
     public void addMedioPago(MedioPago medioPago) {
+        if (this instanceof ClienteComun cliente && medioPago instanceof CuentaUTE ute) {
+            cliente.setCuentaUte(ute);
+        }
         mediosPago.add(medioPago);
         medioPago.setCliente(this);
     }

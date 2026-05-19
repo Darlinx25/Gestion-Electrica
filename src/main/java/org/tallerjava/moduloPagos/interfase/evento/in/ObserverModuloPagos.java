@@ -61,6 +61,6 @@ public class ObserverModuloPagos {
             }
             medioPago = tarjeta;
         }
-        servicioPagos.vincularMedioPago(event.getClienteId(), medioPago);
+        servicioPagos.altaMedioPago(event.getClienteId(), medioPago);
     }
 }

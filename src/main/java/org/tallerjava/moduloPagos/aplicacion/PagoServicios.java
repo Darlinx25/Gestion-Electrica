@@ -8,6 +8,6 @@ public interface PagoServicios {
     
     public void pagarCarga(Cliente cliente, float importe, MedioPago medioPago);
     public void registrarCliente(Cliente cliente);
-    public void vincularMedioPago(long clienteId, MedioPago medioPago);
+    public void altaMedioPago(long clienteId, MedioPago medioPago);
    
 }

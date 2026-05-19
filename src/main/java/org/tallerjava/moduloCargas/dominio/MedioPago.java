@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.tallerjava.moduloClientes.dominio.Cliente;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +13,6 @@ import org.tallerjava.moduloClientes.dominio.Cliente;
 @Table(name = "cargas_medioPago")
 public abstract class MedioPago {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne

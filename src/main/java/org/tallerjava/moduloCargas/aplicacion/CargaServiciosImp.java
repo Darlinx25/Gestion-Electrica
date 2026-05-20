@@ -142,6 +142,7 @@ public class CargaServiciosImp implements CargaServicios {
         dto.setEstado(carga.getEstado().name());
         dto.setClienteId(clienteId);
         dto.setCargadorId(carga.getCargador() != null ? carga.getCargador().getId() : null);
+        dto.setImporteTotal(carga.getImporteTotal());
         return dto;
     }
     @Override
@@ -161,7 +162,7 @@ public class CargaServiciosImp implements CargaServicios {
             dto.setEstado(carga.getEstado().name());
             dto.setClienteId(clienteId);
             dto.setCargadorId(carga.getCargador() != null ? carga.getCargador().getId() : null);
-
+            dto.setImporteTotal(carga.getImporteTotal());
             cargasDTO.add(dto);
         }
         return cargasDTO;

@@ -14,6 +14,7 @@ public class CargaDTO {
     private LocalDate fecha;
     private LocalDateTime horaInicio;
     private int porcentajeAvance;
+    private float importeTotal;
     private LocalDateTime horaEstimadaFin;
     private String estado;
     private long clienteId;

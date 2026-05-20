@@ -2,10 +2,16 @@ package org.tallerjava.moduloPagos.infraestructura.persistencia;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import org.tallerjava.moduloCargas.interfase.CargaDTO;
+import org.tallerjava.moduloPagos.dominio.Carga;
 import org.tallerjava.moduloPagos.dominio.Cliente;
 import org.tallerjava.moduloPagos.dominio.MedioPago;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @ApplicationScoped
 public class PagoRepositorioImpl implements PagoRepo {
@@ -30,5 +36,15 @@ public class PagoRepositorioImpl implements PagoRepo {
     @Override
     public MedioPago buscarMedioPagoPorId(long id) {
         return em.find(MedioPago.class, id);
+    }
+
+    @Override
+    public List<Carga> consultarPagos(long clienteId, LocalDateTime ini, LocalDateTime fin) {
+        try {
+            return em.createQuery("SELECT c FROM Carga c WHERE c.cliente.id = :clienteId AND c.horaInicio BETWEEN :ini AND :fin",
+                    Carga.class).setParameter("clienteId", clienteId).setParameter("ini", ini).setParameter("fin", fin).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

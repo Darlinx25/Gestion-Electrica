@@ -14,19 +14,15 @@ import org.tallerjava.moduloPagos.dominio.*;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 import java.time.LocalDateTime;
 import java.util.List;
-
 @EnableWeld
 class PagoServiciosTest {
-
     private PagoRepositorioEnMemoria repoMemoria;
-
     @WeldSetup
     public WeldInitiator weld = WeldInitiator.from(PagoServiciosImpl.class).addBeans(crearMockRepositorio()).build();
     private Bean<?> crearMockRepositorio() {
         repoMemoria = new PagoRepositorioEnMemoria();
         return MockBean.builder().types(PagoRepo.class).scope(ApplicationScoped.class).creating(repoMemoria).build();
     }
-
     @BeforeEach
     void setUp() {
         repoMemoria.clientes.clear();
@@ -43,7 +39,6 @@ class PagoServiciosTest {
         repoMemoria.agregarMedioPago(tarjeta);
         Assertions.assertDoesNotThrow(() -> service.pagarCarga(1, 500, 1));
     }
-
     @Test
     @DisplayName("pagarCarga con CuentaUTE no lanza excepcion")
     void pagarCargaConCuentaUTE(PagoServiciosImpl service) {
@@ -53,13 +48,11 @@ class PagoServiciosTest {
         repoMemoria.agregarMedioPago(cuenta);
         Assertions.assertDoesNotThrow(() -> service.pagarCarga(1, 300, 1));
     }
-
     @Test
     @DisplayName("pagarCarga con medioPago inexistente lanza excepcion")
     void pagarCargaMedioPagoInexistente(PagoServiciosImpl service) {
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.pagarCarga(1, 500, 99));
     }
-
     @Test
     @DisplayName("altaMedioPago agrega medio de pago a cliente existente")
     void altaMedioPagoClienteExistente(PagoServiciosImpl service) {
@@ -74,7 +67,6 @@ class PagoServiciosTest {
         Assertions.assertFalse(resultado.getMediosPago().isEmpty());
         Assertions.assertEquals(1, resultado.getMediosPago().size());
     }
-
     @Test
     @DisplayName("altaMedioPago cliente inexistente no hace nada")
     void altaMedioPagoClienteInexistente(PagoServiciosImpl service) {
@@ -83,7 +75,6 @@ class PagoServiciosTest {
         service.altaMedioPago(99, tarjeta);
         Assertions.assertNull(repoMemoria.buscarMedioPagoPorId(1));
     }
-
     @Test
     @DisplayName("consultarPagos devuelve lista filtrada por cliente y fechas")
     void consultarPagosConDatos(PagoServiciosImpl service) {
@@ -103,7 +94,6 @@ class PagoServiciosTest {
         Assertions.assertFalse(resultado.isEmpty());
         Assertions.assertEquals(1, resultado.size());
     }
-
     @Test
     @DisplayName("consultarPagos sin datos lanza excepcion")
     void consultarPagosSinDatos(PagoServiciosImpl service) {

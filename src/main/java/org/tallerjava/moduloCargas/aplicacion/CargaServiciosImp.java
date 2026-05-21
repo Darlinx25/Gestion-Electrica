@@ -62,6 +62,7 @@ public class CargaServiciosImp implements CargaServicios {
         }
 
         Carga carga = new Carga();
+        carga.setHoraEstimadaFin(LocalDateTime.now().plusSeconds(30));
         carga.setCliente(cliente);
         carga.setMedioPagoId(medioPago.getId());
         carga.setFecha(LocalDate.now());
@@ -121,6 +122,9 @@ public class CargaServiciosImp implements CargaServicios {
         carga.setEstado(EstadoCarga.FINALIZADA);
         System.out.println("Porcentaje de avance: ");
         System.out.println(carga.getPorcentajeAvance());
+
+        carga.setImporteTotal(importeTotal);
+        carga.setRecargoPorDemora(recargo);
         cargaRepo.guardarCarga(carga);
         publicadorCarga.finalizarCarga(carga.getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo);
 

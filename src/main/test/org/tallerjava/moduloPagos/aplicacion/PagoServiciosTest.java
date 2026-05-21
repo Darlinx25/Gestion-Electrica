@@ -86,7 +86,6 @@ class PagoServiciosTest {
         carga.setCliente(cliente);
         carga.setHoraInicio(LocalDateTime.of(2026, 5, 20, 19, 30));
         carga.setImporteTotal(500);
-        carga.setEstado(EstadoCarga.ACTIVA);
         repoMemoria.agregarCarga(carga);
         LocalDateTime ini = LocalDateTime.of(2026, 5, 20, 19, 0);
         LocalDateTime fin = LocalDateTime.of(2026, 5, 20, 20, 0);
@@ -100,5 +99,22 @@ class PagoServiciosTest {
         LocalDateTime ini = LocalDateTime.of(2026, 5, 20, 19, 0);
         LocalDateTime fin = LocalDateTime.of(2026, 5, 20, 20, 0);
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.consultarPagos(1, ini, fin));
+    }
+
+    @Test
+    @DisplayName("Carga guardada")
+    void guardarCarga(){
+        PagoRepositorioEnMemoria repo = new PagoRepositorioEnMemoria();
+        Cliente cliente = new ClienteComun();
+        cliente.setId(1);
+
+        Carga carga = new Carga();
+        carga.setId(1);
+        carga.setCliente(cliente);
+
+        long id = repo.guardarCarga(carga);
+
+        Assertions.assertEquals(1, id);
+        Assertions.assertEquals(carga, repo.cargas.get(id));
     }
 }

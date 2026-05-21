@@ -41,4 +41,9 @@ public class PagoRepositorioEnMemoria implements PagoRepo {
                 .filter(c -> c.getHoraInicio() != null && !c.getHoraInicio().isBefore(ini) && !c.getHoraInicio()
                         .isAfter(fin)).collect(Collectors.toList());
     }
+    @Override
+    public long guardarCarga(Carga carga) {
+        cargas.put(carga.getId(), carga);
+        return carga.getId();
+    }
 }

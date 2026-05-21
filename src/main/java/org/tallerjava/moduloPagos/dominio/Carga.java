@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "pagos_carga")
 public class Carga {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate fecha;
     private LocalDateTime horaInicio;
@@ -30,14 +29,14 @@ public class Carga {
     private float importeTotal;
     private float recargoPorDemora;
     private int porcentajeAvance;
-    private LocalDateTime horaEstimadaFin;
-    private EstadoCarga estado;
     private long medioPagoId;
 
     @JsonbTransient
     @ManyToOne
     @JoinColumn (name = "cliente_id")
     private Cliente cliente;
+
+
 
 
 

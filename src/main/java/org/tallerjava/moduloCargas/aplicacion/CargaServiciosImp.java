@@ -126,7 +126,7 @@ public class CargaServiciosImp implements CargaServicios {
         carga.setImporteTotal(importeTotal);
         carga.setRecargoPorDemora(recargo);
         cargaRepo.guardarCarga(carga);
-        publicadorCarga.finalizarCarga(carga.getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo);
+        publicadorCarga.finalizarCarga(carga.getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo,carga.getFecha(),carga.getHoraInicio(),carga.getHoraFin());
 
 
     }

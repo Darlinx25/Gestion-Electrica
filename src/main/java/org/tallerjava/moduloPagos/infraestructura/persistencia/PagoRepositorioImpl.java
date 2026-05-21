@@ -39,6 +39,12 @@ public class PagoRepositorioImpl implements PagoRepo {
     }
 
     @Override
+    public long guardarCarga(Carga carga){
+        em.persist(carga);
+        return carga.getId();
+    }
+
+    @Override
     public List<Carga> consultarPagos(long clienteId, LocalDateTime ini, LocalDateTime fin) {
         try {
             return em.createQuery("SELECT c FROM Carga_Pagos c WHERE c.cliente.id = :clienteId AND c.horaInicio BETWEEN :ini AND :fin",

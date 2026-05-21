@@ -20,7 +20,7 @@ public class PagoResourseAPI {
     @Inject
     private PagoServicios pagoService;
 
-    //curl -v "http://localhost:8080/Gestion-Electrica/carga/pagos/pagosRealizados/1?ini=2026-05-19T20:00:00&fin=2026-05-19T20:10:00"
+    //curl -v "http://localhost:8080/Gestion-Electrica/carga/pagos/pagosRealizados/1?ini=2026-05-19T20:00:00&fin=2027-05-19T20:10:00"
     @GET
     @Path("/pagosRealizados/{clienteId}")
     public List<CargaDTO> consultarPagos(@PathParam("clienteId") Long clienteId, @QueryParam("ini") String ini, @QueryParam("fin") String fin){

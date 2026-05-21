@@ -52,7 +52,7 @@ public class PagoServiciosImpl implements PagoServicios {
     @Override
     public List<CargaDTO> consultarPagos(long clienteId, LocalDateTime ini, LocalDateTime fin) {
         List<Carga> cargas = pagoRepo.consultarPagos(clienteId, ini, fin);
-        if(cargas == null || cargas.isEmpty()){
+        if(cargas.isEmpty()){
             throw new IllegalArgumentException("No hay cargas para el cliente con id: " + clienteId + ", entre esas fechas.");
         }
         List<CargaDTO> cargasDTO = new ArrayList<>();
@@ -62,14 +62,9 @@ public class PagoServiciosImpl implements PagoServicios {
             dto.setFecha(carga.getFecha());
             dto.setHoraInicio(carga.getHoraInicio());
             dto.setPorcentajeAvance(carga.getPorcentajeAvance());
-            dto.setHoraEstimadaFin(carga.getHoraEstimadaFin());
-            dto.setEstado(carga.getEstado().name());
             dto.setClienteId(clienteId);
             dto.setImporteTotal(carga.getImporteTotal());
-            if (dto.getImporteTotal() != 0.0f){
-                cargasDTO.add(dto);
-            }
-
+            cargasDTO.add(dto);
         }
         return cargasDTO;
     }

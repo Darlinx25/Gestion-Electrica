@@ -7,6 +7,7 @@ import jakarta.ws.rs.ApplicationPath;
 import org.tallerjava.moduloComun.eventosCarga.CargaFinalizadaEvent;
 import org.tallerjava.moduloComun.eventosCarga.CargaIniciadaEvent;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @ApplicationScoped
@@ -22,8 +23,8 @@ public class PublicadorCargaImpl  implements PublicadorCarga {
         cargaIniciadaEvent.fire(new CargaIniciadaEvent(cargaId, clienteId, LocalDateTime.now()));
     }
 
-    public void finalizarCarga(long cargaId, long clienteId,float carga, long medioPagoId,float importeTotal, float recargo){
-        cargaFinalizadaEventEvent.fire(new CargaFinalizadaEvent( cargaId, clienteId, carga, medioPagoId, importeTotal, recargo));
+    public void finalizarCarga(long cargaId, long clienteId, float carga, long medioPagoId, float importeTotal, float recargo, LocalDate fecha, LocalDateTime horaInicio,LocalDateTime horaFin ){
+        cargaFinalizadaEventEvent.fire(new CargaFinalizadaEvent( cargaId, clienteId, carga, medioPagoId, importeTotal, recargo, fecha,horaInicio,horaFin));
     }
 
 }

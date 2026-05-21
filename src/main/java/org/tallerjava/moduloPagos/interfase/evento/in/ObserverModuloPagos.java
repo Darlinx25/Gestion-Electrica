@@ -9,13 +9,7 @@ import org.tallerjava.moduloComun.eventosCliente.ClientesAltaClienteProfesional;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago.TipoMedio;
 import org.tallerjava.moduloPagos.aplicacion.PagoServicios;
-import org.tallerjava.moduloPagos.dominio.ClienteComun;
-import org.tallerjava.moduloPagos.dominio.ClienteProfesional;
-import org.tallerjava.moduloPagos.dominio.CuentaUTE;
-import org.tallerjava.moduloPagos.dominio.MedioPago;
-import org.tallerjava.moduloPagos.dominio.Tarjeta;
-import org.tallerjava.moduloPagos.dominio.TipoProfesional;
-import org.tallerjava.moduloPagos.dominio.TipoTarjeta;
+import org.tallerjava.moduloPagos.dominio.*;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 
 @ApplicationScoped
@@ -71,6 +65,22 @@ public class ObserverModuloPagos {
 
 
     public void accept(@Observes CargaFinalizadaEvent event) {
+        Carga carga = new Carga();
+        Cliente c = pagoRepo.buscaClientePorId(event.getClienteId());
+        if(c == null){
+            throw new IllegalArgumentException("No se encontro el usuario");
+        }
+        carga.setFecha(event.getFecha());
+        carga.setId(event.getCargaId());
+        carga.setImporteTotal(event.getImporteTotal());
+        carga.setRecargoPorDemora(event.getRecargo());
+        carga.setMedioPagoId(event.getMedioPagoId());
+        carga.setCliente(c);
+        carga.setHoraInicio(event.getHoraInicio());
+        carga.setHoraFin(event.getHoraFin());
+        c.getCargas().add(carga);
+        pagoRepo.guardarCarga(carga);
+
         System.out.println("Procesando pago");
         System.out.println("Cliente");
         System.out.println(event.getClienteId());

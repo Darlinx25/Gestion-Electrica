@@ -26,6 +26,11 @@ public abstract class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     @OrderBy ("id ASC")
     private List<MedioPago> mediosPago = new ArrayList<>();
+
+    @JsonbTransient
+    @OneToMany(mappedBy = "cliente")
+    private List<Carga> cargas = new ArrayList<>();
+
     
     public void addMedioPago(MedioPago medioPago) {
         if (this instanceof ClienteComun cliente && medioPago instanceof CuentaUTE ute) {

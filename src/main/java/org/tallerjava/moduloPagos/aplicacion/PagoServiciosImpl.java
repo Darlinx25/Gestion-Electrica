@@ -10,12 +10,15 @@ import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.tallerjava.moduloPagos.interfase.consumidor.ConsumidorServiciosExternos;
 
 @ApplicationScoped
 public class PagoServiciosImpl implements PagoServicios {
     @Inject
     private PagoRepo pagoRepo;
     
+    @Inject
+    private ConsumidorServiciosExternos consumidor;
     
     @Override
     public void pagarCarga(long clienteId, float importe, long medioPagoId){
@@ -26,9 +29,21 @@ public class PagoServiciosImpl implements PagoServicios {
         if (medioPago instanceof Tarjeta tarjeta) {
             System.out.println("Procesando pago con tarjeta " + tarjeta.getTipo()
                     + " por $" + importe);
+            boolean pagoAutorizado = consumidor.pagarTarjeta(tarjeta.getNumero());
+            if (pagoAutorizado) {
+                System.out.println("PAGO AUTORIZADO");
+            } else {
+                System.out.println("PAGO NO AUTORIZADO");
+            }
         } else if (medioPago instanceof CuentaUTE cuenta) {
             System.out.println("Procesando pago con Cuenta UTE "
                     + cuenta.getNumeroCuenta() + " por $" + importe);
+            boolean pagoNotificado = consumidor.pagarUTE(cuenta.getNumeroCuenta());
+            if (pagoNotificado) {
+                System.out.println("PAGO NOTIFICADO CON ÉXITO");
+            } else {
+                System.out.println("ERROR AL NOTIFICAR EL PAGO");
+            }
         }
 
     }

@@ -3,7 +3,7 @@ package org.tallerjava.moduloPagos.aplicacion;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.tallerjava.moduloCargas.interfase.CargaDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.CargaDTO;
 import org.tallerjava.moduloPagos.dominio.*;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 

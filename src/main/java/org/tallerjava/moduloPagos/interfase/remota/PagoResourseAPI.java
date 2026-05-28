@@ -5,7 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.tallerjava.moduloCargas.interfase.CargaDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.CargaDTO;
 import org.tallerjava.moduloPagos.aplicacion.PagoServicios;
 
 import java.time.LocalDateTime;
@@ -20,9 +20,9 @@ public class PagoResourseAPI {
     @Inject
     private PagoServicios pagoService;
 
-    //curl -v "http://localhost:8080/Gestion-Electrica/carga/pagos/pagosRealizados/1?ini=2026-05-19T20:00:00&fin=2027-05-19T20:10:00"
+    //curl -v "http://localhost:8080/Gestion-Electrica/API/pagos/web/pagosRealizados/1?ini=2026-05-19T20:00:00&fin=2027-05-19T20:10:00"
     @GET
-    @Path("/pagosRealizados/{clienteId}")
+    @Path("/web/pagosRealizados/{clienteId}")
     public List<CargaDTO> consultarPagos(@PathParam("clienteId") Long clienteId, @QueryParam("ini") String ini, @QueryParam("fin") String fin){
         LocalDateTime fechaIni = LocalDateTime.parse(ini);
         LocalDateTime fechaFin = LocalDateTime.parse(fin);

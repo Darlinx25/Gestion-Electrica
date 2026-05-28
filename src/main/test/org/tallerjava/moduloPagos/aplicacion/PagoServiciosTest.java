@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.tallerjava.moduloCargas.interfase.CargaDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.CargaDTO;
 import org.tallerjava.moduloPagos.dominio.*;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 import java.time.LocalDateTime;

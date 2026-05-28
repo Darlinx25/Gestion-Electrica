@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.tallerjava.moduloCargas.dominio.*;
-import org.tallerjava.moduloCargas.interfase.*;
+import org.tallerjava.moduloCargas.interfase.Dtos.*;
 import org.tallerjava.moduloCargas.interfase.evento.out.PublicadorCarga;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
 import java.time.Duration;

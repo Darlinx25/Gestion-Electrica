@@ -1,6 +1,5 @@
 package org.tallerjava.moduloPagos.dominio.repositorios;
 
-import org.tallerjava.moduloCargas.interfase.CargaDTO;
 import org.tallerjava.moduloPagos.dominio.Carga;
 import org.tallerjava.moduloPagos.dominio.Cliente;
 import org.tallerjava.moduloPagos.dominio.MedioPago;

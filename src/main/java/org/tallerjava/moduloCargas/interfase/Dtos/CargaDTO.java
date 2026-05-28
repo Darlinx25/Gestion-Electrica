@@ -1,4 +1,4 @@
-package org.tallerjava.moduloCargas.interfase;
+package org.tallerjava.moduloCargas.interfase.Dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.tallerjava.moduloCargas.dominio.*;
 import org.tallerjava.moduloCargas.dominio.repositorios.CargaRepo;
-import org.tallerjava.moduloCargas.interfase.*;
+import org.tallerjava.moduloCargas.interfase.Dtos.*;
 import org.tallerjava.moduloCargas.interfase.evento.out.PublicadorCarga;
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.tallerjava.moduloClientes.interfase.remota;
+package org.tallerjava.moduloClientes.interfase.Dtos;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;

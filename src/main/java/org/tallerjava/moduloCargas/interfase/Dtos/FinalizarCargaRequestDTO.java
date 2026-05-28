@@ -1,8 +1,6 @@
-package org.tallerjava.moduloCargas.interfase;
+package org.tallerjava.moduloCargas.interfase.Dtos;
 
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 @Data
 public class FinalizarCargaRequestDTO {

@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.tallerjava.moduloCargas.aplicacion.CargaServicios;
 import org.tallerjava.moduloCargas.dominio.EstacionCarga;
-import org.tallerjava.moduloCargas.interfase.CargaDTO;
-import org.tallerjava.moduloCargas.interfase.CargadorDTO;
-import org.tallerjava.moduloCargas.interfase.EstacionDTO;
-import org.tallerjava.moduloCargas.interfase.EstadoCargaDTO;
-import org.tallerjava.moduloCargas.interfase.FinalizarCargaRequestDTO;
-import org.tallerjava.moduloCargas.interfase.IniciarCargaRequestDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.CargaDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.CargadorDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.EstacionDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.EstadoCargaDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.FinalizarCargaRequestDTO;
+import org.tallerjava.moduloCargas.interfase.Dtos.IniciarCargaRequestDTO;
 
 @ApplicationScoped
 public class CargasResourse {

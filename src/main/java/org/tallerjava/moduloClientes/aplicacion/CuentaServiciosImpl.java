@@ -12,7 +12,7 @@ import org.tallerjava.moduloClientes.dominio.MedioPago;
 import java.util.ArrayList;
 import java.util.List;
 import org.tallerjava.moduloClientes.interfase.evento.out.PublicadorEventoCliente;
-import org.tallerjava.moduloClientes.interfase.remota.ClienteDTO;
+import org.tallerjava.moduloClientes.interfase.Dtos.ClienteDTO;
 
 @ApplicationScoped
 public class CuentaServiciosImpl implements CuentaServicios{

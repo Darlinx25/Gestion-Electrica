@@ -1,7 +1,7 @@
 package org.tallerjava.moduloCargas.aplicacion;
 
 import org.tallerjava.moduloCargas.dominio.*;
-import org.tallerjava.moduloCargas.interfase.*;
+import org.tallerjava.moduloCargas.interfase.Dtos.*;
 
 
 import java.time.LocalDateTime;

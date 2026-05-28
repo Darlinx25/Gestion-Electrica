@@ -2,7 +2,7 @@ package org.tallerjava.moduloClientes.aplicacion;
 
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.dominio.MedioPago;
-import org.tallerjava.moduloClientes.interfase.remota.ClienteDTO;
+import org.tallerjava.moduloClientes.interfase.Dtos.ClienteDTO;
 
 import java.util.List;
 

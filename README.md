@@ -81,59 +81,71 @@ docker exec -it tallerjava-mariadb mariadb -u root -pmariapass tallerJava
 
 ## Endpoints para pruebas
 
-**Clientes:**
+**App Móvil:**
 
-Consultar clientes:
+Registrar cliente común:
 ```
-curl -v http://localhost:8080/Gestion-Electrica/carga/clientes
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/registrar -H "Content-Type: application/json" -d '{"cedula":"1234567890","nombreCompleto":"pablito guitiérrez","telefono":"091234567","password":"123","esProfesional":false}'
 ```
-Alta cliente comun
+Registrar cliente profesional:
 ```
-curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/clientes -H "Content-Type: application/json" -d '{"cedula":"1234567890","nombreCompleto":"pablito guitiérrez","telefono":"091234567","password":"123","esProfesional":false}'
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/registrar -H "Content-Type: application/json" -d '{"cedula":"2234567890","nombreCompleto":"josefina rodríguez","telefono":"091234567","password":"123","esProfesional":true,"tipoProfesional":"UBER","porcentajeDescuento":20.5}'
+```
+Alta medio de pago (cuenta UTE / tarjeta débito / tarjeta crédito):
+```
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"CUENTA_UTE","numeroCuenta":"1234"}'
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"TARJETA_DEBITO","numero":"1234","fechaVencimiento":"2028-10-23","digitoVerificacion":"123"}'
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"TARJETA_CREDITO","numero":"2234","fechaVencimiento":"2028-10-23","digitoVerificacion":"223"}'
+```
+Realizar reclamo:
+```
+curl -X POST http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo -H "Content-Type: application/json" -d '{"clienteId":1,"informacion":"El cargador no funciona correctamente"}'
+```
+Iniciar carga:
+```
+curl -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/movil/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"medioPagoId":1,"cargadorId":1}'
+```
+Ver carga actual:
+```
+curl -v http://localhost:8080/Gestion-Electrica/API/cargas/movil/carga-actual/1
+```
+Consultar estaciones:
+```
+curl -v http://localhost:8080/Gestion-Electrica/API/cargas/movil/estaciones
+```
+Consultar histórico de cargas:
+```
+curl -v "http://localhost:8080/Gestion-Electrica/API/cargas/movil/historico/1?ini=2026-05-19T20:00:00&fin=2026-05-19T20:10:00"
 ```
 
-Alta medio de pago
-```
-curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/clientes/medios-pago -H "Content-Type: application/json" -d '{"clienteId":1, "medio":"TARJETA_DEBITO", "numero":"1234","fechaVencimiento":"2028-10-23", "digitoVerificacion":"123"}'
-```
+**Gestor Web:**
 
-
+Alta estación:
+```
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/estacion -H "Content-Type: application/json" -d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
+```
+Alta cargador:
+```
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/cargador -H "Content-Type: application/json" -d '{"tipo": "RAPIDA", "tieneCable": true, "tipoConector": "TIPO2", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'
+```
+Listar clientes:
+```
+curl -v http://localhost:8080/Gestion-Electrica/API/clientes/web/listar
+```
+Consultar pagos realizados:
+```
+curl -v "http://localhost:8080/Gestion-Electrica/API/pagos/web/pagosRealizados/1?ini=2026-05-19T20:00:00&fin=2027-05-19T20:10:00"
+```
 
 **Cargador:**
 
-Alta Estacion:
+Actualizar porcentaje avance de carga:
 ```
-curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargas/estacion \-H "Content-Type: application/json" \-d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
+curl -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/actualizar" -H "Content-Type: application/json" -d '{"cargaId": 1,"porcentajeAvance":25}'
 ```
-
-Alta Cargador:
+Finalizar carga:
 ```
-curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargas/cargador -H "Content-Type: application/json" -d '{"tipo": "RAPIDA", "tieneCable": true, "tipoConector": "TIPO2", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'
-```
-Inicio Carga:
-```
-curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"medioPagoId":1,"cargadorId":1}'
-```
-Actualizar Porcentaje Avance de Carga:
-```
-curl -X POST -v "http://localhost:8080/Gestion-Electrica/carga/cargas/actualizar" -H "Content-Type: application/json" -d '{"cargaId": 1,"porcentajeAvance":25}'
-```
-
-Fin Carga:
-```
-curl -X POST -v http://localhost:8080/Gestion-Electrica/carga/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
-```
-Consultar Pagos:
-```
-curl -v "http://localhost:8080/Gestion-Electrica/carga/pagos/pagosRealizados/1?ini=2026-05-19T20:00:00&fin=2027-05-19T20:10:00"
-```
-Consultar cargador:
-```
-curl -v http://localhost:8080/Gestion-Electrica/carga/cargas
-```
-Consultar Historico:
-```
-curl -v "http://localhost:8080/Gestion-Electrica/carga/cargas/historico/1?ini=2026-05-19T20:00:00&fin=2026-05-19T20:10:00"
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
 ```
 
 **Consola administrador Wildfly**

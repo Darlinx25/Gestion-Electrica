@@ -31,7 +31,7 @@ public class CargaResourseAPI {
     }
 
     //Finalizar Carga
-    curl -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
+    //curl -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
     @POST
     @Path("/finalizar")
     public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO) {

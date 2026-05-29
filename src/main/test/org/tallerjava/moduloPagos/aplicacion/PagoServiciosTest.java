@@ -14,14 +14,21 @@ import org.tallerjava.moduloPagos.dominio.*;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.mockito.Mockito;
+import org.tallerjava.moduloPagos.interfase.consumidor.ConsumidorServiciosExternos;
 @EnableWeld
 class PagoServiciosTest {
     private PagoRepositorioEnMemoria repoMemoria;
+    private ConsumidorServiciosExternos mockConsumidor;
     @WeldSetup
-    public WeldInitiator weld = WeldInitiator.from(PagoServiciosImpl.class).addBeans(crearMockRepositorio()).build();
+    public WeldInitiator weld = WeldInitiator.from(PagoServiciosImpl.class).addBeans(crearMockRepositorio(), crearMockConsumidor()).build();
     private Bean<?> crearMockRepositorio() {
         repoMemoria = new PagoRepositorioEnMemoria();
         return MockBean.builder().types(PagoRepo.class).scope(ApplicationScoped.class).creating(repoMemoria).build();
+    }
+    private Bean<?> crearMockConsumidor() {
+        mockConsumidor = Mockito.mock(ConsumidorServiciosExternos.class);
+        return MockBean.builder().types(ConsumidorServiciosExternos.class).scope(ApplicationScoped.class).creating(mockConsumidor).build();
     }
     @BeforeEach
     void setUp() {

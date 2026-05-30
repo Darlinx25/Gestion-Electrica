@@ -2,6 +2,7 @@ package org.tallerjava.moduloCargas.interfase.remota.movil;
 
 
 import jakarta.enterprise.context.ApplicationScoped;
+import org.tallerjava.moduloCargas.infraestructura.rateLimiter.RateLimited;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -53,6 +54,7 @@ public class CargaMovilAPI {
     //curl "http://localhost:8080/Gestion-Electrica/API/cargas/movil/historico/1?ini=2026-05-19T20:00:00&fin=2026-05-19T20:10:00"
     @GET
     @Path("/movil/historico/{clienteId}")
+    @RateLimited
     public List<CargaDTO> verHistorico(@PathParam("clienteId") Long clienteId, @QueryParam("ini") String ini, @QueryParam("fin") String fin){
         LocalDateTime fechaIni = LocalDateTime.parse(ini);
         LocalDateTime fechaFin = LocalDateTime.parse(fin);

@@ -1,2 +1,6 @@
 target/
 .mvn/wrapper/maven-wrapper.jar
+# JMeter temporales y reportes
+*.jtl
+*.log
+reporte-html/

@@ -15,4 +15,5 @@ public interface PagoRepo {
     public Carga buscaCargaPorId(long id);
     public List<Carga> consultarPagos(long clienteId, LocalDateTime ini, LocalDateTime fin);
     public long guardarCarga(Carga carga);
+    public Carga cargaSinPagar(Long clienteId);
 }

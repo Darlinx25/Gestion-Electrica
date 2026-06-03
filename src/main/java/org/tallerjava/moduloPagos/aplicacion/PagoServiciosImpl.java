@@ -25,6 +25,7 @@ public class PagoServiciosImpl implements PagoServicios {
     private publicadorPagos publicadorPagos;
 
     @Override
+    @Transactional
     public void pagarCarga(long clienteId, float importe, long medioPagoId, long cargaId){
         MedioPago medioPago = pagoRepo.buscarMedioPagoPorId(medioPagoId);
         if (medioPago == null) {
@@ -94,5 +95,9 @@ public class PagoServiciosImpl implements PagoServicios {
             cargasDTO.add(dto);
         }
         return cargasDTO;
+    }
+
+    public Carga cargaSinPagar(Long clienteId){
+        return pagoRepo.cargaSinPagar(clienteId);
     }
 }

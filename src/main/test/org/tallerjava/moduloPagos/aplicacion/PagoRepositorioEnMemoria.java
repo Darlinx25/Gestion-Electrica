@@ -50,4 +50,8 @@ public class PagoRepositorioEnMemoria implements PagoRepo {
     public Carga buscaCargaPorId(long id) {
         return cargas.get(id);
     }
+    @Override
+    public Carga cargaSinPagar(Long clienteId){
+        return new Carga();
+    }
 }

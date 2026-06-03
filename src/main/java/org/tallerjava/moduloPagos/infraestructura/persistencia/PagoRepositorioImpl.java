@@ -55,4 +55,21 @@ public class PagoRepositorioImpl implements PagoRepo {
             return null;
         }
     }
+
+    @Override
+    public Carga cargaSinPagar(Long clienteId) {
+
+        List<Carga> carga = em.createQuery(
+                        "SELECT c FROM Carga_Pagos c WHERE c.cliente.id = :clienteId AND c.pagado = FALSE",
+                        Carga.class)
+                .setParameter("clienteId", clienteId)
+                .setMaxResults(1)
+                .getResultList();
+        if (carga.isEmpty()) {
+            return null;
+        } else {
+            return carga.get(0);
+
+        }
+    }
 }

@@ -123,6 +123,10 @@ Consultar histórico de cargas:
 ```
 curl -u 1234567890:123 -v "http://localhost:8080/Gestion-Electrica/API/cargas/movil/historico/1?ini=2026-05-19T20:00:00&fin=2027-05-19T20:10:00"
 ```
+Pagar carga:
+```
+curl -u 1234567890:123 -X POST -v "http://localhost:8080/Gestion-Electrica/API/pagos/web/pagarCarga/1?medioPagoId=2"
+```
 
 **Gestor Web:**
 

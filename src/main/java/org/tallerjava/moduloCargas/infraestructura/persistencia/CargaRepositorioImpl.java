@@ -96,4 +96,17 @@ public class CargaRepositorioImpl implements CargaRepo {
             return null;
         }
     }
+
+    @Override
+    public boolean cargaSinPagar(Long clienteId){
+
+        List<Carga> cargas = em.createQuery("SELECT c FROM Carga c WHERE c.cliente.id = :clienteId AND c.pagado = FALSE",
+                Carga.class).setParameter("clienteId", clienteId).getResultList();
+        if (cargas.isEmpty()){
+            return false;
+        }else {
+            return true;
+        }
+
+    }
 }

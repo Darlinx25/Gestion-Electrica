@@ -60,21 +60,26 @@ public class CargaServiciosImp implements CargaServicios {
         if (medioPago == null) {
             throw new IllegalArgumentException("Medio de pago no encontrado: " + cargaDTO.getMedioPagoId());
         }
+        if(!cargaRepo.cargaSinPagar(cargaDTO.getClienteId())){
+            Carga carga = new Carga();
+            carga.setHoraEstimadaFin(LocalDateTime.now().plusSeconds(30));
+            carga.setCliente(cliente);
+            carga.setMedioPagoId(medioPago.getId());
+            carga.setFecha(LocalDate.now());
+            carga.setHoraInicio(LocalDateTime.now());
+            carga.setEstado(EstadoCarga.ACTIVA);
 
-        Carga carga = new Carga();
-        carga.setHoraEstimadaFin(LocalDateTime.now().plusSeconds(30));
-        carga.setCliente(cliente);
-        carga.setMedioPagoId(medioPago.getId());
-        carga.setFecha(LocalDate.now());
-        carga.setHoraInicio(LocalDateTime.now());
-        carga.setEstado(EstadoCarga.ACTIVA);
+            Cargador cargador = cargaRepo.buscaCargadorPorId(cargaDTO.getCargadorId());
+            carga.setCargador(cargador);
+            cargador.getCargas().add(carga);
 
-        Cargador cargador = cargaRepo.buscaCargadorPorId(cargaDTO.getCargadorId());
-        carga.setCargador(cargador);
-        cargador.getCargas().add(carga);
+            long cargaId = cargaRepo.guardarCarga(carga);
+            publicadorCarga.iniciarCarga(cargaId, cliente.getId());
+        }else {
+            System.out.println("HAY CARGAS SIN PAGAR");
+        }
 
-        long cargaId = cargaRepo.guardarCarga(carga);
-        publicadorCarga.iniciarCarga(cargaId, cliente.getId());
+
     }
 
     @Override

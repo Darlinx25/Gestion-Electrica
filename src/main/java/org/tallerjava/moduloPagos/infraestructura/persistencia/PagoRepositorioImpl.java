@@ -26,6 +26,9 @@ public class PagoRepositorioImpl implements PagoRepo {
     public Cliente buscaClientePorId(long id) {
         return em.find(Cliente.class,id);
     }
+
+    @Override
+    public Carga buscaCargaPorId(long id) {return em.find(Carga.class,id);}
     
     @Override
     public void altaMedioPago(MedioPago medioPago) {

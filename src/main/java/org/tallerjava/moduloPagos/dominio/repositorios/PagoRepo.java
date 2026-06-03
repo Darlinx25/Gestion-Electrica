@@ -12,6 +12,7 @@ public interface PagoRepo {
     public Cliente buscaClientePorId(long id);
     public void altaMedioPago(MedioPago medioPago);
     public MedioPago buscarMedioPagoPorId(long id);
+    public Carga buscaCargaPorId(long id);
     public List<Carga> consultarPagos(long clienteId, LocalDateTime ini, LocalDateTime fin);
     public long guardarCarga(Carga carga);
 }

@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.tallerjava.moduloCargas.interfase.Dtos.CargaDTO;
 import org.tallerjava.moduloPagos.dominio.*;
 import org.tallerjava.moduloPagos.dominio.repositorios.PagoRepo;
+import org.tallerjava.moduloPagos.interfase.evento.out.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,9 +20,12 @@ public class PagoServiciosImpl implements PagoServicios {
     
     @Inject
     private ConsumidorServiciosExternos consumidor;
-    
+
+    @Inject
+    private publicadorPagos publicadorPagos;
+
     @Override
-    public void pagarCarga(long clienteId, float importe, long medioPagoId){
+    public void pagarCarga(long clienteId, float importe, long medioPagoId, long cargaId){
         MedioPago medioPago = pagoRepo.buscarMedioPagoPorId(medioPagoId);
         if (medioPago == null) {
             throw new IllegalArgumentException("Medio de pago no encontrado: " + medioPagoId);
@@ -32,6 +36,10 @@ public class PagoServiciosImpl implements PagoServicios {
             boolean pagoAutorizado = consumidor.pagarTarjeta(tarjeta.getNumero());
             if (pagoAutorizado) {
                 System.out.println("PAGO AUTORIZADO");
+                publicadorPagos.pagarCarga(cargaId);
+                Carga carga = pagoRepo.buscaCargaPorId(cargaId);
+                carga.setPagado(true);
+                pagoRepo.guardarCarga(carga);
             } else {
                 System.out.println("PAGO NO AUTORIZADO");
             }
@@ -41,6 +49,10 @@ public class PagoServiciosImpl implements PagoServicios {
             boolean pagoNotificado = consumidor.pagarUTE(cuenta.getNumeroCuenta());
             if (pagoNotificado) {
                 System.out.println("PAGO NOTIFICADO CON ÉXITO");
+                publicadorPagos.pagarCarga(cargaId);
+                Carga carga = pagoRepo.buscaCargaPorId(cargaId);
+                carga.setPagado(true);
+                pagoRepo.guardarCarga(carga);
             } else {
                 System.out.println("ERROR AL NOTIFICAR EL PAGO");
             }

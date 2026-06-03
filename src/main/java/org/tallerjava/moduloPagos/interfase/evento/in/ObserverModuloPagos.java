@@ -88,6 +88,6 @@ public class ObserverModuloPagos {
         System.out.println(event.getImporteTotal());
         System.out.println("Medio de pago");
         System.out.println(pagoRepo.buscarMedioPagoPorId(event.getMedioPagoId()));
-        servicioPagos.pagarCarga(event.getClienteId(),event.getImporteTotal(), event.getMedioPagoId());
+        servicioPagos.pagarCarga(event.getClienteId(),event.getImporteTotal(), event.getMedioPagoId(), event.getCargaId());
     }
 }

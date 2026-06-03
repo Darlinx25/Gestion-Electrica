@@ -44,7 +44,7 @@ class PagoServiciosTest {
         tarjeta.setId(1);
         tarjeta.setTipo(TipoTarjeta.DEBITO);
         repoMemoria.agregarMedioPago(tarjeta);
-        Assertions.assertDoesNotThrow(() -> service.pagarCarga(1, 500, 1));
+        Assertions.assertDoesNotThrow(() -> service.pagarCarga(1, 500, 1, 1));
     }
     @Test
     @DisplayName("pagarCarga con CuentaUTE no lanza excepcion")
@@ -53,12 +53,12 @@ class PagoServiciosTest {
         cuenta.setId(1);
         cuenta.setNumeroCuenta("12345");
         repoMemoria.agregarMedioPago(cuenta);
-        Assertions.assertDoesNotThrow(() -> service.pagarCarga(1, 300, 1));
+        Assertions.assertDoesNotThrow(() -> service.pagarCarga(1, 300, 1, 1));
     }
     @Test
     @DisplayName("pagarCarga con medioPago inexistente lanza excepcion")
     void pagarCargaMedioPagoInexistente(PagoServiciosImpl service) {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> service.pagarCarga(1, 500, 99));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.pagarCarga(1, 500, 99, 1));
     }
     @Test
     @DisplayName("altaMedioPago agrega medio de pago a cliente existente")

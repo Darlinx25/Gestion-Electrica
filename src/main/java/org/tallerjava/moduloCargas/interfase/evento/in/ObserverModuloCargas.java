@@ -12,6 +12,7 @@ import org.tallerjava.moduloComun.eventosCliente.ClientesAltaClienteComun;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaClienteProfesional;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago;
 import org.tallerjava.moduloComun.eventosCliente.ClientesAltaMedioPago.TipoMedio;
+import org.tallerjava.moduloComun.eventosPago.PagosPagarCarga;
 
 @ApplicationScoped
 public class ObserverModuloCargas {
@@ -85,5 +86,10 @@ public class ObserverModuloCargas {
         System.out.println(c.getEstado());
 
 
+    }
+    public void accept(@Observes PagosPagarCarga event) {
+        Carga c = cargaRepo.buscarCargaPorId(event.getCargaId());
+        c.setPagado(true);
+        cargaRepo.guardarCarga(c);
     }
 }

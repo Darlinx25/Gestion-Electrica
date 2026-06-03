@@ -78,4 +78,8 @@ public class CargaRepositorioEnMemoria implements CargaRepo {
                 .filter(c -> !c.getHoraInicio().isBefore(ini)).filter(c -> !c.getHoraInicio().isAfter(fin))
                 .collect(Collectors.toList());
     }
+    @Override
+    public boolean cargaSinPagar(Long clienteId){
+        return true;
+    }
 }

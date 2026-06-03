@@ -14,8 +14,8 @@ public class PagosResourse {
     @Inject
     private PagoServicios pagosServicios;
 
-    public void pagarCarga(long clienteId, float importe, long medioPagoId){
-        pagosServicios.pagarCarga(clienteId,importe,medioPagoId);
+    public void pagarCarga(long clienteId, float importe, long medioPagoId, long cargaId){
+        pagosServicios.pagarCarga(clienteId,importe,medioPagoId, cargaId);
     }
     
     public List<CargaDTO> consultarPagos(long clienteId, LocalDateTime ini, LocalDateTime fin) {

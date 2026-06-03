@@ -1,13 +1,8 @@
 package org.tallerjava.moduloPagos.dominio;
 
 import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -30,6 +25,8 @@ public class Carga {
     private float recargoPorDemora;
     private int porcentajeAvance;
     private long medioPagoId;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean pagado;
 
     @JsonbTransient
     @ManyToOne

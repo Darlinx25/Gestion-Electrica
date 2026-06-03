@@ -19,4 +19,5 @@ public interface CargaRepo {
     public void altaMedioPago(MedioPago medioPago);
     public Cargador buscaCargadorPorId(long id);
     public List<Carga> verHistorico(Long clienteId, LocalDateTime ini, LocalDateTime fin);
+    public boolean cargaSinPagar(Long clienteId);
 }

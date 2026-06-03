@@ -1,6 +1,7 @@
 package org.tallerjava.moduloCargas.interfase.remota.movil;
 
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.tallerjava.moduloCargas.infraestructura.rateLimiter.RateLimited;
 import jakarta.inject.Inject;
@@ -27,6 +28,7 @@ public class CargaMovilAPI {
     //curl -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/movil/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"medioPagoId":1,"cargadorId":1}'
     @POST
     @Path("/movil/iniciar")
+    @RolesAllowed("USER")
     public void iniciarCarga(IniciarCargaRequestDTO cargaDTO) {
 
         cargaService.iniciarCarga(cargaDTO);
@@ -36,6 +38,7 @@ public class CargaMovilAPI {
     //curl -v http://localhost:8080/Gestion-Electrica/API/cargas/movil/carga-actual/1
     @GET
     @Path("/movil/carga-actual/{clienteId}")
+    @RolesAllowed("USER")
     public CargaDTO verCargaActual(@PathParam("clienteId") long clienteId) {
         return cargaService.verCargaActual(clienteId);
     }
@@ -46,6 +49,7 @@ public class CargaMovilAPI {
     @Path("/movil/estaciones")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"USER","ADMIN"})
     public List<EstacionCarga> obtenerEstaciones() {
         return cargaService.obtenerEstaciones();
     }
@@ -55,6 +59,7 @@ public class CargaMovilAPI {
     @GET
     @Path("/movil/historico/{clienteId}")
     @RateLimited
+    @RolesAllowed({"USER","ADMIN"})
     public List<CargaDTO> verHistorico(@PathParam("clienteId") Long clienteId, @QueryParam("ini") String ini, @QueryParam("fin") String fin){
         LocalDateTime fechaIni = LocalDateTime.parse(ini);
         LocalDateTime fechaFin = LocalDateTime.parse(fin);

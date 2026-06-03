@@ -3,6 +3,7 @@ package org.tallerjava.moduloClientes.infraestructura.persistencia;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.dominio.Reclamo;
@@ -42,5 +43,14 @@ public class ClienteRepositorioImpl implements ClienteRepo {
     public long guardarReclamo(Reclamo reclamo) {
         em.persist(reclamo);
         return reclamo.getId();
+    }
+
+    @Override
+    public Cliente buscaClientePorCedula(String cedula) {
+        try {
+            return em.createQuery("SELECT c FROM Cliente_Clientes c WHERE c.cedula = :cedula", Cliente.class).setParameter("cedula", cedula).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

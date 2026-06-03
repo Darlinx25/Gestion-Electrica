@@ -26,3 +26,6 @@ connect
     catch
         echo "No se crea datasource, ya existe"
     end-try
+
+/subsystem=elytron/http-authentication-factory=application-http-authentication-factory:read-resource()
+/subsystem=undertow/application-security-domain=other:add(http-authentication-factory=application-http-authentication-factory, override-deployment-config=true)

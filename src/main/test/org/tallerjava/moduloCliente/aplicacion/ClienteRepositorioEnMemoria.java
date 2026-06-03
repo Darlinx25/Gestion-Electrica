@@ -37,4 +37,12 @@ public class ClienteRepositorioEnMemoria implements ClienteRepo {
         reclamos.put(reclamo.getId(), reclamo);
         return reclamo.getId();
     }
+
+    @Override
+    public Cliente buscaClientePorCedula(String cedula) {
+        return clientes.values().stream()
+                .filter(c -> c.getCedula().equals(cedula))
+                .findFirst()
+                .orElse(null);
+    }
 }

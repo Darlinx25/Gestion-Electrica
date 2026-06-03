@@ -16,7 +16,8 @@ public class ClienteDTO {
     private String nombreCompleto;
     private String telefono;
     private String password;
-    
+    private String rol = "USER";
+
     private boolean esProfesional;
     private TipoProfesional tipoProfesional;
     private float porcentajeDescuento;
@@ -29,6 +30,7 @@ public class ClienteDTO {
             cliente.setNombreCompleto(this.nombreCompleto);
             cliente.setTelefono(this.telefono);
             cliente.setPassword(this.password);
+            cliente.setRol(this.rol);
             ((ClienteProfesional) cliente).setTipo(this.tipoProfesional);
             ((ClienteProfesional) cliente).setPorcentajeDescuento(this.porcentajeDescuento);
         } else {
@@ -37,6 +39,7 @@ public class ClienteDTO {
             cliente.setNombreCompleto(this.nombreCompleto);
             cliente.setTelefono(this.telefono);
             cliente.setPassword(this.password);
+            cliente.setRol(this.rol);
         }
         return cliente;
     }

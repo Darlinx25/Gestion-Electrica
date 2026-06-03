@@ -25,7 +25,8 @@ public abstract class Cliente {
     private String nombreCompleto;
     private String telefono;
     private String password;
-    
+    private String rol = "USER";
+
     @JsonbTransient
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     @OrderBy ("id ASC")

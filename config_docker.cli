@@ -11,7 +11,12 @@ catch
 end-try
 
 try
-    deploy /opt/jboss/wildfly/standalone/Gestion-Electrica.war
+    /subsystem=undertow/application-security-domain=other:write-attribute(name=integrated-jaspi, value=false)
+    echo "Disabled integrated-jaspi for Jakarta Security"
 catch
-    echo "Deployment failed"
+    echo "integrated-jaspi already disabled or mapping exists"
 end-try
+
+reload
+
+

@@ -1,6 +1,7 @@
 package org.tallerjava.moduloClientes.interfase.remota.movil;
 
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -48,6 +49,7 @@ public class ClienteMovilAPI {
     @POST
     @Path("/movil/medios-pago")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("USER")
     public boolean altaMedioPago(MedioPagoDTO medioPagoDTO) {
         MedioPago medioPago = medioPagoDTO.buildMedioPago();
         return clienteService.altaMedioPago(medioPagoDTO.getClienteId(), medioPago);
@@ -57,6 +59,7 @@ public class ClienteMovilAPI {
     //curl -X POST http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo -H "Content-Type: application/json" -d '{"clienteId":1,"informacion":"El cargador no funciona correctamente"}'
     @POST
     @Path("/movil/reclamo")
+    @RolesAllowed("USER")
     public long realizarReclamo(ReclamoDTO reclamoDTO) {
         return clienteService.realizarReclamo(reclamoDTO.getClienteId(), reclamoDTO.getInformacion());
     }

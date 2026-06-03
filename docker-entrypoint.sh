@@ -10,4 +10,12 @@ done
 
 /opt/jboss/wildfly/bin/jboss-cli.sh -c --file=/opt/jboss/wildfly/bin/config_docker.cli
 
+sleep 5
+until /opt/jboss/wildfly/bin/jboss-cli.sh -c \
+    --command=":read-attribute(name=server-state)" 2>/dev/null | grep -q "running"; do
+    sleep 2
+done
+
+/opt/jboss/wildfly/bin/jboss-cli.sh -c --command="deploy /opt/jboss/wildfly/standalone/Gestion-Electrica.war"
+
 wait

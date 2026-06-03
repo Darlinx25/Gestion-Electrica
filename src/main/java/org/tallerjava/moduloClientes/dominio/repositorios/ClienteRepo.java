@@ -13,5 +13,6 @@ public interface ClienteRepo {
     public Cliente buscaClientePorId(long id);
     public List<Cliente> listarClientes();
     public long guardarReclamo(Reclamo reclamo);
+    public Cliente buscaClientePorCedula(String cedula);
     
 }

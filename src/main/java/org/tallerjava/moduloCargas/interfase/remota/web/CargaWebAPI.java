@@ -1,6 +1,7 @@
 package org.tallerjava.moduloCargas.interfase.remota.web;
 
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -21,6 +22,7 @@ public class CargaWebAPI {
     //curl -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/estacion -H "Content-Type: application/json" -d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
     @POST
     @Path("/web/estacion")
+    @RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     public long altaEstacion(EstacionDTO estacionDTO) {
         return cargaService.altaEstacion(estacionDTO);
@@ -30,6 +32,7 @@ public class CargaWebAPI {
     //curl -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/cargador -H "Content-Type: application/json" -d '{"tipo": "RAPIDA", "tieneCable": true, "tipoConector": "TIPO2", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'
     @POST
     @Path("/web/cargador")
+    @RolesAllowed("ADMIN")
     @Consumes(MediaType.APPLICATION_JSON)
     public long altaCargador(CargadorDTO cargadorDTO) {
         return cargaService.altaCargador(cargadorDTO);

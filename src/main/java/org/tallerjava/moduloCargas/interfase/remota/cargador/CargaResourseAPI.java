@@ -1,6 +1,7 @@
 package org.tallerjava.moduloCargas.interfase.remota.cargador;
 
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -26,6 +27,7 @@ public class CargaResourseAPI {
     //curl -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/actualizar" -H "Content-Type: application/json" -d '{"cargaId": 1,"porcentajeAvance":25}'
     @POST
     @Path("/actualizar")
+    @RolesAllowed("USER")
     public void actualizarCarga(EstadoCargaDTO estadoCargaDTO){
         cargaService.actualizarEstadoCarga(estadoCargaDTO);
     }
@@ -34,6 +36,7 @@ public class CargaResourseAPI {
     //curl -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
     @POST
     @Path("/finalizar")
+    @RolesAllowed("USER")
     public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO) {
         cargaService.finalizarCarga(cargaDTO);
     }

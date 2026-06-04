@@ -16,12 +16,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.mockito.Mockito;
 import org.tallerjava.moduloPagos.interfase.consumidor.ConsumidorServiciosExternos;
+import org.tallerjava.moduloPagos.interfase.evento.out.publicadorPagos;
 @EnableWeld
 class PagoServiciosTest {
     private PagoRepositorioEnMemoria repoMemoria;
     private ConsumidorServiciosExternos mockConsumidor;
+    private publicadorPagos mockPublicadorPagos;
     @WeldSetup
-    public WeldInitiator weld = WeldInitiator.from(PagoServiciosImpl.class).addBeans(crearMockRepositorio(), crearMockConsumidor()).build();
+    public WeldInitiator weld = WeldInitiator.from(PagoServiciosImpl.class)
+            .addBeans(crearMockRepositorio(), crearMockConsumidor(), crearMockPublicadorPagos()).build();
     private Bean<?> crearMockRepositorio() {
         repoMemoria = new PagoRepositorioEnMemoria();
         return MockBean.builder().types(PagoRepo.class).scope(ApplicationScoped.class).creating(repoMemoria).build();
@@ -30,30 +33,69 @@ class PagoServiciosTest {
         mockConsumidor = Mockito.mock(ConsumidorServiciosExternos.class);
         return MockBean.builder().types(ConsumidorServiciosExternos.class).scope(ApplicationScoped.class).creating(mockConsumidor).build();
     }
+    private Bean<?> crearMockPublicadorPagos() {
+        mockPublicadorPagos = Mockito.mock(publicadorPagos.class);
+        return MockBean.builder().types(publicadorPagos.class).scope(ApplicationScoped.class).creating(mockPublicadorPagos).build();
+    }
     @BeforeEach
     void setUp() {
         repoMemoria.clientes.clear();
         repoMemoria.mediosPago.clear();
         repoMemoria.cargas.clear();
+        Mockito.reset(mockConsumidor, mockPublicadorPagos);
     }
-
     @Test
-    @DisplayName("pagarCarga con Tarjeta no lanza excepcion")
+    @DisplayName("pagarCarga con Tarjeta autorizada marca la carga como pagada")
     void pagarCargaConTarjeta(PagoServiciosImpl service) {
         Tarjeta tarjeta = new Tarjeta();
         tarjeta.setId(1);
         tarjeta.setTipo(TipoTarjeta.DEBITO);
+        tarjeta.setNumero("1234567890");
         repoMemoria.agregarMedioPago(tarjeta);
-        Assertions.assertDoesNotThrow(() -> service.pagarCarga(1, 500, 1, 1));
+        Carga carga = new Carga();
+        carga.setId(1);
+        carga.setPagado(false);
+        repoMemoria.agregarCarga(carga);
+        Mockito.when(mockConsumidor.pagarTarjeta(Mockito.anyString())).thenReturn(true);
+        service.pagarCarga(1, 500, 1, 1);
+        Carga resultado = repoMemoria.buscaCargaPorId(1);
+        Assertions.assertTrue(resultado.isPagado());
+        Mockito.verify(mockPublicadorPagos).pagarCarga(1L);
     }
     @Test
-    @DisplayName("pagarCarga con CuentaUTE no lanza excepcion")
+    @DisplayName("pagarCarga con Tarjeta no autorizada no modifica la carga")
+    void pagarCargaConTarjetaNoAutorizada(PagoServiciosImpl service) {
+        Tarjeta tarjeta = new Tarjeta();
+        tarjeta.setId(1);
+        tarjeta.setTipo(TipoTarjeta.DEBITO);
+        tarjeta.setNumero("1234567890");
+        repoMemoria.agregarMedioPago(tarjeta);
+        Carga carga = new Carga();
+        carga.setId(1);
+        carga.setPagado(false);
+        repoMemoria.agregarCarga(carga);
+        Mockito.when(mockConsumidor.pagarTarjeta(Mockito.anyString())).thenReturn(false);
+        service.pagarCarga(1, 500, 1, 1);
+        Carga resultado = repoMemoria.buscaCargaPorId(1);
+        Assertions.assertFalse(resultado.isPagado());
+        Mockito.verify(mockPublicadorPagos, Mockito.never()).pagarCarga(Mockito.anyLong());
+    }
+    @Test
+    @DisplayName("pagarCarga con CuentaUTE autorizada marca la carga como pagada")
     void pagarCargaConCuentaUTE(PagoServiciosImpl service) {
         CuentaUTE cuenta = new CuentaUTE();
         cuenta.setId(1);
         cuenta.setNumeroCuenta("12345");
         repoMemoria.agregarMedioPago(cuenta);
-        Assertions.assertDoesNotThrow(() -> service.pagarCarga(1, 300, 1, 1));
+        Carga carga = new Carga();
+        carga.setId(1);
+        carga.setPagado(false);
+        repoMemoria.agregarCarga(carga);
+        Mockito.when(mockConsumidor.pagarUTE(Mockito.anyString())).thenReturn(true);
+        service.pagarCarga(1, 300, 1, 1);
+        Carga resultado = repoMemoria.buscaCargaPorId(1);
+        Assertions.assertTrue(resultado.isPagado());
+        Mockito.verify(mockPublicadorPagos).pagarCarga(1L);
     }
     @Test
     @DisplayName("pagarCarga con medioPago inexistente lanza excepcion")
@@ -97,8 +139,9 @@ class PagoServiciosTest {
         LocalDateTime ini = LocalDateTime.of(2026, 5, 20, 19, 0);
         LocalDateTime fin = LocalDateTime.of(2026, 5, 20, 20, 0);
         List<CargaDTO> resultado = service.consultarPagos(1, ini, fin);
-        Assertions.assertFalse(resultado.isEmpty());
         Assertions.assertEquals(1, resultado.size());
+        Assertions.assertEquals(500, resultado.get(0).getImporteTotal());
+        Assertions.assertEquals(1, resultado.get(0).getClienteId());
     }
     @Test
     @DisplayName("consultarPagos sin datos lanza excepcion")
@@ -107,21 +150,40 @@ class PagoServiciosTest {
         LocalDateTime fin = LocalDateTime.of(2026, 5, 20, 20, 0);
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.consultarPagos(1, ini, fin));
     }
-
     @Test
-    @DisplayName("Carga guardada")
-    void guardarCarga(){
-        PagoRepositorioEnMemoria repo = new PagoRepositorioEnMemoria();
+    @DisplayName("cargaSinPagar devuelve la carga impaga del cliente")
+    void cargaSinPagarDevuelveCargaImpaga(PagoServiciosImpl service) {
         Cliente cliente = new ClienteComun();
         cliente.setId(1);
-
+        repoMemoria.agregarCliente(cliente);
         Carga carga = new Carga();
         carga.setId(1);
         carga.setCliente(cliente);
-
-        long id = repo.guardarCarga(carga);
-
-        Assertions.assertEquals(1, id);
-        Assertions.assertEquals(carga, repo.cargas.get(id));
+        carga.setPagado(false);
+        repoMemoria.agregarCarga(carga);
+        Carga resultado = service.cargaSinPagar(1L);
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals(1, resultado.getId());
+        Assertions.assertFalse(resultado.isPagado());
+    }
+    @Test
+    @DisplayName("cargaSinPagar devuelve null cuando todas las cargas estan pagas")
+    void cargaSinPagarDevuelveNullSiTodasPagas(PagoServiciosImpl service) {
+        Cliente cliente = new ClienteComun();
+        cliente.setId(1);
+        repoMemoria.agregarCliente(cliente);
+        Carga carga = new Carga();
+        carga.setId(1);
+        carga.setCliente(cliente);
+        carga.setPagado(true);
+        repoMemoria.agregarCarga(carga);
+        Carga resultado = service.cargaSinPagar(1L);
+        Assertions.assertNull(resultado);
+    }
+    @Test
+    @DisplayName("cargaSinPagar devuelve null cuando el cliente no tiene cargas")
+    void cargaSinPagarDevuelveNullSinCargas(PagoServiciosImpl service) {
+        Carga resultado = service.cargaSinPagar(99L);
+        Assertions.assertNull(resultado);
     }
 }

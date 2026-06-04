@@ -1,5 +1,4 @@
 package org.tallerjava.moduloCliente.aplicacion;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.Bean;
 import org.jboss.weld.junit.MockBean;
@@ -14,11 +13,14 @@ import org.tallerjava.moduloClientes.aplicacion.CuentaServiciosImpl;
 import org.tallerjava.moduloClientes.dominio.*;
 import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
 import org.tallerjava.moduloClientes.interfase.evento.out.PublicadorEventoCliente;
+import org.tallerjava.moduloClientes.interfase.Dtos.ClienteDTO;
+import java.util.List;
 @EnableWeld
 class CuentaServiciosTest {
     private ClienteRepositorioEnMemoria repoMemoria;
     @WeldSetup
-    public WeldInitiator weld = WeldInitiator.from(CuentaServiciosImpl.class, PublicadorEventoCliente.class).addBeans(crearMockRepositorio()).build();
+    public WeldInitiator weld = WeldInitiator.from(CuentaServiciosImpl.class, PublicadorEventoCliente.class)
+            .addBeans(crearMockRepositorio()).build();
     private Bean<?> crearMockRepositorio() {
         repoMemoria = new ClienteRepositorioEnMemoria();
         return MockBean.builder().types(ClienteRepo.class).scope(ApplicationScoped.class).creating(repoMemoria).build();
@@ -27,6 +29,7 @@ class CuentaServiciosTest {
     void setUp() {
         repoMemoria.clientes.clear();
         repoMemoria.mediosPago.clear();
+        repoMemoria.reclamos.clear();
     }
     @Test
     @DisplayName("registrarCliente crea cliente exitosamente")
@@ -36,15 +39,23 @@ class CuentaServiciosTest {
         cliente.setNombreCompleto("Juan Perez");
         long id = service.registarCliente(cliente);
         Assertions.assertTrue(id > 0);
-        Assertions.assertNotNull(repoMemoria.buscaClientePorId(id));
+        Cliente resultado = repoMemoria.buscaClientePorId(id);
+        Assertions.assertNotNull(resultado);
+        Assertions.assertEquals("12345678", resultado.getCedula());
+        Assertions.assertEquals("Juan Perez", resultado.getNombreCompleto());
     }
     @Test
-    @DisplayName("obtenerClientes devuelve lista con clientes registrados")
+    @DisplayName("obtenerClientes devuelve lista con datos correctos del cliente")
     void obtenerClientes(CuentaServiciosImpl service) {
         Cliente cliente = new ClienteComun();
-        cliente.setId(1);
+        cliente.setCedula("87654321");
+        cliente.setNombreCompleto("Maria Lopez");
         repoMemoria.registarCliente(cliente);
-        Assertions.assertFalse(service.obtenerClientes().isEmpty());
+        List<ClienteDTO> resultado = service.obtenerClientes();
+        Assertions.assertEquals(1, resultado.size());
+        Assertions.assertEquals("87654321", resultado.get(0).getCedula());
+        Assertions.assertEquals("Maria Lopez", resultado.get(0).getNombreCompleto());
+        Assertions.assertFalse(resultado.get(0).isEsProfesional());
     }
     @Test
     @DisplayName("altaMedioPago en cliente existente retorna true")
@@ -57,6 +68,8 @@ class CuentaServiciosTest {
         tarjeta.setTipo(org.tallerjava.moduloClientes.dominio.TipoTarjeta.DEBITO);
         boolean resultado = service.altaMedioPago(1, tarjeta);
         Assertions.assertTrue(resultado);
+        Cliente clienteActualizado = repoMemoria.buscaClientePorId(1);
+        Assertions.assertEquals(1, clienteActualizado.getMediosPago().size());
     }
     @Test
     @DisplayName("altaMedioPago en cliente inexistente retorna false")
@@ -74,6 +87,10 @@ class CuentaServiciosTest {
         repoMemoria.registarCliente(cliente);
         long reclamoId = service.realizarReclamo(1, "Cargador fuera de servicio");
         Assertions.assertTrue(reclamoId > 0);
+        Reclamo reclamo = repoMemoria.reclamos.get(reclamoId);
+        Assertions.assertNotNull(reclamo);
+        Assertions.assertEquals("Cargador fuera de servicio", reclamo.getInformacion());
+        Assertions.assertEquals(1, reclamo.getCliente().getId());
     }
     @Test
     @DisplayName("realizarReclamo en cliente inexistente lanza excepcion")

@@ -80,6 +80,13 @@ public class CargaRepositorioEnMemoria implements CargaRepo {
     }
     @Override
     public boolean cargaSinPagar(Long clienteId){
-        return true;
+        return cargas.values().stream()
+                .anyMatch(c -> c.getCliente().getId() == clienteId && !c.isPagado());
+    }
+
+    public void resetContadores() {
+        nextEstacionId = 1;
+        nextCargadorId = 1;
+        nextCargaId = 1;
     }
 }

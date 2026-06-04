@@ -52,6 +52,9 @@ public class PagoRepositorioEnMemoria implements PagoRepo {
     }
     @Override
     public Carga cargaSinPagar(Long clienteId){
-        return new Carga();
+        return cargas.values().stream()
+                .filter(c -> c.getCliente().getId() == clienteId && !c.isPagado())
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -21,12 +21,5 @@ public class Tarjeta extends MedioPago {
     private String digitoVerificacion;
     private TipoTarjeta tipo;
 
-    @PrePersist
-    private void validarPersistencia() {
-        if (this.tipo == TipoTarjeta.CREDITO) {
-            throw new IllegalStateException(
-                    "No se persisten tarjetas de crédito"
-            );
-        }
-    }
+
 }

@@ -53,13 +53,11 @@ El sistema fue desarrollado siguiendo una arquitectura modular compuesta por los
 
 
 ## Tecnologías utilizadas
-- Java
-- Jakarta EE
-- CDI
-- JPA
+- Java 17
+- Jakarta EE 10 (CDI, JPA, REST, Security, Bean Validation)
 - MariaDB
 - Docker
-- WildFly
+- WildFly 27
 
 ## Integrantes
 - Facundo Salaberry

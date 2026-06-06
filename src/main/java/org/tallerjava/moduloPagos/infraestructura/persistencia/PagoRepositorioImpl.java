@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.tallerjava.moduloPagos.dominio.Carga;
 import org.tallerjava.moduloPagos.dominio.Cliente;
 import org.tallerjava.moduloPagos.dominio.MedioPago;
@@ -23,8 +24,11 @@ public class PagoRepositorioImpl implements PagoRepo {
     }
     
     @Override
+    @Transactional
     public Cliente buscaClientePorId(long id) {
-        return em.find(Cliente.class,id);
+        Cliente cliente = em.find(Cliente.class, id);
+        cliente.getMediosPago().size();
+        return cliente;
     }
 
     @Override

@@ -16,4 +16,5 @@ public interface PagoServicios {
     public void altaMedioPago(long clienteId, MedioPago medioPago);
     public List<CargaDTO> consultarPagos(long clienteId, LocalDateTime ini, LocalDateTime fin);
     public Carga cargaSinPagar(Long clienteId);
+    public Cliente buscaClientePorId(long id);
 }

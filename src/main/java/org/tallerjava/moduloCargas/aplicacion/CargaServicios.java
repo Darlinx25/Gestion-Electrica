@@ -19,4 +19,5 @@ public interface CargaServicios {
     public void registrarCliente(Cliente cliente);
     public void altaMedioPago(long clienteId, MedioPago medioPago);
     public void actualizarEstadoCarga(EstadoCargaDTO estadoCargaDTO);
+    public Cliente buscarClientePorId(long id);
 }

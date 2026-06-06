@@ -48,10 +48,10 @@ public class CargaServiciosImp implements CargaServicios {
 
     @Override
     @Transactional
-    public void iniciarCarga(IniciarCargaRequestDTO cargaDTO){
+    public void iniciarCarga(IniciarCargaRequestDTO cargaDTO) {
 
         Cliente cliente = cargaRepo.buscarClientePorId(cargaDTO.getClienteId());
-        if (cliente == null){
+        if (cliente == null) {
 
             throw new IllegalArgumentException("Cliente no encontrado: " + cargaDTO.getClienteId());
         }
@@ -60,7 +60,7 @@ public class CargaServiciosImp implements CargaServicios {
         if (medioPago == null) {
             throw new IllegalArgumentException("Medio de pago no encontrado: " + cargaDTO.getMedioPagoId());
         }
-        if(!cargaRepo.cargaSinPagar(cargaDTO.getClienteId())){
+        if (!cargaRepo.cargaSinPagar(cargaDTO.getClienteId())) {
             Carga carga = new Carga();
             carga.setHoraEstimadaFin(LocalDateTime.now().plusSeconds(30));
             carga.setCliente(cliente);
@@ -75,19 +75,18 @@ public class CargaServiciosImp implements CargaServicios {
 
             long cargaId = cargaRepo.guardarCarga(carga);
             publicadorCarga.iniciarCarga(cargaId, cliente.getId());
-        }else {
+        } else {
             System.out.println("HAY CARGAS SIN PAGAR");
         }
-
 
     }
 
     @Override
     @Transactional
-    public void actualizarEstadoCarga(EstadoCargaDTO estadoCargaDTO){
+    public void actualizarEstadoCarga(EstadoCargaDTO estadoCargaDTO) {
         Carga carga = cargaRepo.buscarCargaActivaPorCliente(estadoCargaDTO.getCargaId());
         carga.setPorcentajeAvance(estadoCargaDTO.getPorcentajeAvance());
-        if(estadoCargaDTO.getPorcentajeAvance() == 100){
+        if (estadoCargaDTO.getPorcentajeAvance() == 100) {
             carga.setHoraFin(LocalDateTime.now());
         }
         System.out.println("Porcentaje de avance: ");
@@ -95,22 +94,21 @@ public class CargaServiciosImp implements CargaServicios {
         cargaRepo.guardarCarga(carga);
     }
 
-
     @Override
     @Transactional
-    public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO){
+    public void finalizarCarga(FinalizarCargaRequestDTO cargaDTO) {
 
         Carga carga = cargaRepo.buscarCargaActivaPorCliente(cargaDTO.getClienteId());
         LocalDateTime horaDesconexion;
 
-        if(carga.getPorcentajeAvance() < 100){
+        if (carga.getPorcentajeAvance() < 100) {
             carga.setHoraFin(LocalDateTime.now());
             horaDesconexion = carga.getHoraFin();
-        }else{
+        } else {
             horaDesconexion = LocalDateTime.now();
         }
 
-        Duration tiempoExtra = Duration.between(carga.getHoraFin(),horaDesconexion);
+        Duration tiempoExtra = Duration.between(carga.getHoraFin(), horaDesconexion);
         System.out.println("TIEMPO EXTRA");
         System.out.println(tiempoExtra);
 
@@ -131,8 +129,7 @@ public class CargaServiciosImp implements CargaServicios {
         carga.setImporteTotal(importeTotal);
         carga.setRecargoPorDemora(recargo);
         cargaRepo.guardarCarga(carga);
-        publicadorCarga.finalizarCarga(carga.getId(),carga.getCliente().getId(),cargaDTO.getCarga(),carga.getMedioPagoId(),importeTotal, recargo,carga.getFecha(),carga.getHoraInicio(),carga.getHoraFin());
-
+        publicadorCarga.finalizarCarga(carga.getId(), carga.getCliente().getId(), cargaDTO.getCarga(), carga.getMedioPagoId(), importeTotal, recargo, carga.getFecha(), carga.getHoraInicio(), carga.getHoraFin());
 
     }
 
@@ -154,14 +151,15 @@ public class CargaServiciosImp implements CargaServicios {
         dto.setImporteTotal(carga.getImporteTotal());
         return dto;
     }
+
     @Override
-    public List<CargaDTO> verHistorico(Long clienteId, LocalDateTime ini, LocalDateTime fin){
+    public List<CargaDTO> verHistorico(Long clienteId, LocalDateTime ini, LocalDateTime fin) {
         List<Carga> cargas = cargaRepo.verHistorico(clienteId, ini, fin);
-        if(cargas == null || cargas.isEmpty()){
+        if (cargas == null || cargas.isEmpty()) {
             throw new IllegalArgumentException("No hay una cargas para el cliente con id: " + clienteId + ", entre esas fechas.");
         }
         List<CargaDTO> cargasDTO = new ArrayList<>();
-        for (Carga carga : cargas){
+        for (Carga carga : cargas) {
             CargaDTO dto = new CargaDTO();
             dto.setId(carga.getId());
             dto.setFecha(carga.getFecha());
@@ -178,13 +176,15 @@ public class CargaServiciosImp implements CargaServicios {
     }
 
     @Override
-    public List<EstacionCarga> obtenerEstaciones(){
+    public List<EstacionCarga> obtenerEstaciones() {
         return cargaRepo.obtenerEstaciones();
     }
+
     @Override
     public void registrarCliente(Cliente cliente) {
         cargaRepo.registrarCliente(cliente);
     }
+
     @Override
     @Transactional
     public void altaMedioPago(long clienteId, MedioPago medioPago) {
@@ -196,5 +196,8 @@ public class CargaServiciosImp implements CargaServicios {
         cargaRepo.altaMedioPago(medioPago);
     }
 
-
+    @Override
+    public Cliente buscarClientePorId(long id) {
+        return cargaRepo.buscarClientePorId(id);
+    }
 }

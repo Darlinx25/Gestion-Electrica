@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import org.tallerjava.moduloClientes.dominio.Reclamo;
 import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
@@ -30,8 +31,11 @@ public class ClienteRepositorioImpl implements ClienteRepo {
     }
     
     @Override
+    @Transactional
     public Cliente buscaClientePorId(long id) {
-        return em.find(Cliente.class,id);
+        Cliente cliente = em.find(Cliente.class, id);
+        cliente.getMediosPago().size();
+        return cliente;
     }
     
     @Override

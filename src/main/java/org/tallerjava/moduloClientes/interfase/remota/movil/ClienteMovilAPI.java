@@ -1,15 +1,17 @@
 package org.tallerjava.moduloClientes.interfase.remota.movil;
 
-
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.ForbiddenException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 import org.tallerjava.moduloClientes.dominio.Cliente;
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class ClienteMovilAPI {
         Cliente cliente = clienteDTO.buildCliente();
         return clienteService.registarCliente(cliente);
     }
-    
+
     //Alta cuentaUTE
     //curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"CUENTA_UTE","numeroCuenta":"1234"}'
     //Alta tarjeta débito
@@ -50,7 +52,17 @@ public class ClienteMovilAPI {
     @Path("/movil/medios-pago")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed("USER")
-    public boolean altaMedioPago(MedioPagoDTO medioPagoDTO) {
+    public boolean altaMedioPago(MedioPagoDTO medioPagoDTO,
+            @Context SecurityContext securityContext) {
+
+        String idUsuarioString = securityContext.getUserPrincipal().getName();
+
+        long authenticatedClienteId = Long.parseLong(idUsuarioString);
+
+        if (authenticatedClienteId != medioPagoDTO.getClienteId()) {
+            throw new ForbiddenException();
+        }
+
         MedioPago medioPago = medioPagoDTO.buildMedioPago();
         return clienteService.altaMedioPago(medioPagoDTO.getClienteId(), medioPago);
     }
@@ -60,7 +72,17 @@ public class ClienteMovilAPI {
     @POST
     @Path("/movil/reclamo")
     @RolesAllowed("USER")
-    public long realizarReclamo(ReclamoDTO reclamoDTO) {
+    public long realizarReclamo(ReclamoDTO reclamoDTO,
+            @Context SecurityContext securityContext) {
+        
+        String idUsuarioString = securityContext.getUserPrincipal().getName();
+
+        long authenticatedClienteId = Long.parseLong(idUsuarioString);
+
+        if (authenticatedClienteId != reclamoDTO.getClienteId()) {
+            throw new ForbiddenException();
+        }
+        
         return clienteService.realizarReclamo(reclamoDTO.getClienteId(), reclamoDTO.getInformacion());
     }
 }

@@ -34,4 +34,13 @@ public abstract class Cliente {
         mediosPago.add(medioPago);
         medioPago.setCliente(this);
     }
+    
+    public boolean tieneMedioPago(long medioPagoId) {
+        for (MedioPago m : this.mediosPago) {
+            if (m.getId() == medioPagoId) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

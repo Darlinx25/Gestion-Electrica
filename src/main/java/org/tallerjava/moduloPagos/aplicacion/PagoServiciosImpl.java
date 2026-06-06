@@ -100,4 +100,9 @@ public class PagoServiciosImpl implements PagoServicios {
     public Carga cargaSinPagar(Long clienteId){
         return pagoRepo.cargaSinPagar(clienteId);
     }
+    
+    @Override
+    public Cliente buscaClientePorId(long id) {
+        return pagoRepo.buscaClientePorId(id);
+    }
 }

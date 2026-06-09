@@ -17,6 +17,26 @@ services:
       timeout: 3s
       retries: 10
       start_period: 15s
+  influxdb:
+    image: influxdb:1.8
+    container_name: tallerjava-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      INFLUXDB_DB: metricasTallerJava
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: tallerjava-grafana
+    ports:
+      - "3003:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - influxdb
+
   wildfly:
     build: .
     container_name: tallerjava-wildfly
@@ -31,8 +51,15 @@ services:
       MARIADB_DB: tallerJava
       MARIADB_USER: root
       MARIADB_PASSWORD: mariapass
+      
+      INFLUX_URL: http://influxdb:8086
+      INFLUX_DB: metricasTallerJava
     depends_on:
       mariadb:
         condition: service_healthy
+      influxdb:
+        condition: service_started
 volumes:
   mariadb_data:
+  influxdb_data:
+  grafana_data:

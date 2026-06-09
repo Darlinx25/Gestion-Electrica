@@ -41,8 +41,10 @@ public class PagoServiciosImpl implements PagoServicios {
                 Carga carga = pagoRepo.buscaCargaPorId(cargaId);
                 carga.setPagado(true);
                 pagoRepo.guardarCarga(carga);
+                publicadorPagos.pagoTarjetaRealizado();
             } else {
                 System.out.println("PAGO NO AUTORIZADO");
+                publicadorPagos.pagoTarjetaError();
             }
         } else if (medioPago instanceof CuentaUTE cuenta) {
             System.out.println("Procesando pago con Cuenta UTE "
@@ -54,6 +56,7 @@ public class PagoServiciosImpl implements PagoServicios {
                 Carga carga = pagoRepo.buscaCargaPorId(cargaId);
                 carga.setPagado(true);
                 pagoRepo.guardarCarga(carga);
+                publicadorPagos.pagoUTERealizado();
             } else {
                 System.out.println("ERROR AL NOTIFICAR EL PAGO");
             }

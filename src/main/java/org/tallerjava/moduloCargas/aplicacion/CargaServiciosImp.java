@@ -84,7 +84,7 @@ public class CargaServiciosImp implements CargaServicios {
     @Override
     @Transactional
     public void actualizarEstadoCarga(EstadoCargaDTO estadoCargaDTO) {
-        Carga carga = cargaRepo.buscarCargaActivaPorCliente(estadoCargaDTO.getCargaId());
+        Carga carga = cargaRepo.buscarCargaActivaPorCliente(estadoCargaDTO.getClienteId());
         carga.setPorcentajeAvance(estadoCargaDTO.getPorcentajeAvance());
         if (estadoCargaDTO.getPorcentajeAvance() == 100) {
             carga.setHoraFin(LocalDateTime.now());

@@ -24,7 +24,7 @@ public class CargaResourseAPI {
     private CargaServicios cargaService;
 
     //Actualizar % avance de carga
-    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/actualizar" -H "Content-Type: application/json" -d '{"cargaId": 1,"porcentajeAvance":25}'
+    //curl -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/actualizar" -H "Content-Type: application/json" -d '{"clienteId": 1,"porcentajeAvance":25}'
     @POST
     @Path("/actualizar")
     @RolesAllowed("USER")

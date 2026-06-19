@@ -19,43 +19,53 @@
     ├── main
     │   ├── java/org/tallerjava
     │   │   ├── GestionElectricaApplication.java
-    │   │   │
+    │   │
     │   │   ├── moduloCargas
-    │   │   │   ├── aplicacion/         
-    │   │   │   ├── dominio/           
-    │   │   │   ├── infraestructura/    
-    │   │   │   └── interfase/         
+    │   │   │   ├── aplicacion/
+    │   │   │   ├── dominio/
+    │   │   │   ├── infraestructura/
+    │   │   │   └── interfase/
     │   │   │
     │   │   ├── moduloClientes
-    │   │   │   ├── aplicacion/         
-    │   │   │   ├── dominio/            
-    │   │   │   ├── infraestructura/    
-    │   │   │   └── interfase/          
+    │   │   │   ├── aplicacion/
+    │   │   │   ├── dominio/
+    │   │   │   ├── infraestructura/
+    │   │   │   └── interfase/
     │   │   │
-    │   │   ├── moduloComun             
-    │   │   │   ├── eventosCarga/
-    │   │   │   └── eventosCliente/
+    │   │   ├── moduloPagos
+    │   │   │   ├── aplicacion/
+    │   │   │   ├── dominio/
+    │   │   │   ├── infraestructura/
+    │   │   │   └── interfase/
     │   │   │
-    │   │   └── moduloPagos
-    │   │       ├── aplicacion/        
-    │   │       ├── dominio/            
-    │   │       ├── infraestructura/    
-    │   │       └── interfase/         
+    │   │   ├── moduloMonitoreo
+    │   │   │   ├── infraestructura/
+    │   │   │   └── interfase/
+    │   │   │
+    │   │   └── moduloComun
+    │   │       ├── eventosCarga/
+    │   │       ├── eventosCliente/
+    │   │       └── eventosPago/
     │   │
-    │   └── webapp/WEB-INF/          
+    │   └── webapp/WEB-INF/
     │
-    └── test/                          
+    └── test/
+        └── org/tallerjava
+            ├── moduloCargas/
+            ├── moduloClientes/
+            └── moduloPagos/                        
 
 ```
 ## Descripción de la implementación
 
-El sistema fue desarrollado siguiendo una arquitectura modular compuesta por los módulos de Clientes, Cargas y Pagos, además de un módulo común encargado de compartir eventos entre ellos. Cada módulo fue organizado en capas de dominio, aplicación, infraestructura e interfase, separando la lógica de negocio, persistencia y comunicación externa. La interacción entre módulos se realizó principalmente mediante eventos y observers para reducir el acoplamiento, por ejemplo utilizando CargaFinalizadaEvent para notificar al módulo de pagos cuando una carga termina. Se implementaron repositorios utilizando JPA y MariaDB y endpoints REST para probar los distintos casos de uso del sistema. El proyecto se ejecuta utilizando Docker y WildFly, se realizaron tests unitarios utilizando repositorios en memoria para validar la lógica de negocio de cada módulo.
-
+El sistema fue desarrollado siguiendo una arquitectura modular compuesta por los módulos de Clientes, Cargas y Pagos, además de un módulo común encargado de compartir eventos entre ellos. Cada módulo fue organizado en capas de dominio, aplicación, infraestructura e interfase, separando la lógica de negocio, persistencia y comunicación externa. La interacción entre módulos se realizó principalmente mediante eventos y observers para reducir el acoplamiento, por ejemplo utilizando CargaFinalizadaEvent para notificar al módulo de pagos cuando una carga termina, o CargaIniciadaEvent y CargaFinalizadaEvent para que el módulo de monitoreo registre métricas de cargas y pagos en InfluxDB y sean visualizadas en Grafana. Se implementaron repositorios utilizando JPA y MariaDB, endpoints REST para probar los distintos casos de uso del sistema y un módulo de monitoreo que expone métricas mediante Micrometer. El proyecto se ejecuta utilizando Docker y WildFly, se realizaron tests unitarios utilizando repositorios en memoria para validar la lógica de negocio de cada módulo.
 
 ## Tecnologías utilizadas
 - Java 17
 - Jakarta EE 10 (CDI, JPA, REST, Security, Bean Validation)
 - MariaDB
+- InfluxDB 1.8
+- Grafana
 - Docker
 - WildFly 27
 
@@ -77,83 +87,146 @@ docker exec -it tallerjava-mariadb mariadb -u root -pmariapass tallerJava
 ```
 ---
 
+## Grafana e InfluxDB
+
+Al ejecutar `docker compose up --build` se levantan automáticamente InfluxDB y Grafana.
+
+**InfluxDB** (puerto 8086): base de datos de series temporales donde la aplicación registra métricas de cargas y pagos mediante Micrometer.
+
+**Grafana** (puerto 3003): herramienta de visualización de métricas.
+
+### Configurar datasource en Grafana
+
+1. Ir a http://localhost:3003 e iniciar sesión (admin / admin)
+2. Ir a Configuration > Data Sources > Add data source
+3. Seleccionar InfluxDB
+4. Configurar:
+- URL: http://influxdb:8086
+- Database: metricasTallerJava (root / root)
+- Min time interval: 10s
+5. Click en Save & Test
+
+### Importar dashboard
+
+1. Ir a Dashboards > Import
+2. Seleccionar el archivo dashboard-1781472511425.json
+3. Seleccionar el datasource InfluxDB y hacer clic en Import
+
+<img width="1634" height="500" alt="image" src="https://github.com/user-attachments/assets/bac17116-1a88-4fa1-9097-192fbc3bfb0f" />
+
+---
+
 ## Endpoints para pruebas
+Todos los endpoints usan autenticación Basic. El usuario se autentica con -u <cédula>:<password> (clientes) o -u admin:admin (administradores).
 
-**App Móvil:**
-
-Registrar cliente común:
+## 1. Registro y medios de pago
+### Alta Cliente común
 ```
-curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/registrar -H "Content-Type: application/json" -d '{"cedula":"1234567890","nombreCompleto":"pablito guitiérrez","telefono":"091234567","password":"123","esProfesional":false}'
-```
-Registrar cliente profesional:
-```
-curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/registrar -H "Content-Type: application/json" -d '{"cedula":"2234567890","nombreCompleto":"josefina rodríguez","telefono":"091234567","password":"123","esProfesional":true,"tipoProfesional":"UBER","porcentajeDescuento":20.5}'
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/registrar \
+  -H "Content-Type: application/json" \
+  -d '{"cedula":"1234567890","nombreCompleto":"pablito guitiérrez","telefono":"091234567","password":"123","esProfesional":false}'
 ```
 
-Registrar administrador:
+### Alta Cliente profesional
 ```
-curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/registrar -H "Content-Type: application/json" -d '{"cedula":"admin","nombreCompleto":"Administrador","telefono":"000","password":"admin","rol":"ADMIN","esProfesional":false}'
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/registrar \
+  -H "Content-Type: application/json" \
+  -d '{"cedula":"2234567890","nombreCompleto":"josefina rodríguez","telefono":"091234567","password":"123","esProfesional":true,"tipoProfesional":"UBER","porcentajeDescuento":20.5}'
 ```
 
-Alta medio de pago (cuenta UTE / tarjeta débito / tarjeta crédito):
+### Alta Administrador
 ```
-curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"CUENTA_UTE","numeroCuenta":"1234"}'
-curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"TARJETA_DEBITO","numero":"1234","fechaVencimiento":"2028-10-23","digitoVerificacion":"123"}'
-curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago -H "Content-Type: application/json" -d '{"clienteId":"1","medio":"TARJETA_CREDITO","numero":"2234","fechaVencimiento":"2028-10-23","digitoVerificacion":"223"}'
+curl -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/registrar \
+  -H "Content-Type: application/json" \
+  -d '{"cedula":"admin","nombreCompleto":"Administrador","telefono":"000","password":"admin","rol":"ADMIN","esProfesional":false}'
 ```
-Realizar reclamo:
+### Alta de medios de pago
 ```
-curl -u 1234567890:123 -X POST http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo -H "Content-Type: application/json" -d '{"clienteId":1,"informacion":"El cargador no funciona correctamente"}'
+curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId":"1","medio":"CUENTA_UTE","numeroCuenta":"1234"}'
 ```
-Iniciar carga:
 ```
-curl -u 1234567890:123 -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/movil/iniciar" -H "Content-Type: application/json" -d '{"clienteId": 1,"medioPagoId":1,"cargadorId":1}'
+curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId":"1","medio":"TARJETA_DEBITO","numero":"1234","fechaVencimiento":"2028-10-23","digitoVerificacion":"123"}'
 ```
-Ver carga actual:
+```
+curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/medios-pago \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId":"1","medio":"TARJETA_CREDITO","numero":"2234","fechaVencimiento":"2028-10-23","digitoVerificacion":"223"}'
+```
+## 2. Cargas
+### Iniciar carga
+```
+curl -u 1234567890:123 -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/movil/iniciar" \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId": 1, "medioPagoId": 1, "cargadorId": 1}'
+```
+
+### Consultar carga actual
 ```
 curl -u 1234567890:123 -v http://localhost:8080/Gestion-Electrica/API/cargas/movil/carga-actual/1
 ```
-Consultar estaciones:
+
+### Actualizar porcentaje de avance
 ```
-curl -u 1234567890:123 -v http://localhost:8080/Gestion-Electrica/API/cargas/movil/estaciones
+curl -u 1234567890:123 -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/actualizar" \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId": 1, "porcentajeAvance": 25}'
 ```
-Consultar histórico de cargas:
+
+### Finalizar carga
+```
+curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/finalizar \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId": 1, "carga": 50.0}'
+```
+
+### Histórico de cargas
 ```
 curl -u 1234567890:123 -v "http://localhost:8080/Gestion-Electrica/API/cargas/movil/historico/1?ini=2026-05-19T20:00:00&fin=2027-05-19T20:10:00"
 ```
-Pagar carga:
+
+### Consultar estaciones de carga
+```
+curl -u 1234567890:123 -v http://localhost:8080/Gestion-Electrica/API/cargas/movil/estaciones
+```
+## 3. Pagos
+### Pagar carga (paga la carga impaga del cliente)
 ```
 curl -u 1234567890:123 -X POST -v "http://localhost:8080/Gestion-Electrica/API/pagos/web/pagarCarga/1?medioPagoId=2"
 ```
 
-**Gestor Web:**
+### Reclamo
+```
+curl -u 1234567890:123 -X POST http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId": 1, "informacion": "El cargador no funciona correctamente"}'
+```
+## 4. Administración (gestor web)
+### Alta de estación
+```
+curl -u admin:admin -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/estacion \
+  -H "Content-Type: application/json" \
+  -d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
+```
 
-Alta estación:
+### Alta de cargador
 ```
-curl -u admin:admin -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/estacion -H "Content-Type: application/json" -d '{"descripcion":"prueba estacion","calle":"Lenguas de Diamante","departamento":"Maldonado","longitud":2,"latitud":3}'
+curl -u admin:admin -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/cargador \
+  -H "Content-Type: application/json" \
+  -d '{"tipo": "RAPIDA", "tieneCable": true, "tipoConector": "TIPO2", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'
 ```
-Alta cargador:
-```
-curl -u admin:admin -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/cargador -H "Content-Type: application/json" -d '{"tipo": "RAPIDA", "tieneCable": true, "tipoConector": "TIPO2", "estado": "DISPONIBLE", "potenciaMinima": 150, "estacionId": 1}'
-```
-Listar clientes:
+
+### Listar clientes
 ```
 curl -u admin:admin -v http://localhost:8080/Gestion-Electrica/API/clientes/web/listar
 ```
-Consultar pagos realizados:
+
+### Consultar pagos realizados
 ```
 curl -u admin:admin -v "http://localhost:8080/Gestion-Electrica/API/pagos/web/pagosRealizados/1?ini=2026-05-19T20:00:00&fin=2027-05-19T20:10:00"
-```
-
-**Cargador:**
-
-Actualizar porcentaje avance de carga:
-```
-curl -u 1234567890:123 -X POST -v "http://localhost:8080/Gestion-Electrica/API/cargas/actualizar" -H "Content-Type: application/json" -d '{"cargaId": 1,"porcentajeAvance":25}'
-```
-Finalizar carga:
-```
-curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/finalizar -H "Content-Type: application/json" -d '{"clienteId":1, "carga":50.0}'
 ```
 
 **Consola administrador Wildfly**

@@ -4,7 +4,8 @@
 
 ### Diagrama de módulos
 
-<img width="920" height="728" alt="modulofinal" src="https://github.com/user-attachments/assets/36702871-e36d-4152-890c-b4ff051da780" />
+<img width="1107" height="764" alt="image" src="https://github.com/user-attachments/assets/1a5dd375-628d-493e-b762-47540522c16d" />
+
 
 ## Estructura del proyecto
 

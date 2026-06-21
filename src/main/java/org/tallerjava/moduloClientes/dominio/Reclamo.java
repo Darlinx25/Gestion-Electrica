@@ -16,6 +16,7 @@ public class Reclamo {
     private long id;
     private LocalDateTime fechaHora;
     private String informacion;
+    private String etiqueta;
 
     @JsonbTransient
     @ManyToOne

@@ -33,4 +33,11 @@ public class ClienteWebAPI {
         return clienteService.obtenerClientes();
     }
 
+    @GET
+    @Path("/web/reclamos/negativos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ReclamoDTO> obtenerReclamosNegativos() {
+        return clienteService.listarReclamosPorEtiqueta("NEGATIVO");
+    }
+
 }

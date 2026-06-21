@@ -201,7 +201,7 @@ curl -u 1234567890:123 -X POST -v "http://localhost:8080/Gestion-Electrica/API/p
 
 ### Reclamo
 ```
-curl -u 1234567890:123 -X POST http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo \
+curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo \
   -H "Content-Type: application/json" \
   -d '{"clienteId": 1, "informacion": "El cargador no funciona correctamente"}'
 ```

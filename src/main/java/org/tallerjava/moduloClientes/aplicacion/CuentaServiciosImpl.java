@@ -11,6 +11,9 @@ import org.tallerjava.moduloClientes.dominio.MedioPago;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.tallerjava.moduloClientes.infraestructura.messaging.ProductorReclamo;
+import org.tallerjava.moduloClientes.interfase.Dtos.ReclamoDTO;
 import org.tallerjava.moduloClientes.interfase.evento.out.PublicadorEventoCliente;
 import org.tallerjava.moduloClientes.interfase.Dtos.ClienteDTO;
 
@@ -22,6 +25,9 @@ public class CuentaServiciosImpl implements CuentaServicios{
     
     @Inject
     private PublicadorEventoCliente evento;
+
+    @Inject
+    private ProductorReclamo productorReclamo;
 
     @Override
     public List<ClienteDTO> obtenerClientes() {
@@ -79,7 +85,15 @@ public class CuentaServiciosImpl implements CuentaServicios{
         }
         Reclamo reclamo = cliente.realizarReclamo(informacion);
         clienteRepo.guardarReclamo(reclamo);
+        productorReclamo.enviarReclamo(reclamo.getId(), reclamo.getInformacion());
         return reclamo.getId();
+    }
+
+    @Override
+    public List<ReclamoDTO> listarReclamosPorEtiqueta(String etiqueta) {
+        return clienteRepo.buscarReclamosPorEtiqueta(etiqueta).stream()
+            .map(r -> new ReclamoDTO(r.getCliente().getId(), r.getInformacion(), r.getEtiqueta()))
+            .collect(Collectors.toList());
     }
     
 }

@@ -50,6 +50,13 @@ public class ClienteRepositorioImpl implements ClienteRepo {
     }
 
     @Override
+    public List<Reclamo> buscarReclamosPorEtiqueta(String etiqueta) {
+        return em.createQuery("SELECT r FROM Reclamo r WHERE r.etiqueta = :et", Reclamo.class)
+            .setParameter("et", etiqueta)
+            .getResultList();
+    }
+
+    @Override
     public Cliente buscaClientePorCedula(String cedula) {
         try {
             return em.createQuery("SELECT c FROM Cliente_Clientes c WHERE c.cedula = :cedula", Cliente.class).setParameter("cedula", cedula).getSingleResult();

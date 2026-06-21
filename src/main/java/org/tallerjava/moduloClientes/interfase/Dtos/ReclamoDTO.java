@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 public class ReclamoDTO {
     private long clienteId;
     private String informacion;
+    private String etiqueta;
 }

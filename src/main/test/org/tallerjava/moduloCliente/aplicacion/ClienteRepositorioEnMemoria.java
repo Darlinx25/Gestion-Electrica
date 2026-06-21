@@ -39,6 +39,13 @@ public class ClienteRepositorioEnMemoria implements ClienteRepo {
     }
 
     @Override
+    public List<Reclamo> buscarReclamosPorEtiqueta(String etiqueta) {
+        return reclamos.values().stream()
+            .filter(r -> etiqueta.equals(r.getEtiqueta()))
+            .collect(Collectors.toList());
+    }
+
+    @Override
     public Cliente buscaClientePorCedula(String cedula) {
         return clientes.values().stream()
                 .filter(c -> c.getCedula().equals(cedula))

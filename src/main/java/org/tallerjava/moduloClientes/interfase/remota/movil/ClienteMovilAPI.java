@@ -68,7 +68,7 @@ public class ClienteMovilAPI {
     }
 
     //Realizar reclamo
-    //curl -X POST http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo -H "Content-Type: application/json" -d '{"clienteId":1,"informacion":"El cargador no funciona correctamente"}'
+    //curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo -H "Content-Type: application/json" -d '{"clienteId":1,"informacion":"El cargador no funciona correctamente"}'
     @POST
     @Path("/movil/reclamo")
     @RolesAllowed("USER")

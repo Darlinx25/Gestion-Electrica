@@ -17,6 +17,12 @@ catch
     echo "integrated-jaspi already disabled or mapping exists"
 end-try
 
+try
+    /subsystem=messaging-activemq/server=default/jms-queue=ReclamoQueue:add(entries=["java:jboss/exported/jms/queue/ReclamoQueue"])
+catch
+    echo "Queue already exists"
+end-try
+
 reload
 
 

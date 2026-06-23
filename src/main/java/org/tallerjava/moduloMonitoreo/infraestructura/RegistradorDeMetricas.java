@@ -19,6 +19,7 @@ public class RegistradorDeMetricas {
     public static final String PAGOS_UTE_REALIZADOS = "pagosUTERealizados";
     public static final String PAGOS_TARJETA_REALIZADOS = "pagosTarjetaRealizados";
     public static final String PAGOS_TARJETA_ERROR = "pagosTarjetaError";
+    public static final String RECLAMOS_NEGATIVOS = "reclamosNegativos";
 
     private InfluxConfig config;
     

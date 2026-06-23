@@ -10,6 +10,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.tallerjava.moduloClientes.aplicacion.ClasificadorService;
 import org.tallerjava.moduloClientes.dominio.Reclamo;
+import org.tallerjava.moduloClientes.interfase.evento.out.PublicadorEventoReclamo;
+
 
 @MessageDriven(activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "java:jboss/exported/jms/queue/ReclamoQueue"),
@@ -19,6 +21,9 @@ public class ConsumidorReclamoMDB implements MessageListener {
 
     @Inject
     private ClasificadorService clasificador;
+
+    @Inject
+    private PublicadorEventoReclamo publicador;
 
     @PersistenceContext
     private EntityManager em;
@@ -41,6 +46,7 @@ public class ConsumidorReclamoMDB implements MessageListener {
             if (reclamo != null) {
                 reclamo.setEtiqueta(etiqueta);
                 em.merge(reclamo);
+                publicador.publicar(reclamoId, etiqueta);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -59,7 +59,7 @@
 ```
 ## Descripción de la implementación
 
-El sistema fue desarrollado siguiendo una arquitectura modular compuesta por los módulos de Clientes, Cargas y Pagos, además de un módulo común encargado de compartir eventos entre ellos. Cada módulo fue organizado en capas de dominio, aplicación, infraestructura e interfase, separando la lógica de negocio, persistencia y comunicación externa. La interacción entre módulos se realizó principalmente mediante eventos y observers para reducir el acoplamiento, por ejemplo utilizando CargaFinalizadaEvent para notificar al módulo de pagos cuando una carga termina, o CargaIniciadaEvent y CargaFinalizadaEvent para que el módulo de monitoreo registre métricas de cargas y pagos en InfluxDB y sean visualizadas en Grafana. Se implementaron repositorios utilizando JPA y MariaDB, endpoints REST para probar los distintos casos de uso del sistema y un módulo de monitoreo que expone métricas mediante Micrometer. El proyecto se ejecuta utilizando Docker y WildFly, se realizaron tests unitarios utilizando repositorios en memoria para validar la lógica de negocio de cada módulo.
+El sistema fue desarrollado siguiendo una arquitectura modular compuesta por los módulos de Clientes, Cargas y Pagos, además de un módulo común encargado de compartir eventos entre ellos. Cada módulo fue organizado en capas de dominio, aplicación, infraestructura e interfase, separando la lógica de negocio, persistencia y comunicación externa. La interacción entre módulos se realizó principalmente mediante eventos y observers para reducir el acoplamiento, por ejemplo utilizando CargaFinalizadaEvent para notificar al módulo de pagos cuando una carga termina, o CargaIniciadaEvent y CargaFinalizadaEvent para que el módulo de monitoreo registre métricas de cargas y pagos en InfluxDB y sean visualizadas en Grafana. Se implementaron repositorios utilizando JPA y MariaDB, endpoints REST para probar los distintos casos de uso del sistema y un módulo de monitoreo que expone métricas mediante Micrometer. Se incorporó procesamiento asincrónico de reclamos mediante JMS. Cuando un cliente realiza un reclamo, se encola en una queue de ActiveMQ Artemis y se responde al cliente inmediatamente. Un Message-Driven Bean consume el mensaje, lo clasifica como POSITIVO, NEGATIVO o NEUTRO usando Llama 3 vía Ollama, y persiste la etiqueta en la base de datos. Los reclamos negativos se consultan mediante un endpoint REST. El proyecto se ejecuta utilizando Docker y WildFly, se realizaron tests unitarios utilizando repositorios en memoria para validar la lógica de negocio de cada módulo. 
 
 ## Tecnologías utilizadas
 - Java 17
@@ -69,6 +69,9 @@ El sistema fue desarrollado siguiendo una arquitectura modular compuesta por los
 - Grafana
 - Docker
 - WildFly 27
+- Jakarta Messaging (JMS / ActiveMQ Artemis)
+- Ollama
+- Llama 3
 
 ## Integrantes
 - Facundo Salaberry
@@ -114,6 +117,22 @@ Al ejecutar `docker compose up --build` se levantan automáticamente InfluxDB y 
 3. Seleccionar el datasource InfluxDB y hacer clic en Import
 
 <img width="1634" height="500" alt="image" src="https://github.com/user-attachments/assets/bac17116-1a88-4fa1-9097-192fbc3bfb0f" />
+
+---
+## Ollama
+
+El clasificador de reclamos utiliza Ollama con el modelo Llama 3. Al ejecutar `docker compose up --build` se levanta automáticamente el servicio Ollama.
+
+### Descargar el modelo (primera vez)
+
+```
+docker exec -it tallerjava-ollama ollama pull llama3
+```
+> El modelo se descarga una sola vez (~4.7 GB) y queda cacheado en el volumen `ollama_data`.
+
+#### Consulta de reclamos a la DB:
+<img width="1546" height="292" alt="image" src="https://github.com/user-attachments/assets/f059de0b-fad0-4b05-9964-1e3925347a2f" />
+
 
 ---
 
@@ -199,13 +218,20 @@ curl -u 1234567890:123 -v http://localhost:8080/Gestion-Electrica/API/cargas/mov
 curl -u 1234567890:123 -X POST -v "http://localhost:8080/Gestion-Electrica/API/pagos/web/pagarCarga/1?medioPagoId=2"
 ```
 
-### Reclamo
+## 4. Reclamos
+### Realizar Reclamos
 ```
 curl -u 1234567890:123 -X POST -v http://localhost:8080/Gestion-Electrica/API/clientes/movil/reclamo \
   -H "Content-Type: application/json" \
   -d '{"clienteId": 1, "informacion": "El cargador no funciona correctamente"}'
 ```
-## 4. Administración (gestor web)
+
+### Consultar reclamos negativos
+```
+curl http://localhost:8080/Gestion-Electrica/API/clientes/web/reclamos/negativos
+```
+
+## 5. Administración (gestor web)
 ### Alta de estación
 ```
 curl -u admin:admin -X POST -v http://localhost:8080/Gestion-Electrica/API/cargas/web/estacion \

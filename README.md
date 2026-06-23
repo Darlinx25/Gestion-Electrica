@@ -116,7 +116,7 @@ Al ejecutar `docker compose up --build` se levantan automáticamente InfluxDB y 
 2. Seleccionar el archivo dashboard-1781472511425.json
 3. Seleccionar el datasource InfluxDB y hacer clic en Import
 
-<img width="1634" height="500" alt="image" src="https://github.com/user-attachments/assets/bac17116-1a88-4fa1-9097-192fbc3bfb0f" />
+<img width="1547" height="669" alt="image" src="https://github.com/user-attachments/assets/162638db-b286-40e0-b22f-992bd7271322" />
 
 ---
 ## Ollama

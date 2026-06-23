@@ -86,6 +86,7 @@ public class CuentaServiciosImpl implements CuentaServicios{
         Reclamo reclamo = cliente.realizarReclamo(informacion);
         clienteRepo.guardarReclamo(reclamo);
         productorReclamo.enviarReclamo(reclamo.getId(), reclamo.getInformacion());
+        System.out.println("Reclamo recibido con exito, lo revisaremos a la brevedad");
         return reclamo.getId();
     }
 

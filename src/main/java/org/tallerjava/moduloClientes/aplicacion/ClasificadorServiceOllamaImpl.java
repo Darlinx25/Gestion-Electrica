@@ -28,8 +28,13 @@ public class ClasificadorServiceOllamaImpl implements ClasificadorService {
             if (response.statusCode() != 200) return "NEUTRO";
 
             String body = response.body();
-            if (body.contains("NEGATIVO")) return "NEGATIVO";
-            if (body.contains("POSITIVO")) return "POSITIVO";
+            System.out.println(response.body());
+
+            if (body.contains("NEGATIVO") || body.contains("NEGATIVE"))
+                return "NEGATIVO";
+
+            if (body.contains("POSITIVO") || body.contains("POSITIVE"))
+                return "POSITIVO";
             return "NEUTRO";
         } catch (Exception e) {
             return "NEUTRO";

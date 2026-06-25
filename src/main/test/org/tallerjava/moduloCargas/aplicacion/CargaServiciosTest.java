@@ -234,7 +234,7 @@ class CargaServiciosTest {
         carga.setEstado(EstadoCarga.ACTIVA);
         repoMemoria.guardarCarga(carga);
         EstadoCargaDTO dto = new EstadoCargaDTO();
-        dto.setCargaId(1);
+        dto.setClienteId(1);
         dto.setPorcentajeAvance(50);
         service.actualizarEstadoCarga(dto);
         Assertions.assertEquals(50, carga.getPorcentajeAvance());
@@ -251,7 +251,7 @@ class CargaServiciosTest {
         carga.setEstado(EstadoCarga.ACTIVA);
         repoMemoria.guardarCarga(carga);
         EstadoCargaDTO dto = new EstadoCargaDTO();
-        dto.setCargaId(1);
+        dto.setClienteId(1);
         dto.setPorcentajeAvance(100);
         service.actualizarEstadoCarga(dto);
         Assertions.assertEquals(100, carga.getPorcentajeAvance());

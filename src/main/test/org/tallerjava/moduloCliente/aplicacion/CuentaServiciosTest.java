@@ -9,27 +9,36 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.tallerjava.moduloClientes.aplicacion.CuentaServiciosImpl;
 import org.tallerjava.moduloClientes.dominio.*;
 import org.tallerjava.moduloClientes.dominio.repositorios.ClienteRepo;
+import org.tallerjava.moduloClientes.infraestructura.messaging.ProductorReclamo;
 import org.tallerjava.moduloClientes.interfase.evento.out.PublicadorEventoCliente;
 import org.tallerjava.moduloClientes.interfase.Dtos.ClienteDTO;
 import java.util.List;
 @EnableWeld
 class CuentaServiciosTest {
     private ClienteRepositorioEnMemoria repoMemoria;
+    private ProductorReclamo mockProductorReclamo;
     @WeldSetup
     public WeldInitiator weld = WeldInitiator.from(CuentaServiciosImpl.class, PublicadorEventoCliente.class)
-            .addBeans(crearMockRepositorio()).build();
+            .addBeans(crearMockRepositorio(), crearMockProductorReclamo()).build();
     private Bean<?> crearMockRepositorio() {
         repoMemoria = new ClienteRepositorioEnMemoria();
         return MockBean.builder().types(ClienteRepo.class).scope(ApplicationScoped.class).creating(repoMemoria).build();
+    }
+    private Bean<?> crearMockProductorReclamo() {
+        mockProductorReclamo = Mockito.mock(ProductorReclamo.class);
+        return MockBean.builder().types(ProductorReclamo.class)
+                .scope(ApplicationScoped.class).creating(mockProductorReclamo).build();
     }
     @BeforeEach
     void setUp() {
         repoMemoria.clientes.clear();
         repoMemoria.mediosPago.clear();
         repoMemoria.reclamos.clear();
+        Mockito.reset(mockProductorReclamo);
     }
     @Test
     @DisplayName("registrarCliente crea cliente exitosamente")
